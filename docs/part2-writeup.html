@@ -1,0 +1,328 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>IQly · A/B Test Plan</title>
+<style>
+  @page { size: Letter; margin: 0.55in 0.6in; }
+  * { box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    color: #1B1530;
+    font-size: 10.5px;
+    line-height: 1.42;
+    margin: 0;
+  }
+  h1, h2, h3 { margin: 0; }
+  p { margin: 0 0 6px; }
+  strong { color: #1B1530; }
+  .muted { color: #5D5775; }
+
+  /* ---- doc header ---- */
+  .doc-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 3px solid #FFD24A;
+    padding-bottom: 10px;
+    margin-bottom: 14px;
+  }
+  .doc-header .brand { display: flex; align-items: center; gap: 8px; }
+  .doc-title { font-size: 19px; font-weight: 800; color: #24154F; }
+  .doc-meta { text-align: right; font-size: 9.5px; color: #5D5775; }
+
+  /* ---- section chrome ---- */
+  .section-title {
+    font-size: 13px;
+    font-weight: 800;
+    color: #24154F;
+    margin: 0 0 8px;
+    padding-bottom: 4px;
+    border-bottom: 1px solid #E7E3F3;
+  }
+  .page-break { page-break-before: always; }
+  .avoid-break { page-break-inside: avoid; break-inside: avoid; }
+
+  /* ---- executive summary ---- */
+  .exec-bullets { list-style: none; margin: 0 0 14px; padding: 0; display: flex; flex-direction: column; gap: 6px; }
+  .exec-bullets li {
+    background: #EFEBFF;
+    border-radius: 8px;
+    padding: 8px 12px;
+    font-size: 10.5px;
+  }
+  .exec-bullets li strong { color: #5A3FD8; }
+
+  /* ---- funnel diagram ---- */
+  .funnel-diagram { display: flex; align-items: stretch; gap: 4px; margin-bottom: 14px; }
+  .funnel-step {
+    flex: 1;
+    border-radius: 10px;
+    padding: 8px;
+    font-size: 9px;
+    border: 1px solid #E7E3F3;
+    background: #FFFFFF;
+  }
+  .funnel-step.tested { background: #FFF6D6; border-color: #FFD24A; }
+  .funnel-step .fs-step { font-weight: 800; color: #24154F; font-size: 10px; margin-bottom: 2px; }
+  .funnel-step .fs-metric { color: #5A3FD8; font-weight: 700; margin-bottom: 2px; }
+  .funnel-step .fs-risk { color: #5D5775; margin-bottom: 2px; }
+  .funnel-step .fs-tested { font-weight: 800; }
+  .funnel-step.tested .fs-tested { color: #0E6B45; }
+  .funnel-step:not(.tested) .fs-tested { color: #5D5775; }
+  .funnel-arrow { display: flex; align-items: center; color: #C9BCFF; font-size: 16px; font-weight: 800; }
+
+  /* ---- test section ---- */
+  .test-tag {
+    display: inline-block;
+    background: #5A3FD8;
+    color: #fff;
+    font-size: 8.5px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    padding: 3px 9px;
+    border-radius: 999px;
+    margin-bottom: 4px;
+  }
+  .test-title { font-size: 15px; font-weight: 800; color: #24154F; margin-bottom: 2px; }
+  .test-flag { font-size: 9.5px; color: #5D5775; margin-bottom: 10px; font-family: ui-monospace, Menlo, monospace; }
+
+  .shot-row { display: flex; gap: 10px; margin-bottom: 10px; }
+  .shot-card { flex: 1; text-align: center; }
+  .shot-card img { width: 100%; max-width: 165px; border: 1px solid #E7E3F3; border-radius: 10px; }
+  .shot-label { font-size: 9px; font-weight: 800; margin-top: 4px; }
+  .shot-label.control { color: #5D5775; }
+  .shot-label.variant { color: #5A3FD8; }
+  .shot-callout { font-size: 8.5px; color: #5D5775; margin-top: 2px; }
+
+  .hypothesis-box {
+    background: #F5F3FF;
+    border-left: 3px solid #5A3FD8;
+    padding: 8px 10px;
+    margin-bottom: 10px;
+    font-size: 10px;
+  }
+
+  table.kpi { width: 100%; border-collapse: collapse; margin-bottom: 8px; font-size: 9px; }
+  table.kpi th, table.kpi td { border: 1px solid #E7E3F3; padding: 4px 6px; text-align: left; vertical-align: top; }
+  table.kpi th { background: #EFEBFF; color: #24154F; width: 14%; }
+
+  .sizing-row { display: flex; gap: 10px; }
+  .sizing-box, .risk-box { flex: 1; border-radius: 8px; padding: 8px 10px; font-size: 9.5px; }
+  .sizing-box { background: #E3F7EE; }
+  .risk-box { background: #FFF6D6; }
+  .sizing-box .box-label, .risk-box .box-label { font-weight: 800; font-size: 9px; margin-bottom: 3px; }
+  .sizing-box .box-label { color: #0E6B45; }
+  .risk-box .box-label { color: #24154F; }
+
+  /* ---- rollout ---- */
+  .rollout-list { margin: 0 0 8px; padding-left: 16px; }
+  .rollout-list li { margin-bottom: 6px; font-size: 10px; }
+  .prio { width: 100%; border-collapse: collapse; font-size: 10px; margin: 6px 0 4px; }
+  .prio th, .prio td { border: 1px solid #E7E3F3; padding: 5px 7px; text-align: left; vertical-align: top; }
+  .prio th { background: #F3F0FF; color: #24154F; }
+</style>
+</head>
+<body>
+
+  <!-- ============== PAGE 1: header + exec summary + funnel diagram ============== -->
+  <div class="doc-header">
+    <div class="brand">
+      <svg width="30" height="30" viewBox="0 0 48 48"><circle cx="24" cy="24" r="20" fill="none" stroke="#5A3FD8" stroke-width="4"/><circle cx="24" cy="24" r="11" fill="none" stroke="#5A3FD8" stroke-width="4"/><circle cx="24" cy="24" r="3" fill="#FFD24A"/></svg>
+      <span class="doc-title">IQly · A/B Test Plan</span>
+    </div>
+    <div class="doc-meta">Moshe Bajayo<br/>November 6, 2026</div>
+  </div>
+
+  <h2 class="section-title">Executive summary</h2>
+  <ul class="exec-bullets">
+    <li><strong>The 3 bets:</strong> a visible per-question timer and an exit-intent sheet both target the quiz step (the funnel's largest leak for cold mobile traffic), and a "score free, report gated" gate redesign targets the highest-leverage single step before account creation.</li>
+    <li><strong>Expected outcome:</strong> each test is sized to detect a 15% relative lift at 80% power; the two quiz-step tests share a step, so they run sequentially, while the gate test can run in parallel with either.</li>
+  </ul>
+
+  <h2 class="section-title">Priority order, ranked for CVR impact</h2>
+  <table class="prio">
+    <tr><th>#</th><th>Test</th><th>Step</th><th>Expected CVR impact</th><th>Why this rank</th></tr>
+    <tr><td>1</td><td>Test 3 — Score free, report gated</td><td>Gate</td><td>High</td><td>Every visitor who finishes the quiz hits the gate, so a gain here applies to 100% of the exposed audience, one step before the CVR numerator. Persona reviews showed hesitation concentrating at the email ask. Lowest regression risk: the percentile and the report stay gated.</td></tr>
+    <tr><td>2</td><td>Test 2 — Exit sheet</td><td>Quiz</td><td>Medium</td><td>Only acts on visitors who show leave intent, so its pool is smaller, but each recovered visitor is one who would otherwise convert at 0%. Cheap to build and almost no downside: it never blocks the flow.</td></tr>
+    <tr><td>3</td><td>Test 1 — Per-question timer</td><td>Quiz</td><td>Uncertain (could be negative)</td><td>It reaches everyone in the quiz but its direction is least certain: pace pressure can lift completion or raise anxiety for cold traffic. Run last, with the quiz-step guardrails watched closely.</td></tr>
+  </table>
+  <p class="muted">Ranks are judgment calls from funnel position, exposed audience and downside risk, not measured effects: IQly has no traffic yet, so no impact numbers are claimed. The landing step is not tested because its main lever, ad-to-page message match, is already built into the control; there is no page_view → quiz_start data yet to show what to change.</p>
+
+  <h2 class="section-title">Funnel diagram</h2>
+  <div class="funnel-diagram">
+    <div class="funnel-step tested">
+      <div class="fs-step">Landing</div>
+      <div class="fs-metric">page_view → quiz_start</div>
+      <div class="fs-risk">Cold pitch page, zero brand trust</div>
+      <div class="fs-tested">Not tested this round</div>
+    </div>
+    <div class="funnel-arrow">→</div>
+    <div class="funnel-step tested">
+      <div class="fs-step">Quiz</div>
+      <div class="fs-metric">quiz_start → quiz_complete</div>
+      <div class="fs-risk">Largest leak: effort exceeds cold-traffic patience</div>
+      <div class="fs-tested">Tested — Test 1 &amp; 2</div>
+    </div>
+    <div class="funnel-arrow">→</div>
+    <div class="funnel-step">
+      <div class="fs-step">Complete → Gate</div>
+      <div class="fs-metric">quiz_complete → gate_view</div>
+      <div class="fs-risk">Timed auto-advance, no tap — no real decision point</div>
+      <div class="fs-tested">Not testable</div>
+    </div>
+    <div class="funnel-arrow">→</div>
+    <div class="funnel-step tested">
+      <div class="fs-step">Gate</div>
+      <div class="fs-metric">gate_view → signup_success</div>
+      <div class="fs-risk">Email ask right before the payoff</div>
+      <div class="fs-tested">Tested — Test 3</div>
+    </div>
+    <div class="funnel-arrow">→</div>
+    <div class="funnel-step">
+      <div class="fs-step">Post-signup</div>
+      <div class="fs-metric">signup_success → share / retake</div>
+      <div class="fs-risk">Engagement, not conversion</div>
+      <div class="fs-tested">Not tested — doesn't move CVR</div>
+    </div>
+  </div>
+  <p class="muted">Complete → gate is a timed overlay with no tap required, so there's no decision point to A/B test. Post-signup steps drive engagement, not the brief's primary CVR metric, so they're out of scope for this round's 3 test slots.</p>
+
+  <!-- ============== PAGE 2: TEST 1 — TIMER ============== -->
+  <div class="page-break avoid-break">
+    <span class="test-tag">Quiz step</span>
+    <div class="test-title">Test 1 — Visible per-question timer</div>
+    <div class="test-flag">variant-1-question-timer.html · TIMER_MODE: per_question</div>
+
+    <div class="shot-row avoid-break">
+      <div class="shot-card">
+        <img src="assets/part2/control-quiz-q1.png" alt="Control: Q1, no timer" />
+        <div class="shot-label control">Control</div>
+        <div class="shot-callout">No visible pacing cue beyond "≈4 min left"</div>
+      </div>
+      <div class="shot-card">
+        <img src="assets/part2/test1-variant-timer-running.png" alt="Variant: countdown ring running" />
+        <div class="shot-label variant">Variant — ring + live label</div>
+        <div class="shot-callout">Countdown ring around the question number, with "⏱ 0:11 · time for this question" — resets with a brief pulse on every new question</div>
+      </div>
+      <div class="shot-card">
+        <img src="assets/part2/test1-variant-best-guess.png" alt="Variant: timed out, best guess" />
+        <div class="shot-label variant">Variant — timer reaches zero</div>
+        <div class="shot-callout">Ring drains and the last 5s switch to a contrast-checked warning color; "best guess" banner appears — no auto-advance, no wrong mark, question stays answerable</div>
+      </div>
+    </div>
+
+    <div class="hypothesis-box">A visible clock adds focus and signals test credibility ("this is a real test"), which raises engagement and the perceived value of the result, and so gate conversion. The main risk is the opposite: time pressure could stress mobile users into dropping off instead.</div>
+
+    <table class="kpi">
+      <tr><th>Primary</th><td>Overall CVR (account creations ÷ page visits)</td></tr>
+      <tr><th>Secondary</th><td>quiz_start → quiz_complete (does the timer help or hurt completion); gate_view → signup_success (does a more "credible-feeling" test convert better at the gate)</td></tr>
+      <tr><th>Diagnostic</th><td>Average time per question, drop-off by question index, `question_timeout` rate — shows whether the clock is adding pressure (high timeout rate) or barely registering (low rate)</td></tr>
+      <tr><th>Guardrail</th><td>Completion rate must not regress — a credibility win that costs completions is a net loss for a cold-traffic funnel</td></tr>
+    </table>
+
+    <div class="sizing-row avoid-break">
+      <div class="sizing-box">
+        <div class="box-label">Sizing</div>
+        Baseline quiz_start→quiz_complete 55% (placeholder) → 15% relative MDE: <strong>557/arm (1,114 total)</strong>, ~2 days at an assumed 1,000 visitors/day starting the quiz; runs a full 7-day cycle regardless.
+      </div>
+      <div class="risk-box">
+        <div class="box-label">Key risks</div>
+        Shares its funnel step with Test 2 — must run sequentially, not simultaneously, or an interaction effect would make either result unattributable. Time pressure is a double-edged mechanism for anxious, low-trust cold traffic.
+      </div>
+    </div>
+  </div>
+
+  <!-- ============== PAGE 3: TEST 2 — EXIT SHEET ============== -->
+  <div class="page-break avoid-break">
+    <span class="test-tag">Quiz step</span>
+    <div class="test-title">Test 2 — Exit-intent sheet</div>
+    <div class="test-flag">variant-2-exit-sheet.html · EXIT_SHEET: on</div>
+
+    <div class="shot-row avoid-break">
+      <div class="shot-card">
+        <img src="assets/part2/control-quiz-q1.png" alt="Control: Q1, no exit button" />
+        <div class="shot-label control">Control</div>
+        <div class="shot-callout">No exit affordance during the quiz</div>
+      </div>
+      <div class="shot-card">
+        <img src="assets/part2/test2-variant-exit-sheet.png" alt="Variant: exit sheet open" />
+        <div class="shot-label variant">Variant — exit sheet open</div>
+        <div class="shot-callout">× button opens a sheet showing exact progress and a "Keep Going" recovery CTA</div>
+      </div>
+    </div>
+
+    <div class="hypothesis-box">Catching leave intent mid-quiz and showing the visitor exactly how close they are to their score recovers part of the mid-quiz drop-off — reframing "I'm about to quit" into "I'm almost done."</div>
+
+    <table class="kpi">
+      <tr><th>Primary</th><td>Overall CVR (account creations ÷ page visits)</td></tr>
+      <tr><th>Secondary</th><td>quiz_start → quiz_complete</td></tr>
+      <tr><th>Diagnostic</th><td>`exit_sheet_continue` ÷ `exit_sheet_open` — the recovery rate among visitors who showed leave intent, the clearest signal of whether the mechanism works at all</td></tr>
+      <tr><th>Guardrail</th><td>Time-to-complete — the sheet must genuinely re-engage people, not just stall them into converting out of friction</td></tr>
+    </table>
+
+    <div class="sizing-row avoid-break">
+      <div class="sizing-box">
+        <div class="box-label">Sizing</div>
+        Baseline quiz_start→quiz_complete 55% (placeholder) → 15% relative MDE: <strong>557/arm (1,114 total)</strong>, ~2 days at an assumed 1,000 visitors/day starting the quiz; runs a full 7-day cycle regardless.
+      </div>
+      <div class="risk-box">
+        <div class="box-label">Key risks</div>
+        Same funnel step and baseline as Test 1 — must run sequentially (or with a mutually exclusive split) against it, never simultaneously. A sheet that appears too eagerly on exit-intent gestures could itself feel like friction.
+      </div>
+    </div>
+  </div>
+
+  <!-- ============== PAGE 4: TEST 3 — SCORE FREE ============== -->
+  <div class="page-break avoid-break">
+    <span class="test-tag">Gate step</span>
+    <div class="test-title">Test 3 — Score free, report gated</div>
+    <div class="test-flag">variant-3-score-free-report-gated.html · GATE_MODE: score_free_report_gated</div>
+
+    <div class="shot-row avoid-break">
+      <div class="shot-card">
+        <img src="assets/part2/test3-control-gate.png" alt="Control: blurred gate" />
+        <div class="shot-label control">Control — blurred exact IQ</div>
+        <div class="shot-callout">Free: percentile band only. CTA: "Show My IQ Score →". Both arms now also offer "Continue with Google" and a blurred preview of the full report</div>
+      </div>
+      <div class="shot-card">
+        <img src="assets/part2/test3-variant-gate.png" alt="Variant: unblurred gate" />
+        <div class="shot-label variant">Variant — unblurred exact IQ</div>
+        <div class="shot-callout">Free: exact IQ (102) shown. CTA follows the gated value: "Get Results & Insights →". Preview card and checklist emphasize the insights, not the score</div>
+      </div>
+    </div>
+
+    <div class="hypothesis-box">For a zero-trust brand with no existing audience, giving the exact score away for free — gating only the skill profile and tips — builds enough trust and pride that visitors sign up to save the full report, outweighing the smaller curiosity gap left behind. (Google signup and the value-preview card ship in every arm — see the rollout note — so neither is part of this test's own change.)</div>
+
+    <table class="kpi">
+      <tr><th>Primary</th><td>Overall CVR (account creations ÷ page visits)</td></tr>
+      <tr><th>Secondary</th><td>gate_view → signup_success</td></tr>
+      <tr><th>Diagnostic</th><td>Google vs. email split among signups (tracked in every arm), to see whether the free score changes how people sign up</td></tr>
+      <tr><th>Guardrail</th><td>Share of signups that go on to open the full gated report — confirms giving away the exact score doesn't gut post-signup engagement with the rest of the report</td></tr>
+    </table>
+
+    <div class="sizing-row avoid-break">
+      <div class="sizing-box">
+        <div class="box-label">Sizing</div>
+        Baseline gate_view→signup_success 35% (placeholder) → 15% relative MDE: <strong>1,336/arm (2,672 total)</strong>, ~3 days at an assumed 1,000 visitors/day reaching the gate; runs a full 7-day cycle regardless.
+      </div>
+      <div class="risk-box">
+        <div class="box-label">Key risks</div>
+        Targets a different, independent step from Tests 1/2 — can run in parallel with either. The main risk is the curiosity gap narrows enough that fewer visitors feel they need an account at all.
+      </div>
+    </div>
+  </div>
+
+  <div class="avoid-break" style="margin-top:14px">
+    <h2 class="section-title">Rollout</h2>
+    <ol class="rollout-list">
+      <li><strong>Order and split.</strong> Run in rank order, Tests 1 and 2 sequentially (they share a step); user-level randomization, SRM check before trusting any result, results split by device.</li>
+      <li><strong>Decision rule.</strong> Sample size and a minimum 7-day cycle are fixed before each test starts; no peeking, no early stop.</li>
+      <li><strong>Constant across arms.</strong> "Continue with Google" (a labelled prototype) ships in control and every variant, so it is not a confound.</li>
+    </ol>
+    <p class="muted">Sample sizes: <code>.claude/skills/ab-test-designer/scripts/power_calc.py</code> on placeholder step baselines. See <code>docs/ab-tests.md</code> for commands and the unspent backlog.</p>
+  </div>
+
+</body>
+</html>

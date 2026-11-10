@@ -1,0 +1,45 @@
+[
+  {
+    "id": "ns-001",
+    "type": "number-series",
+    "difficulty": 1,
+    "prompt": "What number comes next: 2, 5, 8, 11, ?",
+    "svg": "",
+    "options": [
+      { "text": "12", "correct": false },
+      { "text": "13", "correct": false },
+      { "text": "14", "correct": true },
+      { "text": "15", "correct": false }
+    ],
+    "explanation": "Constant rule: add 3 each step (2, 5, 8, 11, 14)."
+  },
+  {
+    "id": "mx-001",
+    "type": "matrix",
+    "difficulty": 3,
+    "prompt": "Which shape completes the 2x2 pattern? Top row: filled circle, empty circle. Bottom row: filled square, ?",
+    "svg": "<svg viewBox='0 0 100 100'><circle cx='20' cy='20' r='10' fill='#000'/><circle cx='70' cy='20' r='10' fill='none' stroke='#000'/><rect x='10' y='60' width='20' height='20' fill='#000'/></svg>",
+    "options": [
+      { "text": "Filled square", "svg": "<svg viewBox='0 0 40 40'><rect x='5' y='5' width='20' height='20' fill='#000'/></svg>", "correct": false },
+      { "text": "Empty square", "svg": "<svg viewBox='0 0 40 40'><rect x='5' y='5' width='20' height='20' fill='none' stroke='#000'/></svg>", "correct": true },
+      { "text": "Empty circle", "svg": "<svg viewBox='0 0 40 40'><circle cx='20' cy='20' r='10' fill='none' stroke='#000'/></svg>", "correct": false },
+      { "text": "Filled triangle", "svg": "<svg viewBox='0 0 40 40'><polygon points='20,5 35,30 5,30' fill='#000'/></svg>", "correct": false }
+    ],
+    "explanation": "Each row goes filled -> empty, shape stays the same; so filled square -> empty square."
+  },
+  {
+    "id": "lg-001",
+    "type": "logic",
+    "difficulty": 5,
+    "prompt": "All IQly test-takers who finish in under 5 minutes see a speed badge. Dana saw a speed badge. Priya did not see a speed badge. Which must be true?",
+    "svg": "",
+    "options": [
+      { "text": "Dana finished in under 5 minutes.", "correct": false },
+      { "text": "Priya finished in 5 minutes or more.", "correct": true },
+      { "text": "Priya finished in under 5 minutes.", "correct": false },
+      { "text": "Dana and Priya finished at the same time.", "correct": false },
+      { "text": "Dana finished in 5 minutes or more.", "correct": false }
+    ],
+    "explanation": "The rule is one-directional (under 5 min -> badge), so seeing a badge doesn't prove the time, but NOT seeing a badge proves the condition failed: Priya did not finish under 5 minutes."
+  }
+]

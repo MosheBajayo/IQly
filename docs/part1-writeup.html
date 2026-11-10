@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>IQly · Why This Flow</title>
+<style>
+  @page { size: Letter; margin: 0.28in 0.42in; }
+  * { box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    color: #1B1530;
+    font-size: 9pt;
+    line-height: 1.3;
+    margin: 0;
+  }
+  p { margin: 0; }
+  strong { color: #1B1530; }
+
+  .doc-header { display: flex; align-items: center; justify-content: space-between; border-bottom: 2.5pt solid #FFD24A; padding-bottom: 5pt; margin-bottom: 6pt; }
+  .doc-header .brand { display: flex; align-items: center; gap: 6pt; }
+  .doc-title { font-size: 15pt; font-weight: 800; color: #24154F; }
+  .doc-meta { text-align: right; font-size: 8pt; line-height: 1.25; color: #5D5775; }
+
+  .goal { font-size: 10pt; font-weight: 800; color: #24154F; line-height: 1.3; margin-bottom: 2pt; }
+
+  .section-title { font-size: 10pt; font-weight: 800; color: #24154F; margin: 6pt 0 3pt; padding-bottom: 2pt; border-bottom: 0.75pt solid #E7E3F3; }
+
+  /* funnel strip */
+  .strip { display: flex; gap: 6pt; align-items: stretch; }
+  .strip-step { flex: 1; min-width: 0; }
+  .shot { width: 100%; height: 84pt; border-radius: 7pt; border: 0.75pt solid #D9D3F0; background-size: 100% auto; background-position: top; background-repeat: no-repeat; margin-bottom: 3pt; }
+  .step-name { font-size: 9pt; font-weight: 800; color: #5A3FD8; }
+  .step-note { font-size: 9pt; line-height: 1.25; color: #1B1530; }
+  .step-note b { color: #24154F; }
+
+  /* big bets */
+  .bets { display: flex; gap: 6pt; }
+  .bet { flex: 1; min-width: 0; background: #F3F0FF; border-radius: 8pt; border-top: 3pt solid #FFD24A; padding: 6pt 8pt 7pt; }
+  .bet-tag { font-size: 8pt; font-weight: 800; letter-spacing: 0.04em; text-transform: uppercase; color: #5A3FD8; }
+  .bet-title { font-size: 10pt; font-weight: 800; color: #24154F; line-height: 1.2; margin: 1pt 0 3pt; }
+  .bet p { margin-bottom: 2pt; }
+  .bet .effect { color: #0E6B45; font-weight: 700; margin: 0; }
+
+  /* other decisions */
+  .decisions { display: grid; grid-template-columns: 1fr 1fr; gap: 3pt 12pt; }
+  .decisions div { line-height: 1.28; }
+  .fix { margin-top: 4pt; background: #FFF6D6; border-left: 3pt solid #FFD24A; border-radius: 3pt; padding: 3pt 7pt; }
+
+  /* week 1 */
+  table.watch { width: 100%; border-collapse: collapse; }
+  table.watch th, table.watch td { border: 0.75pt solid #E7E3F3; padding: 2.5pt 5pt; text-align: left; vertical-align: top; line-height: 1.25; }
+  table.watch th { background: #F3F0FF; color: #24154F; font-size: 9pt; }
+  table.watch th { width: 20%; }
+  .after-table { margin-top: 3pt; font-weight: 700; color: #24154F; }
+
+  /* how I built it */
+  .built { margin-top: 7pt; background: #24154F; color: #fff; border-radius: 8pt; padding: 7pt 10pt 8pt; }
+  .built h2 { margin: 0 0 3pt; font-size: 10pt; color: #FFD24A; font-weight: 800; }
+  .built ul { margin: 0; padding-left: 12pt; }
+  .built li { margin-bottom: 2.5pt; color: #EFEBFF; }
+  .built li b { color: #fff; }
+  .built .pointer { margin-top: 2pt; color: #C9BCFF; }
+</style>
+</head>
+<body>
+  <div class="doc-header">
+    <div class="brand">
+      <svg width="24" height="24" viewBox="0 0 48 48"><circle cx="24" cy="24" r="20" fill="none" stroke="#5A3FD8" stroke-width="4"/><circle cx="24" cy="24" r="11" fill="none" stroke="#5A3FD8" stroke-width="4"/><circle cx="24" cy="24" r="3" fill="#FFD24A"/></svg>
+      <span class="doc-title">IQly · Why This Flow</span>
+    </div>
+    <div class="doc-meta">Moshe Bajayo<br/>November 7, 2026</div>
+  </div>
+
+  <p class="goal">Goal: maximize account creations ÷ page visits for cold “free iq test” Search traffic with zero trust in IQly.</p>
+
+  <h2 class="section-title">What I built: five screens, one doubt answered on each</h2>
+  <div class="strip">
+    <div class="strip-step"><div class="shot" style="background-image:url(assets/part1/01-landing.png)"></div><div class="step-name">1 · Landing</div><div class="step-note"><b>Is it really free?</b> → “Free” in the headline.</div></div>
+    <div class="strip-step"><div class="shot" style="background-image:url(assets/part1/02-quiz.png)"></div><div class="step-name">2 · Quiz</div><div class="step-note"><b>Will it drag?</b> → Progress bar, minutes left.</div></div>
+    <div class="strip-step"><div class="shot" style="background-image:url(assets/part1/03-analyzing.png)"></div><div class="step-name">3 · Analyzing</div><div class="step-note"><b>Is it real scoring?</b> → Visible scoring steps.</div></div>
+    <div class="strip-step"><div class="shot" style="background-image:url(assets/part1/04-gate.png)"></div><div class="step-name">4 · Gate</div><div class="step-note"><b>What’s the catch?</b> → Free percentile first.</div></div>
+    <div class="strip-step"><div class="shot" style="background-image:url(assets/part1/05-results.png)"></div><div class="step-name">5 · Results</div><div class="step-note"><b>Was it worth it?</b> → Score and a challenge.</div></div>
+  </div>
+
+  <h2 class="section-title">Three big bets</h2>
+  <div class="bets">
+    <div class="bet">
+      <div class="bet-tag">Gate</div>
+      <div class="bet-title">Free percentile, exact score for an email, on one screen</div>
+      <p>I chose one merged screen over a teaser plus a signup, assuming each extra tap loses visitors. The free percentile gives value before the ask. Cost: no standalone score reveal.</p>
+      <p class="effect">Moves gate → signup. Part 2, variant 3 tests it.</p>
+    </div>
+    <div class="bet">
+      <div class="bet-tag">Length</div>
+      <div class="bet-title">12 questions, not 20</div>
+      <p>I assumed, without measuring, that completion falls as length grows. Twelve items still span all four reasoning types. Cost: a noisier score, so every score is labelled an estimate.</p>
+      <p class="effect">Moves quiz start → complete. Part 2, variants 1–2 target this step.</p>
+    </div>
+    <div class="bet">
+      <div class="bet-tag">Continuity</div>
+      <div class="bet-title">The hero is the real Question 1, and the ads repeat the landing</div>
+      <p>A visitor who clicked “What’s your IQ?” sees the same words and the quiz itself at once. A “Free IQ Test” tag stays for Search match. Cost: ads must change whenever the landing does.</p>
+      <p class="effect">Moves landing → quiz start.</p>
+    </div>
+  </div>
+
+  <h2 class="section-title">Other decisions</h2>
+  <div class="decisions">
+    <div><strong>No visible timer in control.</strong> A countdown adds anxiety for cold traffic; Part 2 tests it.</div>
+    <div><strong>Google + email signup.</strong> One tap removes typing. Google is a labelled prototype demo; production uses Google Identity Services.</div>
+    <div><strong>“An estimated X% of people.”</strong> There is no real test-taker population yet, so I claim no measured data.</div>
+    <div><strong>“Challenge a Friend” after signup.</strong> A growth loop that brings the next visitor in, not a CVR lever.</div>
+    <div><strong>Honest by construction.</strong> No fake stats or reviews; every colour pair is contrast-checked.</div>
+  </div>
+  <p class="fix"><strong>One reversal:</strong> my first hypothesis had an undisclosed mock Google button. I cut it, then restored it as a labelled demo.</p>
+
+  <h2 class="section-title">What I’d watch in week 1</h2>
+  <table class="watch">
+    <tr><th>page_view → quiz_start</th><th>quiz_start → quiz_complete</th><th>Drop-off by question, by device</th><th>gate_view → signup_success</th><th>Overall CVR</th></tr>
+    <tr><td>Below baseline: rework the hero.</td><td>Below baseline: cut to 8–10 items.</td><td>One question spikes: rewrite that item.</td><td>Below baseline: test a different gate.</td><td>The goal. Falls anywhere: find the leak above.</td></tr>
+
+  </table>
+  <p class="after-table">No traffic yet, so week 1 sets the baselines and nothing here is a measured number. The biggest leak becomes the next test.</p>
+
+  <div class="built">
+    <h2>How I built it</h2>
+    <ul>
+      <li>I designed the funnel in Claude Design and built it in Claude Code with a custom toolkit: <b>5 skills</b> (quiz builder, CRO audit, A/B designer, creative builder, automated QA) and <b>5 agents</b> (4 visitor personas, 1 hiring-manager reviewer).</li>
+      <li><b>The loop:</b> build → automated QA at 390 and 1440px → CRO audit and persona reviews → fix → re-verify.</li>
+      <li><b>AI caught a real issue.</b> The mobile persona quit when answer options ran off a 390×664 screen. Screenshots confirmed it on questions 3 and 7; after my layout fix, all 4 options fit on screen.</li>
+      <li><b>I overrode the AI.</b> Its first plan hid the speed bonus from visitors. I required it to be disclosed, so the quiz says “speed counts a little.”</li>
+    </ul>
+    <p class="pointer">Full log: ai-log.md. See “Part 1 design plan approved” and “Persona reviews surfaced 2 real defects, both fixed.”</p>
+  </div>
+</body>
+</html>

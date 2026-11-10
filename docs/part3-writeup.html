@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>IQly · Ad Creatives</title>
+<style>
+  @page { size: Letter; margin: 0.5in 0.55in; }
+  * { box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    color: #1B1530;
+    font-size: 10px;
+    line-height: 1.4;
+    margin: 0;
+  }
+  p { margin: 0 0 6px; }
+  strong { color: #1B1530; }
+
+  .doc-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 3px solid #FFD24A;
+    padding-bottom: 9px;
+    margin-bottom: 12px;
+  }
+  .doc-header .brand { display: flex; align-items: center; gap: 8px; }
+  .doc-title { font-size: 17px; font-weight: 800; color: #24154F; }
+  .doc-meta { text-align: right; font-size: 9px; color: #5D5775; }
+
+  .section-title {
+    font-size: 12px;
+    font-weight: 800;
+    color: #24154F;
+    margin: 12px 0 6px;
+    padding-bottom: 3px;
+    border-bottom: 1px solid #E7E3F3;
+  }
+  .page-break { page-break-before: always; }
+  .avoid-break { page-break-inside: avoid; break-inside: avoid; }
+
+  .creative-row { display: flex; gap: 14px; align-items: flex-start; margin-bottom: 4px; }
+  .creative-shot { flex: 0 0 auto; text-align: center; background: #FBFAFF; border: 1px solid #E7E3F3; border-radius: 8px; padding: 8px; }
+  .creative-text { flex: 1; }
+  .spec-line { font-size: 8.8px; color: #5D5775; margin-top: 4px; font-family: ui-monospace, Menlo, monospace; }
+
+  .asset-block { margin-bottom: 10px; }
+  .asset-block img { max-width: 100%; border: 1px solid #E7E3F3; border-radius: 8px; }
+  .asset-caption { font-size: 9px; color: #5D5775; margin-top: 4px; }
+
+  .next-list { margin: 0; padding-left: 16px; }
+  .next-list li { margin-bottom: 5px; font-size: 10px; }
+</style>
+</head>
+<body>
+  <div class="doc-header">
+    <div class="brand">
+      <svg width="26" height="26" viewBox="0 0 48 48"><circle cx="24" cy="24" r="20" fill="none" stroke="#5A3FD8" stroke-width="4"/><circle cx="24" cy="24" r="11" fill="none" stroke="#5A3FD8" stroke-width="4"/><circle cx="24" cy="24" r="3" fill="#FFD24A"/></svg>
+      <span class="doc-title">IQly · Ad Creatives</span>
+    </div>
+    <div class="doc-meta">Moshe Bajayo<br/>November 6, 2026</div>
+  </div>
+
+  <h2 class="section-title">Creative strategy</h2>
+  <p>All three creatives target the same audience as the brief: cold Google Search and Display traffic with zero prior trust in or awareness of IQly. Each placement has a different job dictated by its own attention span — a sub-second glance for the 320×50 banner, a few seconds of idle scrolling for the 250×250 square, and a full-screen swipe decision for the 1080×1920 story — so each uses a different mechanism (outcome hook, participation challenge, hook→participation→payoff→action) to earn the click. The thread that ties all three together, and to the landing page, is continuity: I designed the ads first in Claude Design, then aligned the ads to the live landing so the same promise runs on both sides of the click: all three use the landing's CTA, "Start the Free Test →," and the headline "What's your IQ? Find out free in 4 minutes." appears in full on the 250×250 and 1080×1920 and in its first half ("What's your IQ?") on the 320×50, where the strip has no room for more. One deliberate exception: the landing's "Free IQ Test" eyebrow tag, which stays visible above the fold because this same page also receives Google Search traffic for that exact keyword phrase — the ads win on message, but Search match isn't sacrificed to get it.</p>
+
+  <h2 class="section-title">320 × 50 — Banner: an outcome hook in one glance</h2>
+  <div class="creative-row avoid-break">
+    <div class="creative-shot"><img src="../deliverables/part3/iqly-320x50.png" width="320" height="50" alt="320x50 banner creative" /></div>
+    <div class="creative-text">
+      <p>Mobile banners get under a second of attention, so the strip carries one question and one action. "What's your IQ?" is an outcome hook — the viewer answers it in their head and feels the gap — which pulls harder than the product label "IQ Test." The green line "Free · ~4 minutes" answers the two biggest objections (cost, time) before the viewer can raise them, and says nothing that the flow does not deliver. The CTA, "Start the Free Test →," is the landing's own button copy, in the same yellow, against a deep-purple background that stands out from white publisher pages.</p>
+      <p class="spec-line">320×50 px · 6.4 KB (target &le;150KB) · logo + hook + landing CTA · contrast verified</p>
+    </div>
+  </div>
+
+  <h2 class="section-title">250 × 250 — Square banner: a challenge they start solving</h2>
+  <div class="creative-row avoid-break">
+    <div class="creative-shot"><img src="../deliverables/part3/iqly-250x250.png" width="200" height="200" alt="250x250 square banner creative" /></div>
+    <div class="creative-text">
+      <p>Nobody is searching for an IQ test on display inventory, so the square has to create intent rather than answer it. It carries the landing's headline, "What's your IQ? Find out free in 4 minutes.," and then makes it concrete: the real Question 1 sits right underneath with its four real answers, so viewers start solving before they decide to click. The CTA, "Start the Free Test →," is the landing's own button copy; a green "Free IQ test" badge and "Question 1 of 12 · No signup to start" answer cost and data up front, and "No signup to start" is exactly what the flow does.</p>
+      <p class="spec-line">250×250 px · 17.7 KB (target &le;150KB) · safe zone: 16px margin respected · contrast verified</p>
+    </div>
+  </div>
+
+  <h2 class="section-title">1080 × 1920 — Full-screen mobile: hook → participation → payoff → action</h2>
+  <div class="creative-row avoid-break">
+    <div class="creative-shot"><img src="../deliverables/part3/iqly-1080x1920.png" width="99" height="176" alt="1080x1920 full-screen mobile creative" /></div>
+    <div class="creative-text">
+      <p>Full-screen placements give the most space but the least patience, so the layout follows a swipe decision's natural order. Hook: a 100px headline puts the outcome, the price and the time cost into one read. Participation: the real Question 1 card with all four answers and a "1 of 12" chip proves the test is short. Payoff: "After 12 questions you get" shows the IQ score, percentile and 4-skill profile as something concrete, not a vague quiz. Action: the same yellow "Start the Free Test →" as the landing sits as a 140px bar in the thumb zone, with three true reassurances underneath. The story is deliberately light, not dark like the two banners: it is a near-exact mirror of the light landing screen, so the visitor lands on a page that looks like the ad they just tapped, while the dark banners stand out against white publisher pages.</p>
+      <p class="spec-line">1080×1920 px · 130.7 KB · safe zone: 230px top / 300px bottom clear · contrast verified</p>
+    </div>
+  </div>
+
+  <div class="avoid-break">
+    <h2 class="section-title">Contact sheet — all three at true relative scale</h2>
+    <div class="asset-block">
+      <img src="assets/part3/contact-sheet.png" alt="Contact sheet of all 3 creatives at true relative scale" style="max-height:340px;width:auto;" />
+      <p class="asset-caption">No independent scaling: every pixel represents the same physical size, which is why the 1080×1920 story dwarfs the two banner formats.</p>
+    </div>
+  </div>
+
+  <div class="avoid-break">
+    <h2 class="section-title">In-context previews</h2>
+    <div class="asset-block" style="display:flex;gap:10px;align-items:flex-start;">
+      <img src="assets/part3/incontext-320x50.png" alt="320x50 in a generic app screen" style="max-width:190px;" />
+      <img src="assets/part3/incontext-250x250.png" alt="250x250 in a generic article sidebar" style="max-width:280px;" />
+      <img src="assets/part3/incontext-1080x1920.png" alt="1080x1920 as a full-screen story on a phone" style="max-width:160px;" />
+    </div>
+    <p class="asset-caption">Neutral, unbranded placeholder UI (no real publisher or app logos) — the 320×50 anchored at the bottom of a generic app screen, the 250×250 in a generic article sidebar, the 1080×1920 as a full-screen story on a generic phone frame.</p>
+  </div>
+
+  <div class="avoid-break">
+    <h2 class="section-title">Continuity strip — ad → landing message match</h2>
+    <div class="asset-block">
+      <img src="assets/part3/continuity-strip.png" alt="Each creative next to the updated landing screenshot" />
+      <p class="asset-caption">Each creative next to the updated landing screen (390px): the CTA reads identically on both sides of the click, and the headline matches in full on the 250×250 and 1080×1920 and by its first half on the 320×50.</p>
+    </div>
+  </div>
+
+  <div class="avoid-break">
+    <h2 class="section-title">What I'd test next</h2>
+    <ul class="next-list">
+      <li><strong>Hook copy A/B on the 320×50:</strong> outcome-led "What's your IQ?" vs. keyword-led "Free IQ Test" — does the curiosity hook actually outperform direct search intent match?</li>
+      <li><strong>Puzzle visibility on the 250×250:</strong> showing the real Question 1 (current) vs. hiding the answer options until after the click — does pre-commitment lift or suppress CTR?</li>
+      <li><strong>Payoff framing on the 1080×1920:</strong> the current 3-tile "IQ / Top % / 4 skills" grid vs. a single combined "Your full cognitive profile" tile — does specificity or simplicity convert better on a full-screen swipe decision?</li>
+    </ul>
+  </div>
+</body>
+</html>

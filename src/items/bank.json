@@ -1,0 +1,302 @@
+[
+  {
+    "id": "mx-001",
+    "type": "matrix",
+    "difficulty": 1,
+    "timeBudgetMs": 12000,
+    "prompt": "Which option completes the pattern? Top row: 1 dot, 2 dots. Bottom row: 2 dots, ?",
+    "svg": "<svg viewBox='0 0 100 100'><circle cx='25' cy='25' r='5' fill='#000'/><circle cx='65' cy='20' r='5' fill='#000'/><circle cx='80' cy='30' r='5' fill='#000'/><circle cx='15' cy='70' r='5' fill='#000'/><circle cx='30' cy='80' r='5' fill='#000'/><text x='75' y='82' font-size='20' text-anchor='middle'>?</text><line x1='50' y1='0' x2='50' y2='100' stroke='#ccc'/><line x1='0' y1='50' x2='100' y2='50' stroke='#ccc'/></svg>",
+    "options": [
+      { "text": "2 dots", "svg": "<svg viewBox='0 0 40 40'><circle cx='12' cy='20' r='4' fill='#000'/><circle cx='28' cy='20' r='4' fill='#000'/></svg>", "correct": false },
+      { "text": "3 dots", "svg": "<svg viewBox='0 0 40 40'><circle cx='10' cy='28' r='4' fill='#000'/><circle cx='20' cy='10' r='4' fill='#000'/><circle cx='30' cy='28' r='4' fill='#000'/></svg>", "correct": true },
+      { "text": "4 dots", "svg": "<svg viewBox='0 0 40 40'><circle cx='10' cy='10' r='4' fill='#000'/><circle cx='30' cy='10' r='4' fill='#000'/><circle cx='10' cy='30' r='4' fill='#000'/><circle cx='30' cy='30' r='4' fill='#000'/></svg>", "correct": false },
+      { "text": "1 dot", "svg": "<svg viewBox='0 0 40 40'><circle cx='20' cy='20' r='4' fill='#000'/></svg>", "correct": false }
+    ],
+    "explanation": "Each row's dot count increases by 1 from left to right: top row goes 1 to 2, so bottom row must go 2 to 3."
+  },
+  {
+    "id": "ns-001",
+    "type": "number-series",
+    "difficulty": 1,
+    "timeBudgetMs": 12000,
+    "prompt": "What number comes next: 4, 9, 14, 19, ?",
+    "svg": "",
+    "options": [
+      { "text": "23", "correct": false },
+      { "text": "24", "correct": true },
+      { "text": "25", "correct": false },
+      { "text": "29", "correct": false }
+    ],
+    "explanation": "Constant rule: add 5 each step (4, 9, 14, 19, 24)."
+  },
+  {
+    "id": "lg-001",
+    "type": "logic",
+    "difficulty": 1,
+    "timeBudgetMs": 15000,
+    "prompt": "All IQly participants who score above 130 earn a \"Sharp Thinker\" badge. Maya scored above 130. What must be true?",
+    "svg": "",
+    "options": [
+      { "text": "Maya earned a Sharp Thinker badge.", "correct": true },
+      { "text": "Maya did not earn a badge.", "correct": false },
+      { "text": "Everyone who earns a badge scored above 130.", "correct": false },
+      { "text": "Maya scored exactly 130.", "correct": false }
+    ],
+    "explanation": "Direct application of the rule: Maya meets the condition (scored above 130), so the rule's outcome applies to her (she earns the badge)."
+  },
+  {
+    "id": "sp-001",
+    "type": "spatial",
+    "difficulty": 2,
+    "timeBudgetMs": 18000,
+    "prompt": "This flag is rotated 180° and then reflected horizontally (mirrored left-right). Which option shows the result?",
+    "svg": "<svg viewBox='0 0 100 100'><line x1='50' y1='10' x2='50' y2='90' stroke='#000' stroke-width='4'/><polygon points='50,10 80,20 50,30' fill='#000'/></svg>",
+    "options": [
+      { "text": "Flag at top, pointing right", "svg": "<svg viewBox='0 0 40 40'><line x1='20' y1='4' x2='20' y2='36' stroke='#000' stroke-width='3'/><polygon points='20,4 32,8 20,12' fill='#000'/></svg>", "correct": false },
+      { "text": "Flag at bottom, pointing right", "svg": "<svg viewBox='0 0 40 40'><line x1='20' y1='4' x2='20' y2='36' stroke='#000' stroke-width='3'/><polygon points='20,28 32,32 20,36' fill='#000'/></svg>", "correct": true },
+      { "text": "Flag at bottom, pointing left", "svg": "<svg viewBox='0 0 40 40'><line x1='20' y1='4' x2='20' y2='36' stroke='#000' stroke-width='3'/><polygon points='20,28 8,32 20,36' fill='#000'/></svg>", "correct": false },
+      { "text": "Flag at top, pointing left", "svg": "<svg viewBox='0 0 40 40'><line x1='20' y1='4' x2='20' y2='36' stroke='#000' stroke-width='3'/><polygon points='20,4 8,8 20,12' fill='#000'/></svg>", "correct": false }
+    ],
+    "explanation": "Rotating 180° moves the flag to the bottom of the pole and flips it to point left. Reflecting that horizontally flips it back to pointing right while it stays at the bottom. Net effect: flag moves to the bottom, still pointing right."
+  },
+  {
+    "id": "mx-002",
+    "type": "matrix",
+    "difficulty": 2,
+    "timeBudgetMs": 15000,
+    "prompt": "Which option completes the 2x2 pattern? Top row: filled circle, filled square. Bottom row: empty circle, ?",
+    "svg": "<svg viewBox='0 0 100 100'><circle cx='25' cy='25' r='15' fill='#000'/><rect x='60' y='10' width='30' height='30' fill='#000'/><circle cx='25' cy='75' r='15' fill='none' stroke='#000' stroke-width='3'/><text x='75' y='82' font-size='20' text-anchor='middle'>?</text><line x1='50' y1='0' x2='50' y2='100' stroke='#ccc'/><line x1='0' y1='50' x2='100' y2='50' stroke='#ccc'/></svg>",
+    "options": [
+      { "text": "Filled square", "svg": "<svg viewBox='0 0 40 40'><rect x='5' y='5' width='30' height='30' fill='#000'/></svg>", "correct": false },
+      { "text": "Empty square", "svg": "<svg viewBox='0 0 40 40'><rect x='5' y='5' width='30' height='30' fill='none' stroke='#000' stroke-width='3'/></svg>", "correct": true },
+      { "text": "Empty circle", "svg": "<svg viewBox='0 0 40 40'><circle cx='20' cy='20' r='15' fill='none' stroke='#000' stroke-width='3'/></svg>", "correct": false },
+      { "text": "Filled circle", "svg": "<svg viewBox='0 0 40 40'><circle cx='20' cy='20' r='15' fill='#000'/></svg>", "correct": false }
+    ],
+    "explanation": "Shape is set by column (circles on the left, squares on the right); fill is set by row (filled on top, empty on the bottom). The bottom-right cell must be an empty square."
+  },
+  {
+    "id": "ns-002",
+    "type": "number-series",
+    "difficulty": 3,
+    "timeBudgetMs": 22000,
+    "prompt": "What number comes next: 2, 10, 4, 8, 6, 6, 8, ?",
+    "svg": "",
+    "options": [
+      { "text": "2", "correct": false },
+      { "text": "4", "correct": true },
+      { "text": "8", "correct": false },
+      { "text": "10", "correct": false }
+    ],
+    "explanation": "Two series are interleaved: the odd positions increase by 2 (2, 4, 6, 8) and the even positions decrease by 2 (10, 8, 6, 4). The next number continues the decreasing series: 4."
+  },
+  {
+    "id": "lg-002",
+    "type": "logic",
+    "difficulty": 3,
+    "timeBudgetMs": 20000,
+    "prompt": "Every test-taker who answers all spatial items correctly receives a \"Visualizer\" tag. Every test-taker with a \"Visualizer\" tag is shown bonus spatial puzzles next time. Noor answered all spatial items correctly. What must be true?",
+    "svg": "",
+    "options": [
+      { "text": "Noor will be shown bonus spatial puzzles next time.", "correct": true },
+      { "text": "Noor received a Visualizer tag but no bonus puzzles.", "correct": false },
+      { "text": "Noor was shown bonus puzzles without the tag.", "correct": false },
+      { "text": "Everyone shown bonus puzzles answered all spatial items correctly.", "correct": false }
+    ],
+    "explanation": "Chaining the two rules: answering all spatial items correctly guarantees the tag, and the tag guarantees bonus puzzles next time — so Noor will be shown bonus puzzles."
+  },
+  {
+    "id": "mx-003",
+    "type": "matrix",
+    "difficulty": 3,
+    "timeBudgetMs": 22000,
+    "prompt": "Which option completes the 3x3 pattern? Each row is one shape (circles, squares, triangles); each column is one size (small, medium, large).",
+    "svg": "<svg viewBox='0 0 150 150'><circle cx='25' cy='25' r='8' fill='#000'/><circle cx='75' cy='25' r='14' fill='#000'/><circle cx='125' cy='25' r='20' fill='#000'/><rect x='17' y='67' width='16' height='16' fill='#000'/><rect x='61' y='61' width='28' height='28' fill='#000'/><rect x='105' y='55' width='40' height='40' fill='#000'/><polygon points='25,117 18,129 32,129' fill='#000'/><polygon points='75,111 63,132 87,132' fill='#000'/><text x='125' y='130' font-size='20' text-anchor='middle'>?</text><line x1='50' y1='0' x2='50' y2='150' stroke='#ccc'/><line x1='100' y1='0' x2='100' y2='150' stroke='#ccc'/><line x1='0' y1='50' x2='150' y2='50' stroke='#ccc'/><line x1='0' y1='100' x2='150' y2='100' stroke='#ccc'/></svg>",
+    "options": [
+      { "text": "Medium triangle", "svg": "<svg viewBox='0 0 40 40'><polygon points='20,11 8,27 32,27' fill='#000'/></svg>", "correct": false },
+      { "text": "Large triangle", "svg": "<svg viewBox='0 0 40 40'><polygon points='20,6 3,30 37,30' fill='#000'/></svg>", "correct": true },
+      { "text": "Large square", "svg": "<svg viewBox='0 0 40 40'><rect x='2' y='2' width='36' height='36' fill='#000'/></svg>", "correct": false },
+      { "text": "Small triangle", "svg": "<svg viewBox='0 0 40 40'><polygon points='20,16 13,24 27,24' fill='#000'/></svg>", "correct": false }
+    ],
+    "explanation": "The missing cell is in the triangle row and the large-size column, so it must be a large triangle."
+  },
+  {
+    "id": "sp-002",
+    "type": "spatial",
+    "difficulty": 4,
+    "timeBudgetMs": 25000,
+    "prompt": "Which piece exactly fills the dashed gap to complete the square?",
+    "svg": "<svg viewBox='0 0 80 80'><polygon points='0,0 80,0 80,80' fill='#999'/><polygon points='0,0 80,80 0,80' fill='none' stroke='#000' stroke-width='2' stroke-dasharray='4,3'/></svg>",
+    "options": [
+      { "text": "Piece A", "svg": "<svg viewBox='0 0 40 40'><polygon points='0,0 40,40 0,40' fill='#999'/></svg>", "correct": true },
+      { "text": "Piece B", "svg": "<svg viewBox='0 0 40 40'><polygon points='40,0 0,40 40,40' fill='#999'/></svg>", "correct": false },
+      { "text": "Piece C", "svg": "<svg viewBox='0 0 40 40'><polygon points='0,0 40,0 0,40' fill='#999'/></svg>", "correct": false },
+      { "text": "Piece D", "svg": "<svg viewBox='0 0 40 40'><polygon points='0,10 30,40 0,40' fill='#999'/></svg>", "correct": false }
+    ],
+    "explanation": "The gap is a right triangle with its right angle at the bottom-left corner and legs that run the full length of two sides. Piece A is the only option that matches that exact shape, size, and orientation — the others are a mirror image, have the right angle in the wrong corner, or are too small."
+  },
+  {
+    "id": "ns-003",
+    "type": "number-series",
+    "difficulty": 4,
+    "timeBudgetMs": 25000,
+    "prompt": "What number comes next: 2, 3, 6, 18, ?",
+    "svg": "",
+    "options": [
+      { "text": "24", "correct": false },
+      { "text": "36", "correct": false },
+      { "text": "54", "correct": false },
+      { "text": "108", "correct": true }
+    ],
+    "explanation": "Each term is the product of the two terms before it: 2×3=6, 3×6=18, 6×18=108."
+  },
+  {
+    "id": "lg-003",
+    "type": "logic",
+    "difficulty": 5,
+    "timeBudgetMs": 30000,
+    "prompt": "Every player who completes all three bonus rounds earns a Gold Ribbon. No player with a Gold Ribbon has a final score under 500. Theo's final score was under 500. Which of the following must be true?",
+    "svg": "",
+    "options": [
+      { "text": "Theo did not complete all three bonus rounds.", "correct": true },
+      { "text": "Theo completed all three bonus rounds.", "correct": false },
+      { "text": "Theo has a Gold Ribbon.", "correct": false },
+      { "text": "Theo's final score was 500 or more.", "correct": false }
+    ],
+    "explanation": "Since Theo's score was under 500, he cannot have a Gold Ribbon (no ribboned player scores that low). Since only players who complete all three bonus rounds earn the ribbon, Theo must not have completed all three bonus rounds."
+  },
+  {
+    "id": "mx-004",
+    "type": "matrix",
+    "difficulty": 5,
+    "timeBudgetMs": 30000,
+    "prompt": "Which option completes the 3x3 pattern? Each row is one shape (circles, squares, triangles). The fill cycles black → outline → gray as the row number plus the column number increases.",
+    "svg": "<svg viewBox='0 0 150 150'><circle cx='25' cy='25' r='16' fill='#000'/><circle cx='75' cy='25' r='16' fill='none' stroke='#000' stroke-width='3'/><circle cx='125' cy='25' r='16' fill='#999'/><rect x='9' y='59' width='32' height='32' fill='none' stroke='#000' stroke-width='3'/><rect x='59' y='59' width='32' height='32' fill='#999'/><rect x='109' y='59' width='32' height='32' fill='#000'/><polygon points='25,109 11,133 39,133' fill='#999'/><polygon points='75,109 61,133 89,133' fill='#000'/><text x='125' y='128' font-size='20' text-anchor='middle'>?</text><line x1='50' y1='0' x2='50' y2='150' stroke='#ccc'/><line x1='100' y1='0' x2='100' y2='150' stroke='#ccc'/><line x1='0' y1='50' x2='150' y2='50' stroke='#ccc'/><line x1='0' y1='100' x2='150' y2='100' stroke='#ccc'/></svg>",
+    "options": [
+      { "text": "Outline triangle", "svg": "<svg viewBox='0 0 40 40'><polygon points='20,6 6,28 34,28' fill='none' stroke='#000' stroke-width='3'/></svg>", "correct": true },
+      { "text": "Black triangle", "svg": "<svg viewBox='0 0 40 40'><polygon points='20,6 6,28 34,28' fill='#000'/></svg>", "correct": false },
+      { "text": "Gray triangle", "svg": "<svg viewBox='0 0 40 40'><polygon points='20,6 6,28 34,28' fill='#999'/></svg>", "correct": false },
+      { "text": "Outline square", "svg": "<svg viewBox='0 0 40 40'><rect x='4' y='4' width='32' height='32' fill='none' stroke='#000' stroke-width='3'/></svg>", "correct": false }
+    ],
+    "explanation": "Shape depends on the row (circle, square, triangle). Fill depends on both row and column together, cycling black / outline / gray as their sum increases. For the bottom-right cell (row 3, column 3) that sum lands back on outline, and the row gives triangle — so the answer is an outline triangle. You need both coordinates to find the fill, not just one."
+  },
+  {
+    "id": "mx-005",
+    "type": "matrix",
+    "difficulty": 5,
+    "timeBudgetMs": 30000,
+    "prompt": "Which option completes the 3x3 pattern? Each column is one shape (circles, squares, triangles). The size cycles small → medium → large as the row number plus the column number increases.",
+    "svg": "<svg viewBox='0 0 150 150'><circle cx='25' cy='25' r='8' fill='#000'/><rect x='61' y='11' width='28' height='28' fill='#000'/><polygon points='125,5 108,35 142,35' fill='#000'/><circle cx='25' cy='75' r='14' fill='#000'/><rect x='55' y='55' width='40' height='40' fill='#000'/><polygon points='125,67 118,79 132,79' fill='#000'/><circle cx='25' cy='125' r='20' fill='#000'/><rect x='67' y='117' width='16' height='16' fill='#000'/><text x='125' y='130' font-size='20' text-anchor='middle'>?</text><line x1='50' y1='0' x2='50' y2='150' stroke='#ccc'/><line x1='100' y1='0' x2='100' y2='150' stroke='#ccc'/><line x1='0' y1='50' x2='150' y2='50' stroke='#ccc'/><line x1='0' y1='100' x2='150' y2='100' stroke='#ccc'/></svg>",
+    "options": [
+      { "text": "Medium triangle", "svg": "<svg viewBox='0 0 40 40'><polygon points='20,11 8,27 32,27' fill='#000'/></svg>", "correct": true },
+      { "text": "Large triangle", "svg": "<svg viewBox='0 0 40 40'><polygon points='20,6 3,30 37,30' fill='#000'/></svg>", "correct": false },
+      { "text": "Small triangle", "svg": "<svg viewBox='0 0 40 40'><polygon points='20,16 13,24 27,24' fill='#000'/></svg>", "correct": false },
+      { "text": "Medium square", "svg": "<svg viewBox='0 0 40 40'><rect x='6' y='6' width='28' height='28' fill='#000'/></svg>", "correct": false }
+    ],
+    "explanation": "Shape depends on the column (circle, square, triangle), so the bottom-right cell is a triangle. Size cycles small/medium/large as (row + column - 2) mod 3 increases: for row 3, column 3 that's (3+3-2) mod 3 = 1, which is the medium step. You need both coordinates to find the size, and the column to find the shape."
+  },
+  {
+    "id": "ns-004",
+    "type": "number-series",
+    "difficulty": 5,
+    "timeBudgetMs": 30000,
+    "prompt": "What number comes next: 2, 4, 8, 15, 32, 64, ?",
+    "svg": "",
+    "options": [
+      { "text": "30", "correct": false },
+      { "text": "96", "correct": false },
+      { "text": "120", "correct": false },
+      { "text": "128", "correct": true }
+    ],
+    "explanation": "The underlying rule is doubling (2, 4, 8, 16, 32, 64, 128, ...). The \"15\" is a red herring — it breaks the pattern, but the terms right after it (32, 64) only make sense continuing the doubling from 16, not from 15. So the next term is 64 × 2 = 128."
+  },
+  {
+    "id": "lg-004",
+    "type": "logic",
+    "difficulty": 5,
+    "timeBudgetMs": 30000,
+    "prompt": "Every member who completes the advanced workshop receives a Mentor certificate. Every member with a Mentor certificate is invited to lead a study group. Every member who leads a study group gets priority scheduling. Priya completed the advanced workshop. Which of the following must be true?",
+    "svg": "",
+    "options": [
+      { "text": "Priya will get priority scheduling.", "correct": true },
+      { "text": "Priya received a Mentor certificate but not priority scheduling.", "correct": false },
+      { "text": "Priya was invited to lead a study group but was never certified.", "correct": false },
+      { "text": "Everyone with priority scheduling completed the advanced workshop.", "correct": false }
+    ],
+    "explanation": "This is a forward chain, not a reverse one: Priya completing the workshop guarantees the certificate (premise 1), the certificate guarantees the study-group invitation (premise 2), and the invitation guarantees priority scheduling (premise 3) — so all three follow for Priya in order, ending in priority scheduling."
+  },
+  {
+    "id": "mx-006",
+    "type": "matrix",
+    "difficulty": 5,
+    "timeBudgetMs": 30000,
+    "prompt": "Which option completes the 3x3 pattern? Each cell has one arrow. The direction cycles up → right → down → left as the row number plus the column number increases.",
+    "svg": "<svg viewBox='0 0 150 150'><polygon points='25,40 10,10 40,10' fill='#000'/><polygon points='60,25 90,10 90,40' fill='#000'/><polygon points='125,10 110,40 140,40' fill='#000'/><polygon points='10,75 40,60 40,90' fill='#000'/><polygon points='75,60 60,90 90,90' fill='#000'/><polygon points='140,75 110,60 110,90' fill='#000'/><polygon points='25,110 10,140 40,140' fill='#000'/><polygon points='90,125 60,110 60,140' fill='#000'/><text x='125' y='128' font-size='20' text-anchor='middle'>?</text><line x1='50' y1='0' x2='50' y2='150' stroke='#ccc'/><line x1='100' y1='0' x2='100' y2='150' stroke='#ccc'/><line x1='0' y1='50' x2='150' y2='50' stroke='#ccc'/><line x1='0' y1='100' x2='150' y2='100' stroke='#ccc'/></svg>",
+    "options": [
+      { "text": "Arrow pointing down", "svg": "<svg viewBox='0 0 40 40'><polygon points='20,32 8,8 32,8' fill='#000'/></svg>", "correct": true },
+      { "text": "Arrow pointing up", "svg": "<svg viewBox='0 0 40 40'><polygon points='20,8 8,32 32,32' fill='#000'/></svg>", "correct": false },
+      { "text": "Arrow pointing left", "svg": "<svg viewBox='0 0 40 40'><polygon points='8,20 32,8 32,32' fill='#000'/></svg>", "correct": false },
+      { "text": "Arrow pointing right", "svg": "<svg viewBox='0 0 40 40'><polygon points='32,20 8,8 8,32' fill='#000'/></svg>", "correct": false }
+    ],
+    "explanation": "The arrow's direction cycles up → right → down → left as (row + column) increases, wrapping every 4 steps. For the bottom-right cell, row + column = 6, and 6 mod 4 = 2, which is the \"down\" step."
+  },
+  {
+    "id": "ns-005",
+    "type": "number-series",
+    "difficulty": 5,
+    "timeBudgetMs": 30000,
+    "prompt": "What number comes next: 1, 4, 9, 17, 25, 36, ?",
+    "svg": "",
+    "options": [
+      { "text": "42", "correct": false },
+      { "text": "48", "correct": false },
+      { "text": "49", "correct": true },
+      { "text": "64", "correct": false }
+    ],
+    "explanation": "The rule is consecutive squares: 1², 2², 3², 4², 5², 6², 7² = 1, 4, 9, 16, 25, 36, 49. The \"17\" is a red herring — it doesn't fit the squares pattern, but 25 and 36 confirm the sequence is squares continuing normally, so the next term is 7² = 49."
+  },
+  {
+    "id": "lg-005",
+    "type": "logic",
+    "difficulty": 5,
+    "timeBudgetMs": 30000,
+    "prompt": "Either Ravi or Sana scored the final round, but not both. Ravi never scores using a 10-point scale. The final round was scored using a 10-point scale. Which of the following must be true?",
+    "svg": "",
+    "options": [
+      { "text": "Sana scored the final round.", "correct": true },
+      { "text": "Ravi scored the final round.", "correct": false },
+      { "text": "Both Ravi and Sana scored the final round.", "correct": false },
+      { "text": "Sana never uses a 10-point scale.", "correct": false }
+    ],
+    "explanation": "Ravi never uses a 10-point scale, but the final round was scored on one, so Ravi could not have been the scorer. Since exactly one of the two scored it and it wasn't Ravi, it must have been Sana — elimination between two named options, not a chain of conditionals."
+  },
+  {
+    "id": "mx-007",
+    "type": "matrix",
+    "difficulty": 5,
+    "timeBudgetMs": 30000,
+    "prompt": "Which option completes the 3x3 pattern? The number of dots in each cell equals (row number × column number) mod 4, plus 1.",
+    "svg": "<svg viewBox='0 0 150 150'><circle cx='15' cy='25' r='6' fill='#000'/><circle cx='35' cy='25' r='6' fill='#000'/><circle cx='75' cy='15' r='6' fill='#000'/><circle cx='65' cy='35' r='6' fill='#000'/><circle cx='85' cy='35' r='6' fill='#000'/><circle cx='115' cy='15' r='6' fill='#000'/><circle cx='135' cy='15' r='6' fill='#000'/><circle cx='115' cy='35' r='6' fill='#000'/><circle cx='135' cy='35' r='6' fill='#000'/><circle cx='25' cy='65' r='6' fill='#000'/><circle cx='15' cy='85' r='6' fill='#000'/><circle cx='35' cy='85' r='6' fill='#000'/><circle cx='75' cy='75' r='6' fill='#000'/><circle cx='125' cy='65' r='6' fill='#000'/><circle cx='115' cy='85' r='6' fill='#000'/><circle cx='135' cy='85' r='6' fill='#000'/><circle cx='15' cy='115' r='6' fill='#000'/><circle cx='35' cy='115' r='6' fill='#000'/><circle cx='15' cy='135' r='6' fill='#000'/><circle cx='35' cy='135' r='6' fill='#000'/><circle cx='75' cy='115' r='6' fill='#000'/><circle cx='65' cy='135' r='6' fill='#000'/><circle cx='85' cy='135' r='6' fill='#000'/><text x='125' y='130' font-size='20' text-anchor='middle'>?</text><line x1='50' y1='0' x2='50' y2='150' stroke='#ccc'/><line x1='100' y1='0' x2='100' y2='150' stroke='#ccc'/><line x1='0' y1='50' x2='150' y2='50' stroke='#ccc'/><line x1='0' y1='100' x2='150' y2='100' stroke='#ccc'/></svg>",
+    "options": [
+      { "text": "2 dots", "svg": "<svg viewBox='0 0 40 40'><circle cx='12' cy='20' r='4' fill='#000'/><circle cx='28' cy='20' r='4' fill='#000'/></svg>", "correct": true },
+      { "text": "1 dot", "svg": "<svg viewBox='0 0 40 40'><circle cx='20' cy='20' r='4' fill='#000'/></svg>", "correct": false },
+      { "text": "3 dots", "svg": "<svg viewBox='0 0 40 40'><circle cx='10' cy='28' r='4' fill='#000'/><circle cx='20' cy='10' r='4' fill='#000'/><circle cx='30' cy='28' r='4' fill='#000'/></svg>", "correct": false },
+      { "text": "4 dots", "svg": "<svg viewBox='0 0 40 40'><circle cx='10' cy='10' r='4' fill='#000'/><circle cx='30' cy='10' r='4' fill='#000'/><circle cx='10' cy='30' r='4' fill='#000'/><circle cx='30' cy='30' r='4' fill='#000'/></svg>", "correct": false }
+    ],
+    "explanation": "The dot count is (row × column) mod 4, plus 1. For the bottom-right cell, 3 × 3 = 9, and 9 mod 4 = 1, plus 1 = 2 dots."
+  },
+  {
+    "id": "sp-003",
+    "type": "spatial",
+    "difficulty": 5,
+    "timeBudgetMs": 30000,
+    "prompt": "This is the front view of a house, with its door on the left. If you walk around to view it from the back, which option shows what you'd see?",
+    "svg": "<svg viewBox='0 0 100 100'><polygon points='0,40 80,40 40,0' fill='#000'/><rect x='0' y='40' width='80' height='60' fill='none' stroke='#000' stroke-width='3'/><rect x='10' y='65' width='15' height='35' fill='#000'/></svg>",
+    "options": [
+      { "text": "Door on the right", "svg": "<svg viewBox='0 0 40 40'><polygon points='0,16 32,16 16,0' fill='#000'/><rect x='0' y='16' width='32' height='24' fill='none' stroke='#000' stroke-width='2'/><rect x='22' y='27' width='6' height='13' fill='#000'/></svg>", "correct": true },
+      { "text": "Door on the left", "svg": "<svg viewBox='0 0 40 40'><polygon points='0,16 32,16 16,0' fill='#000'/><rect x='0' y='16' width='32' height='24' fill='none' stroke='#000' stroke-width='2'/><rect x='4' y='27' width='6' height='13' fill='#000'/></svg>", "correct": false },
+      { "text": "Door in the center", "svg": "<svg viewBox='0 0 40 40'><polygon points='0,16 32,16 16,0' fill='#000'/><rect x='0' y='16' width='32' height='24' fill='none' stroke='#000' stroke-width='2'/><rect x='13' y='27' width='6' height='13' fill='#000'/></svg>", "correct": false },
+      { "text": "Flat roof, door on the left", "svg": "<svg viewBox='0 0 40 40'><rect x='0' y='10' width='32' height='6' fill='#000'/><rect x='0' y='16' width='32' height='24' fill='none' stroke='#000' stroke-width='2'/><rect x='4' y='27' width='6' height='13' fill='#000'/></svg>", "correct": false }
+    ],
+    "explanation": "Walking around to the back of the house mirrors your view left-to-right — a door on the left from the front appears on the right from the back. The roof shape doesn't change since it's symmetric from any front-facing angle."
+  }
+]

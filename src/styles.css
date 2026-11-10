@@ -1,0 +1,1016 @@
+/* IQly Funnel v4 styles. Palette verified against a >=4.5:1 text-contrast minimum via
+   scripts/contrast_check.py (see design_handoff README for the source palette). */
+:root {
+  --bg: #FBFAFF;
+  --surface: #FFFFFF;
+  --text: #1B1530;
+  --text-muted: #5D5775;
+  --border: #E7E3F3;
+
+  --purple: #5A3FD8;
+  --purple-deep: #24154F;
+  --purple-mid: #2F1F66;
+  --purple-line: #3A2A78;
+  --purple-tint: #EFEBFF;
+  --purple-soft: #C9BCFF;
+
+  --yellow: #FFD24A;
+  --yellow-hover: #FFC21A;
+  --yellow-shadow: #E0AE14;
+  --yellow-tint: #FFF6D6;
+
+  --green: #1FA971;
+  --green-ink: #0E6B45;
+  --green-tint: #E3F7EE;
+  --green-soft: #7EE2B3;
+
+  --error: #C2261E;
+
+  --radius-pill: 999px;
+  --radius-xl: 24px;
+  --radius-lg: 18px;
+  --radius-md: 16px;
+  --radius-sm: 14px;
+  --radius-chip: 10px;
+  --radius-xs: 8px;
+
+  /* spacing scale */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+
+  /* type scale */
+  --text-xs: 12px;
+  --text-sm: 13px;
+  --text-base: 15px;
+  --text-md: 16px;
+  --text-lg: 18px;
+  --text-xl: 22px;
+  --text-2xl: 28px;
+  --text-3xl: 36px;
+
+  --transition-fast: 0.12s ease;
+  --transition-base: 0.25s ease;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  -webkit-text-size-adjust: 100%;
+}
+
+#app, .screen {
+  min-height: 100vh;
+  width: 100%;
+  overflow-x: hidden;
+}
+
+.screen {
+  display: flex;
+  flex-direction: column;
+  padding: var(--space-4) 0 var(--space-7);
+}
+
+.container {
+  width: 100%;
+  max-width: 1160px;
+  margin: 0 auto;
+  padding: 0 var(--space-5);
+}
+
+h1 { font-weight: 800; line-height: 1.08; margin: 0 0 var(--space-4); }
+h2 { font-weight: 800; line-height: 1.15; margin: 0 0 var(--space-3); }
+p { line-height: 1.5; margin: 0; }
+
+/* ---- shared: header bar, logo chip, pills ---- */
+.header-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  margin-bottom: var(--space-5);
+}
+
+.brand { display: flex; align-items: center; gap: var(--space-2); }
+
+.logo-chip {
+  width: 34px;
+  height: 34px;
+  border-radius: var(--radius-chip);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.brand-name {
+  font-weight: 800;
+  font-size: var(--text-lg);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--purple-deep);
+}
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: var(--text-xs);
+  font-weight: 700;
+  padding: 6px 12px;
+  border-radius: var(--radius-pill);
+  white-space: nowrap;
+}
+
+.pill-green { background: var(--green-tint); color: var(--green-ink); }
+.pill-purple-tint { background: var(--purple-tint); color: var(--purple); }
+/* the share pill is a real button: keep it a 48px tap target */
+button.pill { min-height: 48px; padding: 6px 16px; }
+.google-demo-note { margin: 6px 0 0; font-size: var(--text-xs); color: var(--text-muted); text-align: center; }
+.pill-yellow { background: var(--yellow); color: var(--purple-deep); }
+
+/* ---- buttons ---- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  width: 100%;
+  min-height: 56px;
+  padding: var(--space-3) var(--space-5);
+  font-size: var(--text-lg);
+  font-weight: 800;
+  border-radius: var(--radius-md);
+  border: none;
+  cursor: pointer;
+  text-align: center;
+  transition: transform 0.12s ease, box-shadow 0.12s ease, background 0.12s ease;
+}
+
+.btn-cta {
+  background: var(--yellow);
+  color: var(--purple-deep);
+  box-shadow: 0 4px 0 var(--yellow-shadow);
+}
+
+.btn-cta:hover { background: var(--yellow-hover); }
+.btn-cta:active { transform: translateY(3px); box-shadow: 0 1px 0 var(--yellow-shadow); }
+
+.btn-cta-lg { min-height: 60px; font-size: var(--text-xl); }
+
+/* Deep-purple CTA for use on yellow surfaces (e.g. the challenge banner) — .btn-cta's
+   yellow-on-purple-deep styling would otherwise render as a yellow button on a yellow
+   background, nearly invisible. */
+.btn-cta-dark {
+  background: var(--purple-deep);
+  color: #fff;
+}
+
+.btn-cta-dark:hover { background: var(--purple-mid); }
+.btn-cta-dark:active { transform: translateY(2px); }
+
+.btn-outline {
+  background: var(--surface);
+  color: var(--purple);
+  border: 2px solid var(--purple);
+  box-shadow: none;
+}
+
+.btn-outline:hover { background: var(--purple-tint); }
+
+.btn-text {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  font-weight: 700;
+  font-size: var(--text-md);
+  cursor: pointer;
+  padding: var(--space-2);
+  min-height: 48px;
+}
+
+.btn:focus-visible, .option:focus-visible, input:focus-visible, .chip-option:focus-visible {
+  outline: 3px solid var(--purple);
+  outline-offset: 2px;
+}
+
+.fine-print {
+  margin-top: var(--space-3);
+  font-size: var(--text-sm);
+  color: var(--text-muted);
+  text-align: center;
+}
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-4);
+}
+
+.card-dark {
+  background: var(--purple-deep);
+  border-radius: var(--radius-xl);
+  padding: 22px;
+  color: #fff;
+}
+
+/* ================= LANDING ================= */
+.landing-layout {
+  display: flex;
+  flex-wrap: wrap;
+  max-width: 1160px;
+  margin: 0 auto;
+  gap: 28px;
+  padding-bottom: 100px; /* room above the sticky mobile CTA */
+}
+
+.landing-left { flex: 1 1 420px; min-width: 0; }
+.landing-right { flex: 1 1 360px; max-width: 520px; min-width: 0; }
+
+.eyebrow-pill {
+  display: inline-block;
+  background: var(--purple-tint);
+  color: var(--purple);
+  font-size: var(--text-xs);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  padding: 6px 14px;
+  border-radius: var(--radius-pill);
+  margin-bottom: var(--space-4);
+}
+
+.landing-h1 {
+  font-size: clamp(34px, 5.4vw, 60px);
+  color: var(--purple-deep);
+  margin: 0 0 var(--space-4);
+}
+
+.landing-h1 .highlight {
+  background: var(--yellow);
+  border-radius: var(--radius-chip);
+  padding: 0 8px;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+
+.landing-sub {
+  font-size: var(--text-lg);
+  color: var(--text-muted);
+  margin: 0 0 var(--space-5);
+  max-width: 480px;
+}
+
+.check-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-4);
+  margin-top: var(--space-4);
+  font-size: var(--text-sm);
+  color: var(--green-ink);
+  font-weight: 600;
+}
+
+.check-row span::before { content: "\2713 "; }
+
+.hero-q1-eyebrow {
+  color: var(--yellow);
+  font-size: var(--text-xs);
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin: 0 0 2px;
+}
+
+.hero-q1-sub { color: var(--purple-soft); font-size: var(--text-sm); margin: 0 0 var(--space-4); }
+
+.hero-q1-body { display: flex; align-items: flex-start; gap: var(--space-3); margin-bottom: var(--space-4); }
+
+.hero-q1-tile {
+  width: 110px;
+  height: 110px;
+  background: var(--surface);
+  border-radius: var(--radius-md);
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hero-q1-tile svg { width: 100%; height: 100%; }
+
+.hero-q1-prompt { font-size: var(--text-md); font-weight: 700; color: #fff; }
+
+.hero-q1-options {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-2);
+}
+
+.hero-q1-option {
+  min-height: 52px;
+  background: var(--purple-mid);
+  border: 2px solid var(--purple-line);
+  border-radius: var(--radius-sm);
+  color: #fff;
+  font-size: var(--text-sm);
+  font-weight: 700;
+  cursor: pointer;
+  padding: var(--space-2) var(--space-3);
+  transition: border-color var(--transition-fast);
+}
+
+.hero-q1-option:hover { border-color: var(--yellow); }
+
+.steps-strip {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: var(--space-3);
+  margin-top: var(--space-6);
+}
+
+.step-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-4);
+}
+
+.step-num {
+  font-size: var(--text-xs);
+  font-weight: 800;
+  color: var(--purple);
+  margin-bottom: var(--space-1);
+}
+
+.step-title { font-weight: 800; font-size: var(--text-md); margin-bottom: 2px; }
+.step-desc { font-size: var(--text-sm); color: var(--text-muted); }
+
+.sticky-cta {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: var(--space-3) var(--space-5);
+  background: rgba(251, 250, 255, 0.94);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-top: 1px solid var(--border);
+  z-index: 20;
+}
+
+.sticky-cta .btn { min-height: 56px; }
+
+/* ================= QUIZ ================= */
+.quiz-exit-btn {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+  font-size: var(--text-lg);
+  font-weight: 700;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.segmented-progress {
+  display: flex;
+  gap: 4px;
+  margin-bottom: var(--space-4);
+}
+
+.segment {
+  flex: 1;
+  height: 8px;
+  border-radius: var(--radius-xs);
+  background: var(--border);
+}
+
+.segment.is-done { background: var(--purple); }
+.segment.is-current { background: var(--yellow); }
+
+.quiz-meta-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: var(--text-sm);
+  margin-bottom: var(--space-4);
+}
+
+.quiz-meta-category { color: var(--purple); font-weight: 700; }
+.quiz-meta-time { color: var(--text-muted); font-weight: 600; }
+
+/* TIMER_MODE=per_question only. The ring's stroke-dashoffset drains from 0 (full) to
+   its circumference (empty) against the item's own timeBudgetMs; .is-warning (last 5s)
+   switches it to --error. Offset updates come from JS ticks, not a CSS animation, so
+   prefers-reduced-motion only needs to kill the transition's easing (handled by the
+   global reduced-motion block), not disable the timing itself. */
+.question-timer-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-bottom: var(--space-4);
+  flex-wrap: wrap;
+}
+
+.question-timer-ring { position: relative; width: 34px; height: 34px; flex-shrink: 0; }
+.question-timer-ring svg { width: 100%; height: 100%; transform: rotate(-90deg); }
+
+.ring-track { fill: none; stroke: var(--border); stroke-width: 4; }
+
+.ring-progress {
+  fill: none;
+  stroke: var(--yellow);
+  stroke-width: 4;
+  stroke-linecap: round;
+  transition: stroke-dashoffset 0.15s linear, stroke var(--transition-fast);
+}
+
+.ring-progress.is-warning { stroke: var(--error); }
+
+.question-timer-ring-num {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--text-xs);
+  font-weight: 800;
+  color: var(--purple-deep);
+}
+
+.question-timer-label { font-size: var(--text-xs); color: var(--text-muted); font-weight: 600; }
+
+.question-timer-reset-pulse {
+  font-size: var(--text-xs);
+  font-weight: 700;
+  color: var(--green-ink);
+  background: var(--green-tint);
+  padding: 2px 8px;
+  border-radius: var(--radius-pill);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.question-timer-reset-pulse.is-active { opacity: 1; }
+
+.headsup-banner {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  border-radius: var(--radius-md);
+  padding: var(--space-3);
+  margin-bottom: var(--space-4);
+}
+
+/* This class's own `display: flex` is an author rule, so it overrides the browser's
+   default `[hidden] { display: none }` (a user-agent rule loses to any author rule of
+   equal or lower specificity) — without this, the timeout banner (the only
+   .headsup-banner toggled via the hidden attribute) stayed visible from the very start
+   of every question instead of only after the real countdown reached zero. */
+.headsup-banner[hidden] { display: none; }
+
+.headsup-banner.tone-green { background: var(--green-tint); color: var(--green-ink); }
+.headsup-banner.tone-purple { background: var(--purple-tint); color: var(--purple); }
+.headsup-banner.tone-yellow { background: var(--yellow-tint); color: var(--purple-deep); }
+
+.headsup-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--surface);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  flex-shrink: 0;
+}
+
+.headsup-title { font-weight: 800; font-size: var(--text-sm); }
+.headsup-body { font-size: var(--text-xs); opacity: 0.9; }
+
+.quiz-body { display: flex; flex-wrap: wrap; gap: var(--space-5); margin-bottom: var(--space-5); }
+
+.quiz-puzzle-col { flex: 1 1 300px; }
+.quiz-options-col { flex: 1 1 320px; display: flex; flex-direction: column; gap: var(--space-2); }
+
+.quiz-puzzle-tile {
+  width: 100%;
+  max-width: 180px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-3);
+  margin: 0 auto var(--space-4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* width + aspect-ratio (not height:auto) because the item bank's inline SVGs carry no
+   width/height attribute, only a square viewBox; Safari/WebKit can't infer height:auto
+   from viewBox alone and renders the puzzle visual as a blank box, unlike Chromium. */
+.quiz-puzzle-tile svg { width: 100%; max-width: 160px; aspect-ratio: 1 / 1; }
+
+.quiz-prompt {
+  font-size: clamp(19px, 3vw, 24px);
+  font-weight: 800;
+  color: var(--purple-deep);
+}
+
+.chip-option {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  min-height: 58px;
+  padding: var(--space-2) var(--space-3);
+  background: var(--surface);
+  border: 2px solid var(--border);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  text-align: left;
+  font-size: var(--text-md);
+  font-weight: 600;
+  color: var(--text);
+  transition: border-color var(--transition-fast), background var(--transition-fast);
+}
+
+.chip-option:hover { border-color: var(--purple); }
+
+.chip-option.selected {
+  border-color: var(--purple);
+  background: var(--purple-tint);
+}
+
+.option-letter {
+  width: 30px;
+  height: 30px;
+  border-radius: var(--radius-xs);
+  background: var(--purple-tint);
+  color: var(--purple);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: var(--text-sm);
+  flex-shrink: 0;
+  transition: background var(--transition-fast), color var(--transition-fast);
+}
+
+.chip-option.selected .option-letter { background: var(--purple); color: #fff; }
+
+.chip-option .option-visual svg { width: 28px; height: 28px; flex-shrink: 0; }
+
+.quiz-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: var(--text-sm);
+  color: var(--text-muted);
+  font-weight: 600;
+}
+
+.quiz-back-link {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  font-weight: 700;
+  font-size: var(--text-sm);
+  cursor: pointer;
+  min-height: 48px;
+  padding: 0 var(--space-2);
+}
+
+/* exit sheet */
+.exit-scrim {
+  position: fixed;
+  inset: 0;
+  background: rgba(36, 21, 79, 0.55);
+  z-index: 30;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.exit-sheet {
+  width: 100%;
+  max-width: 480px;
+  background: var(--surface);
+  border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+  padding: var(--space-6) var(--space-5) var(--space-5);
+}
+
+.exit-sheet h2 { font-size: var(--text-xl); color: var(--purple-deep); }
+.exit-sheet p { color: var(--text-muted); margin: var(--space-3) 0 var(--space-5); }
+
+/* ================= ANALYZING (gate overlay) ================= */
+.analyzing-overlay {
+  position: absolute;
+  inset: 0;
+  background: var(--purple-deep);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* the overlay covers the whole (tall) gate page, so centre its content on the first
+     screen, not on the page: start ~22vh down and keep it pinned if the visitor scrolls */
+  justify-content: flex-start;
+  z-index: 5;
+  text-align: center;
+  padding: var(--space-5);
+  padding-top: 22vh;
+  border-radius: inherit;
+  color: #fff;
+}
+
+.analyzing-inner { max-width: 440px; width: 100%; position: sticky; top: 22vh; }
+
+.analyzing-title { font-size: var(--text-2xl); margin: var(--space-4) 0 var(--space-5); }
+
+.analyzing-track {
+  width: 100%;
+  height: 10px;
+  background: var(--purple-line);
+  border-radius: var(--radius-xs);
+  overflow: hidden;
+  margin-bottom: var(--space-5);
+}
+
+.analyzing-fill { height: 100%; background: var(--yellow); transition: width 0.6s ease; }
+
+.analyzing-steps { display: flex; flex-direction: column; gap: var(--space-3); text-align: left; }
+
+.analyzing-step { display: flex; align-items: center; gap: var(--space-3); font-size: var(--text-sm); color: var(--purple-soft); }
+
+.analyzing-dot {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  border: 2px solid var(--purple-line);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.analyzing-step.is-done .analyzing-dot { background: var(--green-soft); border-color: var(--green-soft); color: var(--purple-deep); }
+.analyzing-step.is-done { color: #fff; }
+
+/* ================= GATE ================= */
+.screen-gate .container { position: relative; max-width: 860px; }
+
+.gate-progress-track {
+  width: 100%;
+  height: 8px;
+  background: var(--border);
+  border-radius: var(--radius-xs);
+  margin-bottom: var(--space-5);
+  overflow: hidden;
+}
+
+.gate-progress-fill { height: 100%; background: var(--green); transition: width var(--transition-base); }
+
+.gate-layout { display: flex; flex-wrap: wrap; gap: var(--space-4); }
+
+.teaser-panel { flex: 1 1 380px; }
+.form-panel { flex: 1 1 400px; background: var(--surface); border-radius: var(--radius-xl); padding: 22px; }
+
+.teaser-top-pct {
+  font-size: clamp(44px, 6vw, 64px);
+  font-weight: 800;
+  color: var(--yellow);
+  margin: var(--space-2) 0;
+}
+
+.teaser-free-label { font-size: var(--text-xs); color: var(--purple-soft); text-transform: uppercase; letter-spacing: 0.04em; font-weight: 700; }
+
+.iq-chip {
+  display: inline-block;
+  background: var(--purple-mid);
+  border: 1px solid var(--purple-line);
+  border-radius: var(--radius-sm);
+  padding: var(--space-3) var(--space-5);
+  margin: var(--space-3) 0;
+}
+
+.iq-chip-label { font-size: var(--text-xs); color: var(--purple-soft); margin-bottom: 2px; }
+.iq-chip-value { font-size: var(--text-2xl); font-weight: 800; color: #fff; filter: blur(7px); user-select: none; }
+
+.teaser-percentile-line { color: var(--purple-soft); font-size: var(--text-sm); margin-top: var(--space-3); }
+
+.form-cta-note { text-align: center; font-size: var(--text-sm); color: var(--text-muted); margin: var(--space-3) 0 var(--space-4); }
+
+.report-includes-lead { font-size: var(--text-sm); font-weight: 700; margin: 0 0 var(--space-2); }
+
+.report-includes-list { list-style: none; padding: 0; margin: 0 0 var(--space-4); display: flex; flex-direction: column; gap: var(--space-1); }
+
+.report-includes-list li { font-size: var(--text-sm); color: var(--text-muted); padding-left: 22px; position: relative; }
+
+.report-includes-list li::before {
+  content: "\2713";
+  position: absolute;
+  left: 0;
+  color: var(--green-ink);
+  font-weight: 700;
+}
+
+.gate-heads-up {
+  background: var(--yellow-tint);
+  border-radius: var(--radius-sm);
+  padding: var(--space-3);
+  font-size: var(--text-xs);
+  color: var(--purple-deep);
+}
+
+.auth-divider {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin: var(--space-3) 0;
+  color: var(--text-muted);
+  font-size: var(--text-xs);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.auth-divider::before, .auth-divider::after { content: ""; flex: 1; height: 1px; background: var(--border); }
+
+/* Visual preview of the gated report, built from this visitor's own real score —
+   never invented data — blurred to match whatever GATE_MODE actually locks. */
+.signup-preview { margin: var(--space-4) 0; }
+.signup-preview-lead { font-size: var(--text-sm); font-weight: 700; margin: 0 0 var(--space-2); }
+
+.signup-preview-card {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: var(--space-3);
+}
+
+.signup-preview-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: var(--space-3); }
+.signup-preview-iq { font-size: var(--text-2xl); font-weight: 800; color: var(--purple-deep); }
+
+.signup-preview-bars { display: flex; flex-direction: column; gap: 6px; margin-bottom: var(--space-3); }
+.signup-preview-bar { height: 8px; background: var(--purple-tint); border-radius: var(--radius-xs); overflow: hidden; }
+.signup-preview-bar-fill { height: 100%; background: var(--purple); }
+
+.signup-preview-tips { display: flex; flex-direction: column; gap: 4px; margin-bottom: var(--space-3); }
+.signup-preview-tips p { margin: 0; font-size: var(--text-sm); color: var(--text); }
+
+.signup-preview-sharecard {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  background: var(--purple-deep);
+  border-radius: var(--radius-sm);
+  padding: var(--space-2) var(--space-3);
+}
+
+.signup-preview-sharecard-iq { font-size: var(--text-lg); font-weight: 800; color: #fff; }
+.signup-preview-sharecard-label { font-size: var(--text-xs); color: var(--purple-soft); }
+
+.account-strip-note { font-weight: 600; }
+
+#gate-form { display: flex; flex-direction: column; gap: var(--space-3); margin-bottom: var(--space-3); }
+
+.field-label { font-size: var(--text-sm); font-weight: 700; }
+
+#email-input {
+  min-height: 58px;
+  padding: 0 14px;
+  font-size: var(--text-md);
+  border: 2px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--bg);
+  color: var(--text);
+  transition: border-color var(--transition-fast);
+}
+
+#email-input:focus { border-color: var(--purple); }
+#email-input[aria-invalid="true"] { border-color: var(--error); }
+
+.field-error { color: var(--error); font-size: var(--text-sm); margin: 0; }
+
+/* ================= RESULTS ================= */
+.screen-results .container { max-width: 1160px; }
+
+.account-strip {
+  background: var(--green-tint);
+  color: var(--green-ink);
+  border-radius: var(--radius-sm);
+  padding: var(--space-3) var(--space-4);
+  font-size: var(--text-sm);
+  font-weight: 700;
+  margin-bottom: var(--space-5);
+  text-align: center;
+}
+
+.results-hero {
+  background: var(--purple-deep);
+  color: #fff;
+  border-radius: var(--radius-xl);
+  padding: var(--space-6);
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-6);
+  margin-bottom: var(--space-5);
+}
+
+.results-hero-left { flex: 1 1 320px; }
+.results-hero-right { flex: 1 1 280px; max-width: 360px; }
+
+.iq-label { font-size: var(--text-sm); color: var(--purple-soft); margin-bottom: var(--space-2); }
+
+.iq-countup {
+  font-size: clamp(96px, 13vw, 140px);
+  font-weight: 800;
+  line-height: 1;
+  margin-bottom: var(--space-3);
+}
+
+.band-chip {
+  display: inline-block;
+  background: var(--green-soft);
+  color: var(--purple-deep);
+  font-weight: 800;
+  font-size: var(--text-sm);
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-pill);
+  margin-bottom: var(--space-3);
+}
+
+.hero-percentile-line { font-size: var(--text-lg); margin-bottom: var(--space-3); }
+.hero-percentile-line strong { color: var(--yellow); }
+
+.band-bar {
+  display: flex;
+  gap: 3px;
+  height: 10px;
+  margin-bottom: var(--space-3);
+  position: relative;
+}
+
+.band-seg { height: 100%; border-radius: 4px; background: var(--purple-line); }
+.band-seg.is-active { background: var(--yellow); }
+
+.band-fact { font-size: var(--text-xs); color: var(--purple-soft); }
+
+.score-card {
+  background: var(--surface);
+  border-radius: var(--radius-lg);
+  padding: var(--space-5);
+  color: var(--text);
+  text-align: center;
+}
+
+.score-card-label { font-size: var(--text-xs); font-weight: 800; letter-spacing: 0.06em; color: var(--text-muted); margin-bottom: var(--space-2); }
+.score-card-iq { font-size: var(--text-3xl); font-weight: 800; color: var(--purple-deep); }
+
+.score-card-archetype {
+  display: inline-block;
+  background: var(--yellow);
+  color: var(--purple-deep);
+  font-weight: 800;
+  font-size: var(--text-sm);
+  padding: 4px var(--space-3);
+  border-radius: var(--radius-pill);
+  margin: var(--space-2) 0;
+}
+
+.score-card-line { font-size: var(--text-sm); color: var(--text-muted); margin-bottom: var(--space-4); }
+
+.insight-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: var(--space-3);
+  margin-bottom: var(--space-5);
+}
+
+.insight-card { border-radius: var(--radius-lg); padding: var(--space-4); border: 1px solid var(--border); }
+.insight-card.tone-green { background: var(--green-tint); border-color: transparent; }
+.insight-card.tone-yellow { background: var(--yellow-tint); border-color: transparent; }
+.insight-card.tone-purple { background: var(--purple-tint); border-color: transparent; }
+
+.insight-title { font-size: var(--text-xs); font-weight: 800; text-transform: uppercase; letter-spacing: 0.03em; margin-bottom: var(--space-2); color: var(--text-muted); }
+.insight-body { font-size: var(--text-sm); color: var(--text); font-weight: 600; }
+
+.skill-section { margin-bottom: var(--space-5); }
+
+.skill-row { margin-bottom: var(--space-3); }
+.skill-row-head { display: flex; justify-content: space-between; font-size: var(--text-sm); font-weight: 700; margin-bottom: var(--space-1); }
+
+.skill-track { height: 12px; background: var(--purple-tint); border-radius: var(--radius-xs); overflow: hidden; }
+.skill-fill { height: 100%; border-radius: var(--radius-xs); }
+.skill-fill.tone-green { background: var(--green); }
+.skill-fill.tone-yellow { background: var(--yellow); }
+.skill-fill.tone-purple { background: var(--purple); }
+
+.tips-section { margin-bottom: var(--space-5); }
+.tips-list { list-style: none; padding: 0; margin: var(--space-3) 0 0; display: flex; flex-direction: column; gap: var(--space-2); }
+.tips-list li { font-size: var(--text-sm); color: var(--text-muted); padding-left: 22px; position: relative; }
+.tips-list li::before { content: "\2192"; position: absolute; left: 0; color: var(--purple); font-weight: 700; }
+
+.challenge-banner {
+  background: var(--yellow);
+  border-radius: var(--radius-xl);
+  padding: var(--space-5);
+  text-align: center;
+  margin-bottom: var(--space-4);
+}
+
+.challenge-banner h2 { color: var(--purple-deep); font-size: var(--text-xl); }
+.challenge-banner .result-actions { max-width: 480px; margin: var(--space-4) auto 0; }
+
+.result-actions { display: flex; flex-direction: column; gap: var(--space-3); }
+
+.share-feedback { text-align: center; color: var(--green-ink); font-size: var(--text-sm); margin-top: var(--space-3); font-weight: 700; }
+
+/* share sheet */
+.share-scrim {
+  position: fixed;
+  inset: 0;
+  background: rgba(36, 21, 79, 0.55);
+  z-index: 30;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.share-sheet {
+  width: 100%;
+  max-width: 480px;
+  background: var(--surface);
+  border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+  padding: var(--space-5);
+}
+
+.share-sheet-dark {
+  background: var(--purple-deep);
+  color: #fff;
+  border-radius: var(--radius-lg);
+  padding: var(--space-4);
+  margin-bottom: var(--space-4);
+  text-align: center;
+}
+
+.share-sheet-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-2);
+}
+
+.share-channel-btn {
+  min-height: 56px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+  background: var(--surface);
+  font-size: var(--text-sm);
+  font-weight: 700;
+  cursor: pointer;
+  color: var(--text);
+}
+
+.share-channel-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+.share-sheet-close {
+  width: 100%;
+  margin-top: var(--space-3);
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  font-weight: 700;
+  min-height: 48px;
+  cursor: pointer;
+}
+
+/* ================= responsive ================= */
+
+@media (min-width: 720px) {
+  .sticky-cta { display: none; }
+  .landing-layout { padding-bottom: 32px; }
+  .quiz-footer { font-size: var(--text-md); }
+}
+
+/* ---- motion ---- */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

@@ -1,0 +1,2182 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>IQly — Free IQ Test</title>
+<style>
+/* IQly Funnel v4 styles. Palette verified against a >=4.5:1 text-contrast minimum via
+   scripts/contrast_check.py (see design_handoff README for the source palette). */
+:root {
+  --bg: #FBFAFF;
+  --surface: #FFFFFF;
+  --text: #1B1530;
+  --text-muted: #5D5775;
+  --border: #E7E3F3;
+
+  --purple: #5A3FD8;
+  --purple-deep: #24154F;
+  --purple-mid: #2F1F66;
+  --purple-line: #3A2A78;
+  --purple-tint: #EFEBFF;
+  --purple-soft: #C9BCFF;
+
+  --yellow: #FFD24A;
+  --yellow-hover: #FFC21A;
+  --yellow-shadow: #E0AE14;
+  --yellow-tint: #FFF6D6;
+
+  --green: #1FA971;
+  --green-ink: #0E6B45;
+  --green-tint: #E3F7EE;
+  --green-soft: #7EE2B3;
+
+  --error: #C2261E;
+
+  --radius-pill: 999px;
+  --radius-xl: 24px;
+  --radius-lg: 18px;
+  --radius-md: 16px;
+  --radius-sm: 14px;
+  --radius-chip: 10px;
+  --radius-xs: 8px;
+
+  /* spacing scale */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+
+  /* type scale */
+  --text-xs: 12px;
+  --text-sm: 13px;
+  --text-base: 15px;
+  --text-md: 16px;
+  --text-lg: 18px;
+  --text-xl: 22px;
+  --text-2xl: 28px;
+  --text-3xl: 36px;
+
+  --transition-fast: 0.12s ease;
+  --transition-base: 0.25s ease;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  -webkit-text-size-adjust: 100%;
+}
+
+#app, .screen {
+  min-height: 100vh;
+  width: 100%;
+  overflow-x: hidden;
+}
+
+.screen {
+  display: flex;
+  flex-direction: column;
+  padding: var(--space-4) 0 var(--space-7);
+}
+
+.container {
+  width: 100%;
+  max-width: 1160px;
+  margin: 0 auto;
+  padding: 0 var(--space-5);
+}
+
+h1 { font-weight: 800; line-height: 1.08; margin: 0 0 var(--space-4); }
+h2 { font-weight: 800; line-height: 1.15; margin: 0 0 var(--space-3); }
+p { line-height: 1.5; margin: 0; }
+
+/* ---- shared: header bar, logo chip, pills ---- */
+.header-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  margin-bottom: var(--space-5);
+}
+
+.brand { display: flex; align-items: center; gap: var(--space-2); }
+
+.logo-chip {
+  width: 34px;
+  height: 34px;
+  border-radius: var(--radius-chip);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.brand-name {
+  font-weight: 800;
+  font-size: var(--text-lg);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--purple-deep);
+}
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: var(--text-xs);
+  font-weight: 700;
+  padding: 6px 12px;
+  border-radius: var(--radius-pill);
+  white-space: nowrap;
+}
+
+.pill-green { background: var(--green-tint); color: var(--green-ink); }
+.pill-purple-tint { background: var(--purple-tint); color: var(--purple); }
+/* the share pill is a real button: keep it a 48px tap target */
+button.pill { min-height: 48px; padding: 6px 16px; }
+.google-demo-note { margin: 6px 0 0; font-size: var(--text-xs); color: var(--text-muted); text-align: center; }
+.pill-yellow { background: var(--yellow); color: var(--purple-deep); }
+
+/* ---- buttons ---- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  width: 100%;
+  min-height: 56px;
+  padding: var(--space-3) var(--space-5);
+  font-size: var(--text-lg);
+  font-weight: 800;
+  border-radius: var(--radius-md);
+  border: none;
+  cursor: pointer;
+  text-align: center;
+  transition: transform 0.12s ease, box-shadow 0.12s ease, background 0.12s ease;
+}
+
+.btn-cta {
+  background: var(--yellow);
+  color: var(--purple-deep);
+  box-shadow: 0 4px 0 var(--yellow-shadow);
+}
+
+.btn-cta:hover { background: var(--yellow-hover); }
+.btn-cta:active { transform: translateY(3px); box-shadow: 0 1px 0 var(--yellow-shadow); }
+
+.btn-cta-lg { min-height: 60px; font-size: var(--text-xl); }
+
+/* Deep-purple CTA for use on yellow surfaces (e.g. the challenge banner) — .btn-cta's
+   yellow-on-purple-deep styling would otherwise render as a yellow button on a yellow
+   background, nearly invisible. */
+.btn-cta-dark {
+  background: var(--purple-deep);
+  color: #fff;
+}
+
+.btn-cta-dark:hover { background: var(--purple-mid); }
+.btn-cta-dark:active { transform: translateY(2px); }
+
+.btn-outline {
+  background: var(--surface);
+  color: var(--purple);
+  border: 2px solid var(--purple);
+  box-shadow: none;
+}
+
+.btn-outline:hover { background: var(--purple-tint); }
+
+.btn-text {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  font-weight: 700;
+  font-size: var(--text-md);
+  cursor: pointer;
+  padding: var(--space-2);
+  min-height: 48px;
+}
+
+.btn:focus-visible, .option:focus-visible, input:focus-visible, .chip-option:focus-visible {
+  outline: 3px solid var(--purple);
+  outline-offset: 2px;
+}
+
+.fine-print {
+  margin-top: var(--space-3);
+  font-size: var(--text-sm);
+  color: var(--text-muted);
+  text-align: center;
+}
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-4);
+}
+
+.card-dark {
+  background: var(--purple-deep);
+  border-radius: var(--radius-xl);
+  padding: 22px;
+  color: #fff;
+}
+
+/* ================= LANDING ================= */
+.landing-layout {
+  display: flex;
+  flex-wrap: wrap;
+  max-width: 1160px;
+  margin: 0 auto;
+  gap: 28px;
+  padding-bottom: 100px; /* room above the sticky mobile CTA */
+}
+
+.landing-left { flex: 1 1 420px; min-width: 0; }
+.landing-right { flex: 1 1 360px; max-width: 520px; min-width: 0; }
+
+.eyebrow-pill {
+  display: inline-block;
+  background: var(--purple-tint);
+  color: var(--purple);
+  font-size: var(--text-xs);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  padding: 6px 14px;
+  border-radius: var(--radius-pill);
+  margin-bottom: var(--space-4);
+}
+
+.landing-h1 {
+  font-size: clamp(34px, 5.4vw, 60px);
+  color: var(--purple-deep);
+  margin: 0 0 var(--space-4);
+}
+
+.landing-h1 .highlight {
+  background: var(--yellow);
+  border-radius: var(--radius-chip);
+  padding: 0 8px;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+
+.landing-sub {
+  font-size: var(--text-lg);
+  color: var(--text-muted);
+  margin: 0 0 var(--space-5);
+  max-width: 480px;
+}
+
+.check-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-4);
+  margin-top: var(--space-4);
+  font-size: var(--text-sm);
+  color: var(--green-ink);
+  font-weight: 600;
+}
+
+.check-row span::before { content: "\2713 "; }
+
+.hero-q1-eyebrow {
+  color: var(--yellow);
+  font-size: var(--text-xs);
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin: 0 0 2px;
+}
+
+.hero-q1-sub { color: var(--purple-soft); font-size: var(--text-sm); margin: 0 0 var(--space-4); }
+
+.hero-q1-body { display: flex; align-items: flex-start; gap: var(--space-3); margin-bottom: var(--space-4); }
+
+.hero-q1-tile {
+  width: 110px;
+  height: 110px;
+  background: var(--surface);
+  border-radius: var(--radius-md);
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hero-q1-tile svg { width: 100%; height: 100%; }
+
+.hero-q1-prompt { font-size: var(--text-md); font-weight: 700; color: #fff; }
+
+.hero-q1-options {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-2);
+}
+
+.hero-q1-option {
+  min-height: 52px;
+  background: var(--purple-mid);
+  border: 2px solid var(--purple-line);
+  border-radius: var(--radius-sm);
+  color: #fff;
+  font-size: var(--text-sm);
+  font-weight: 700;
+  cursor: pointer;
+  padding: var(--space-2) var(--space-3);
+  transition: border-color var(--transition-fast);
+}
+
+.hero-q1-option:hover { border-color: var(--yellow); }
+
+.steps-strip {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: var(--space-3);
+  margin-top: var(--space-6);
+}
+
+.step-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-4);
+}
+
+.step-num {
+  font-size: var(--text-xs);
+  font-weight: 800;
+  color: var(--purple);
+  margin-bottom: var(--space-1);
+}
+
+.step-title { font-weight: 800; font-size: var(--text-md); margin-bottom: 2px; }
+.step-desc { font-size: var(--text-sm); color: var(--text-muted); }
+
+.sticky-cta {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: var(--space-3) var(--space-5);
+  background: rgba(251, 250, 255, 0.94);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-top: 1px solid var(--border);
+  z-index: 20;
+}
+
+.sticky-cta .btn { min-height: 56px; }
+
+/* ================= QUIZ ================= */
+.quiz-exit-btn {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+  font-size: var(--text-lg);
+  font-weight: 700;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.segmented-progress {
+  display: flex;
+  gap: 4px;
+  margin-bottom: var(--space-4);
+}
+
+.segment {
+  flex: 1;
+  height: 8px;
+  border-radius: var(--radius-xs);
+  background: var(--border);
+}
+
+.segment.is-done { background: var(--purple); }
+.segment.is-current { background: var(--yellow); }
+
+.quiz-meta-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: var(--text-sm);
+  margin-bottom: var(--space-4);
+}
+
+.quiz-meta-category { color: var(--purple); font-weight: 700; }
+.quiz-meta-time { color: var(--text-muted); font-weight: 600; }
+
+/* TIMER_MODE=per_question only. The ring's stroke-dashoffset drains from 0 (full) to
+   its circumference (empty) against the item's own timeBudgetMs; .is-warning (last 5s)
+   switches it to --error. Offset updates come from JS ticks, not a CSS animation, so
+   prefers-reduced-motion only needs to kill the transition's easing (handled by the
+   global reduced-motion block), not disable the timing itself. */
+.question-timer-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-bottom: var(--space-4);
+  flex-wrap: wrap;
+}
+
+.question-timer-ring { position: relative; width: 34px; height: 34px; flex-shrink: 0; }
+.question-timer-ring svg { width: 100%; height: 100%; transform: rotate(-90deg); }
+
+.ring-track { fill: none; stroke: var(--border); stroke-width: 4; }
+
+.ring-progress {
+  fill: none;
+  stroke: var(--yellow);
+  stroke-width: 4;
+  stroke-linecap: round;
+  transition: stroke-dashoffset 0.15s linear, stroke var(--transition-fast);
+}
+
+.ring-progress.is-warning { stroke: var(--error); }
+
+.question-timer-ring-num {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--text-xs);
+  font-weight: 800;
+  color: var(--purple-deep);
+}
+
+.question-timer-label { font-size: var(--text-xs); color: var(--text-muted); font-weight: 600; }
+
+.question-timer-reset-pulse {
+  font-size: var(--text-xs);
+  font-weight: 700;
+  color: var(--green-ink);
+  background: var(--green-tint);
+  padding: 2px 8px;
+  border-radius: var(--radius-pill);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.question-timer-reset-pulse.is-active { opacity: 1; }
+
+.headsup-banner {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  border-radius: var(--radius-md);
+  padding: var(--space-3);
+  margin-bottom: var(--space-4);
+}
+
+/* This class's own `display: flex` is an author rule, so it overrides the browser's
+   default `[hidden] { display: none }` (a user-agent rule loses to any author rule of
+   equal or lower specificity) — without this, the timeout banner (the only
+   .headsup-banner toggled via the hidden attribute) stayed visible from the very start
+   of every question instead of only after the real countdown reached zero. */
+.headsup-banner[hidden] { display: none; }
+
+.headsup-banner.tone-green { background: var(--green-tint); color: var(--green-ink); }
+.headsup-banner.tone-purple { background: var(--purple-tint); color: var(--purple); }
+.headsup-banner.tone-yellow { background: var(--yellow-tint); color: var(--purple-deep); }
+
+.headsup-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--surface);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  flex-shrink: 0;
+}
+
+.headsup-title { font-weight: 800; font-size: var(--text-sm); }
+.headsup-body { font-size: var(--text-xs); opacity: 0.9; }
+
+.quiz-body { display: flex; flex-wrap: wrap; gap: var(--space-5); margin-bottom: var(--space-5); }
+
+.quiz-puzzle-col { flex: 1 1 300px; }
+.quiz-options-col { flex: 1 1 320px; display: flex; flex-direction: column; gap: var(--space-2); }
+
+.quiz-puzzle-tile {
+  width: 100%;
+  max-width: 180px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-3);
+  margin: 0 auto var(--space-4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* width + aspect-ratio (not height:auto) because the item bank's inline SVGs carry no
+   width/height attribute, only a square viewBox; Safari/WebKit can't infer height:auto
+   from viewBox alone and renders the puzzle visual as a blank box, unlike Chromium. */
+.quiz-puzzle-tile svg { width: 100%; max-width: 160px; aspect-ratio: 1 / 1; }
+
+.quiz-prompt {
+  font-size: clamp(19px, 3vw, 24px);
+  font-weight: 800;
+  color: var(--purple-deep);
+}
+
+.chip-option {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  min-height: 58px;
+  padding: var(--space-2) var(--space-3);
+  background: var(--surface);
+  border: 2px solid var(--border);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  text-align: left;
+  font-size: var(--text-md);
+  font-weight: 600;
+  color: var(--text);
+  transition: border-color var(--transition-fast), background var(--transition-fast);
+}
+
+.chip-option:hover { border-color: var(--purple); }
+
+.chip-option.selected {
+  border-color: var(--purple);
+  background: var(--purple-tint);
+}
+
+.option-letter {
+  width: 30px;
+  height: 30px;
+  border-radius: var(--radius-xs);
+  background: var(--purple-tint);
+  color: var(--purple);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: var(--text-sm);
+  flex-shrink: 0;
+  transition: background var(--transition-fast), color var(--transition-fast);
+}
+
+.chip-option.selected .option-letter { background: var(--purple); color: #fff; }
+
+.chip-option .option-visual svg { width: 28px; height: 28px; flex-shrink: 0; }
+
+.quiz-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: var(--text-sm);
+  color: var(--text-muted);
+  font-weight: 600;
+}
+
+.quiz-back-link {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  font-weight: 700;
+  font-size: var(--text-sm);
+  cursor: pointer;
+  min-height: 48px;
+  padding: 0 var(--space-2);
+}
+
+/* exit sheet */
+.exit-scrim {
+  position: fixed;
+  inset: 0;
+  background: rgba(36, 21, 79, 0.55);
+  z-index: 30;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.exit-sheet {
+  width: 100%;
+  max-width: 480px;
+  background: var(--surface);
+  border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+  padding: var(--space-6) var(--space-5) var(--space-5);
+}
+
+.exit-sheet h2 { font-size: var(--text-xl); color: var(--purple-deep); }
+.exit-sheet p { color: var(--text-muted); margin: var(--space-3) 0 var(--space-5); }
+
+/* ================= ANALYZING (gate overlay) ================= */
+.analyzing-overlay {
+  position: absolute;
+  inset: 0;
+  background: var(--purple-deep);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* the overlay covers the whole (tall) gate page, so centre its content on the first
+     screen, not on the page: start ~22vh down and keep it pinned if the visitor scrolls */
+  justify-content: flex-start;
+  z-index: 5;
+  text-align: center;
+  padding: var(--space-5);
+  padding-top: 22vh;
+  border-radius: inherit;
+  color: #fff;
+}
+
+.analyzing-inner { max-width: 440px; width: 100%; position: sticky; top: 22vh; }
+
+.analyzing-title { font-size: var(--text-2xl); margin: var(--space-4) 0 var(--space-5); }
+
+.analyzing-track {
+  width: 100%;
+  height: 10px;
+  background: var(--purple-line);
+  border-radius: var(--radius-xs);
+  overflow: hidden;
+  margin-bottom: var(--space-5);
+}
+
+.analyzing-fill { height: 100%; background: var(--yellow); transition: width 0.6s ease; }
+
+.analyzing-steps { display: flex; flex-direction: column; gap: var(--space-3); text-align: left; }
+
+.analyzing-step { display: flex; align-items: center; gap: var(--space-3); font-size: var(--text-sm); color: var(--purple-soft); }
+
+.analyzing-dot {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  border: 2px solid var(--purple-line);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.analyzing-step.is-done .analyzing-dot { background: var(--green-soft); border-color: var(--green-soft); color: var(--purple-deep); }
+.analyzing-step.is-done { color: #fff; }
+
+/* ================= GATE ================= */
+.screen-gate .container { position: relative; max-width: 860px; }
+
+.gate-progress-track {
+  width: 100%;
+  height: 8px;
+  background: var(--border);
+  border-radius: var(--radius-xs);
+  margin-bottom: var(--space-5);
+  overflow: hidden;
+}
+
+.gate-progress-fill { height: 100%; background: var(--green); transition: width var(--transition-base); }
+
+.gate-layout { display: flex; flex-wrap: wrap; gap: var(--space-4); }
+
+.teaser-panel { flex: 1 1 380px; }
+.form-panel { flex: 1 1 400px; background: var(--surface); border-radius: var(--radius-xl); padding: 22px; }
+
+.teaser-top-pct {
+  font-size: clamp(44px, 6vw, 64px);
+  font-weight: 800;
+  color: var(--yellow);
+  margin: var(--space-2) 0;
+}
+
+.teaser-free-label { font-size: var(--text-xs); color: var(--purple-soft); text-transform: uppercase; letter-spacing: 0.04em; font-weight: 700; }
+
+.iq-chip {
+  display: inline-block;
+  background: var(--purple-mid);
+  border: 1px solid var(--purple-line);
+  border-radius: var(--radius-sm);
+  padding: var(--space-3) var(--space-5);
+  margin: var(--space-3) 0;
+}
+
+.iq-chip-label { font-size: var(--text-xs); color: var(--purple-soft); margin-bottom: 2px; }
+.iq-chip-value { font-size: var(--text-2xl); font-weight: 800; color: #fff; filter: blur(7px); user-select: none; }
+
+.teaser-percentile-line { color: var(--purple-soft); font-size: var(--text-sm); margin-top: var(--space-3); }
+
+.form-cta-note { text-align: center; font-size: var(--text-sm); color: var(--text-muted); margin: var(--space-3) 0 var(--space-4); }
+
+.report-includes-lead { font-size: var(--text-sm); font-weight: 700; margin: 0 0 var(--space-2); }
+
+.report-includes-list { list-style: none; padding: 0; margin: 0 0 var(--space-4); display: flex; flex-direction: column; gap: var(--space-1); }
+
+.report-includes-list li { font-size: var(--text-sm); color: var(--text-muted); padding-left: 22px; position: relative; }
+
+.report-includes-list li::before {
+  content: "\2713";
+  position: absolute;
+  left: 0;
+  color: var(--green-ink);
+  font-weight: 700;
+}
+
+.gate-heads-up {
+  background: var(--yellow-tint);
+  border-radius: var(--radius-sm);
+  padding: var(--space-3);
+  font-size: var(--text-xs);
+  color: var(--purple-deep);
+}
+
+.auth-divider {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin: var(--space-3) 0;
+  color: var(--text-muted);
+  font-size: var(--text-xs);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.auth-divider::before, .auth-divider::after { content: ""; flex: 1; height: 1px; background: var(--border); }
+
+/* Visual preview of the gated report, built from this visitor's own real score —
+   never invented data — blurred to match whatever GATE_MODE actually locks. */
+.signup-preview { margin: var(--space-4) 0; }
+.signup-preview-lead { font-size: var(--text-sm); font-weight: 700; margin: 0 0 var(--space-2); }
+
+.signup-preview-card {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: var(--space-3);
+}
+
+.signup-preview-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: var(--space-3); }
+.signup-preview-iq { font-size: var(--text-2xl); font-weight: 800; color: var(--purple-deep); }
+
+.signup-preview-bars { display: flex; flex-direction: column; gap: 6px; margin-bottom: var(--space-3); }
+.signup-preview-bar { height: 8px; background: var(--purple-tint); border-radius: var(--radius-xs); overflow: hidden; }
+.signup-preview-bar-fill { height: 100%; background: var(--purple); }
+
+.signup-preview-tips { display: flex; flex-direction: column; gap: 4px; margin-bottom: var(--space-3); }
+.signup-preview-tips p { margin: 0; font-size: var(--text-sm); color: var(--text); }
+
+.signup-preview-sharecard {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  background: var(--purple-deep);
+  border-radius: var(--radius-sm);
+  padding: var(--space-2) var(--space-3);
+}
+
+.signup-preview-sharecard-iq { font-size: var(--text-lg); font-weight: 800; color: #fff; }
+.signup-preview-sharecard-label { font-size: var(--text-xs); color: var(--purple-soft); }
+
+.account-strip-note { font-weight: 600; }
+
+#gate-form { display: flex; flex-direction: column; gap: var(--space-3); margin-bottom: var(--space-3); }
+
+.field-label { font-size: var(--text-sm); font-weight: 700; }
+
+#email-input {
+  min-height: 58px;
+  padding: 0 14px;
+  font-size: var(--text-md);
+  border: 2px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--bg);
+  color: var(--text);
+  transition: border-color var(--transition-fast);
+}
+
+#email-input:focus { border-color: var(--purple); }
+#email-input[aria-invalid="true"] { border-color: var(--error); }
+
+.field-error { color: var(--error); font-size: var(--text-sm); margin: 0; }
+
+/* ================= RESULTS ================= */
+.screen-results .container { max-width: 1160px; }
+
+.account-strip {
+  background: var(--green-tint);
+  color: var(--green-ink);
+  border-radius: var(--radius-sm);
+  padding: var(--space-3) var(--space-4);
+  font-size: var(--text-sm);
+  font-weight: 700;
+  margin-bottom: var(--space-5);
+  text-align: center;
+}
+
+.results-hero {
+  background: var(--purple-deep);
+  color: #fff;
+  border-radius: var(--radius-xl);
+  padding: var(--space-6);
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-6);
+  margin-bottom: var(--space-5);
+}
+
+.results-hero-left { flex: 1 1 320px; }
+.results-hero-right { flex: 1 1 280px; max-width: 360px; }
+
+.iq-label { font-size: var(--text-sm); color: var(--purple-soft); margin-bottom: var(--space-2); }
+
+.iq-countup {
+  font-size: clamp(96px, 13vw, 140px);
+  font-weight: 800;
+  line-height: 1;
+  margin-bottom: var(--space-3);
+}
+
+.band-chip {
+  display: inline-block;
+  background: var(--green-soft);
+  color: var(--purple-deep);
+  font-weight: 800;
+  font-size: var(--text-sm);
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-pill);
+  margin-bottom: var(--space-3);
+}
+
+.hero-percentile-line { font-size: var(--text-lg); margin-bottom: var(--space-3); }
+.hero-percentile-line strong { color: var(--yellow); }
+
+.band-bar {
+  display: flex;
+  gap: 3px;
+  height: 10px;
+  margin-bottom: var(--space-3);
+  position: relative;
+}
+
+.band-seg { height: 100%; border-radius: 4px; background: var(--purple-line); }
+.band-seg.is-active { background: var(--yellow); }
+
+.band-fact { font-size: var(--text-xs); color: var(--purple-soft); }
+
+.score-card {
+  background: var(--surface);
+  border-radius: var(--radius-lg);
+  padding: var(--space-5);
+  color: var(--text);
+  text-align: center;
+}
+
+.score-card-label { font-size: var(--text-xs); font-weight: 800; letter-spacing: 0.06em; color: var(--text-muted); margin-bottom: var(--space-2); }
+.score-card-iq { font-size: var(--text-3xl); font-weight: 800; color: var(--purple-deep); }
+
+.score-card-archetype {
+  display: inline-block;
+  background: var(--yellow);
+  color: var(--purple-deep);
+  font-weight: 800;
+  font-size: var(--text-sm);
+  padding: 4px var(--space-3);
+  border-radius: var(--radius-pill);
+  margin: var(--space-2) 0;
+}
+
+.score-card-line { font-size: var(--text-sm); color: var(--text-muted); margin-bottom: var(--space-4); }
+
+.insight-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: var(--space-3);
+  margin-bottom: var(--space-5);
+}
+
+.insight-card { border-radius: var(--radius-lg); padding: var(--space-4); border: 1px solid var(--border); }
+.insight-card.tone-green { background: var(--green-tint); border-color: transparent; }
+.insight-card.tone-yellow { background: var(--yellow-tint); border-color: transparent; }
+.insight-card.tone-purple { background: var(--purple-tint); border-color: transparent; }
+
+.insight-title { font-size: var(--text-xs); font-weight: 800; text-transform: uppercase; letter-spacing: 0.03em; margin-bottom: var(--space-2); color: var(--text-muted); }
+.insight-body { font-size: var(--text-sm); color: var(--text); font-weight: 600; }
+
+.skill-section { margin-bottom: var(--space-5); }
+
+.skill-row { margin-bottom: var(--space-3); }
+.skill-row-head { display: flex; justify-content: space-between; font-size: var(--text-sm); font-weight: 700; margin-bottom: var(--space-1); }
+
+.skill-track { height: 12px; background: var(--purple-tint); border-radius: var(--radius-xs); overflow: hidden; }
+.skill-fill { height: 100%; border-radius: var(--radius-xs); }
+.skill-fill.tone-green { background: var(--green); }
+.skill-fill.tone-yellow { background: var(--yellow); }
+.skill-fill.tone-purple { background: var(--purple); }
+
+.tips-section { margin-bottom: var(--space-5); }
+.tips-list { list-style: none; padding: 0; margin: var(--space-3) 0 0; display: flex; flex-direction: column; gap: var(--space-2); }
+.tips-list li { font-size: var(--text-sm); color: var(--text-muted); padding-left: 22px; position: relative; }
+.tips-list li::before { content: "\2192"; position: absolute; left: 0; color: var(--purple); font-weight: 700; }
+
+.challenge-banner {
+  background: var(--yellow);
+  border-radius: var(--radius-xl);
+  padding: var(--space-5);
+  text-align: center;
+  margin-bottom: var(--space-4);
+}
+
+.challenge-banner h2 { color: var(--purple-deep); font-size: var(--text-xl); }
+.challenge-banner .result-actions { max-width: 480px; margin: var(--space-4) auto 0; }
+
+.result-actions { display: flex; flex-direction: column; gap: var(--space-3); }
+
+.share-feedback { text-align: center; color: var(--green-ink); font-size: var(--text-sm); margin-top: var(--space-3); font-weight: 700; }
+
+/* share sheet */
+.share-scrim {
+  position: fixed;
+  inset: 0;
+  background: rgba(36, 21, 79, 0.55);
+  z-index: 30;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.share-sheet {
+  width: 100%;
+  max-width: 480px;
+  background: var(--surface);
+  border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+  padding: var(--space-5);
+}
+
+.share-sheet-dark {
+  background: var(--purple-deep);
+  color: #fff;
+  border-radius: var(--radius-lg);
+  padding: var(--space-4);
+  margin-bottom: var(--space-4);
+  text-align: center;
+}
+
+.share-sheet-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-2);
+}
+
+.share-channel-btn {
+  min-height: 56px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+  background: var(--surface);
+  font-size: var(--text-sm);
+  font-weight: 700;
+  cursor: pointer;
+  color: var(--text);
+}
+
+.share-channel-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+.share-sheet-close {
+  width: 100%;
+  margin-top: var(--space-3);
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  font-weight: 700;
+  min-height: 48px;
+  cursor: pointer;
+}
+
+/* ================= responsive ================= */
+
+@media (min-width: 720px) {
+  .sticky-cta { display: none; }
+  .landing-layout { padding-bottom: 32px; }
+  .quiz-footer { font-size: var(--text-md); }
+}
+
+/* ---- motion ---- */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+</style>
+</head>
+<body>
+<div id="app"></div>
+<script>
+// Single source of truth for every flow flag. scripts/build.js may override any of these
+// with --set FLAG=value when producing a Part 2 variant; never fork this file per variant.
+window.IQLY_CONFIG = {
+  // 'direct' = landing CTA goes to Q1; the hero Q1 card is a non-answerable preview that
+  //   also starts the quiz when tapped (control).
+  // 'with_overview' = show a 1-screen "what to expect" summary first (backlog, unbuilt).
+  // 'hero_q1' = the hero Q1 card's options become answerable (data-qa="answer"); tapping
+  //   one starts the quiz AND records that answer for Q1 (Part 2 variant 1).
+  ENTRY_MODE: 'direct',
+
+  // Number of items drawn from src/items/bank.json, in bank order (ascending difficulty).
+  // Bank holds 20 authored items so a future 20-question backlog test needs no new content.
+  NUM_QUESTIONS: 12,
+
+  // 'teaser_locked' = percentile free, exact IQ + report gated (control).
+  // 'all_locked' = nothing shown before signup (backlog, implemented).
+  // 'score_free_report_gated' = exact IQ shown free, only skill profile/tips gated (Part 2 variant 3).
+  GATE_MODE: 'teaser_locked',
+
+  // 'none' = no visible countdown (control); speed bonus still applies silently.
+  // 'soft' = ambient, non-threatening pacing cue (backlog, unbuilt).
+  // 'per_question' = visible countdown ring/bar against the item's own timeBudgetMs;
+  //   at zero, shows "Time's up. Take your best guess" and does NOT auto-advance or
+  //   mark the item wrong (Part 2 variant 1); tracks question_timeout {questionIndex}.
+  TIMER_MODE: 'none',
+
+  // Small, de-emphasized back button during the quiz.
+  BACK_BUTTON: true,
+
+  // true = selecting an answer shows the selected state for 220ms then auto-advances
+  // (next question screen has no data-qa="next" element). false = screens show an
+  // explicit data-qa="next" button.
+  AUTO_ADVANCE: true,
+
+  // Dwell time of the "analyzing" overlay before it auto-advances to reveal the gate.
+  ANALYZING_DURATION_MS: 2600,
+
+  // 'off' = no exit (x) button during the quiz (control).
+  // 'on' = an x button opens an exit sheet showing how close the visitor is to their
+  //   score, with "Keep Going" / "Leave anyway" (Part 2 variant 2).
+  EXIT_SHEET: 'on',
+
+  // Share button(s) on the results screen (header pill, score card, challenge banner).
+  SHARE_ENABLED: true,
+
+  // Optional URL appended to the "copy link" share text. Empty by default — if empty,
+  // only the share text itself is copied, never a placeholder/fake URL.
+  SHARE_URL: '',
+
+  // Scoring model constants from the iq-quiz-builder skill. These are placeholder
+  // assumptions (no real completion data exists yet), not measured statistics.
+  SCORING: {
+    SPEED_BONUS_MAX_PCT: 0.2,
+    MU: 0.5,
+    SD: 0.18,
+    IQ_MIN: 70,
+    IQ_MAX: 145,
+  },
+};
+
+</script>
+<script>
+window.IQLY_BANK = [{"id":"mx-001","type":"matrix","difficulty":1,"timeBudgetMs":12000,"prompt":"Which option completes the pattern? Top row: 1 dot, 2 dots. Bottom row: 2 dots, ?","svg":"<svg viewBox='0 0 100 100'><circle cx='25' cy='25' r='5' fill='#000'/><circle cx='65' cy='20' r='5' fill='#000'/><circle cx='80' cy='30' r='5' fill='#000'/><circle cx='15' cy='70' r='5' fill='#000'/><circle cx='30' cy='80' r='5' fill='#000'/><text x='75' y='82' font-size='20' text-anchor='middle'>?</text><line x1='50' y1='0' x2='50' y2='100' stroke='#ccc'/><line x1='0' y1='50' x2='100' y2='50' stroke='#ccc'/></svg>","options":[{"text":"2 dots","svg":"<svg viewBox='0 0 40 40'><circle cx='12' cy='20' r='4' fill='#000'/><circle cx='28' cy='20' r='4' fill='#000'/></svg>","correct":false},{"text":"3 dots","svg":"<svg viewBox='0 0 40 40'><circle cx='10' cy='28' r='4' fill='#000'/><circle cx='20' cy='10' r='4' fill='#000'/><circle cx='30' cy='28' r='4' fill='#000'/></svg>","correct":true},{"text":"4 dots","svg":"<svg viewBox='0 0 40 40'><circle cx='10' cy='10' r='4' fill='#000'/><circle cx='30' cy='10' r='4' fill='#000'/><circle cx='10' cy='30' r='4' fill='#000'/><circle cx='30' cy='30' r='4' fill='#000'/></svg>","correct":false},{"text":"1 dot","svg":"<svg viewBox='0 0 40 40'><circle cx='20' cy='20' r='4' fill='#000'/></svg>","correct":false}],"explanation":"Each row's dot count increases by 1 from left to right: top row goes 1 to 2, so bottom row must go 2 to 3."},{"id":"ns-001","type":"number-series","difficulty":1,"timeBudgetMs":12000,"prompt":"What number comes next: 4, 9, 14, 19, ?","svg":"","options":[{"text":"23","correct":false},{"text":"24","correct":true},{"text":"25","correct":false},{"text":"29","correct":false}],"explanation":"Constant rule: add 5 each step (4, 9, 14, 19, 24)."},{"id":"lg-001","type":"logic","difficulty":1,"timeBudgetMs":15000,"prompt":"All IQly participants who score above 130 earn a \"Sharp Thinker\" badge. Maya scored above 130. What must be true?","svg":"","options":[{"text":"Maya earned a Sharp Thinker badge.","correct":true},{"text":"Maya did not earn a badge.","correct":false},{"text":"Everyone who earns a badge scored above 130.","correct":false},{"text":"Maya scored exactly 130.","correct":false}],"explanation":"Direct application of the rule: Maya meets the condition (scored above 130), so the rule's outcome applies to her (she earns the badge)."},{"id":"sp-001","type":"spatial","difficulty":2,"timeBudgetMs":18000,"prompt":"This flag is rotated 180° and then reflected horizontally (mirrored left-right). Which option shows the result?","svg":"<svg viewBox='0 0 100 100'><line x1='50' y1='10' x2='50' y2='90' stroke='#000' stroke-width='4'/><polygon points='50,10 80,20 50,30' fill='#000'/></svg>","options":[{"text":"Flag at top, pointing right","svg":"<svg viewBox='0 0 40 40'><line x1='20' y1='4' x2='20' y2='36' stroke='#000' stroke-width='3'/><polygon points='20,4 32,8 20,12' fill='#000'/></svg>","correct":false},{"text":"Flag at bottom, pointing right","svg":"<svg viewBox='0 0 40 40'><line x1='20' y1='4' x2='20' y2='36' stroke='#000' stroke-width='3'/><polygon points='20,28 32,32 20,36' fill='#000'/></svg>","correct":true},{"text":"Flag at bottom, pointing left","svg":"<svg viewBox='0 0 40 40'><line x1='20' y1='4' x2='20' y2='36' stroke='#000' stroke-width='3'/><polygon points='20,28 8,32 20,36' fill='#000'/></svg>","correct":false},{"text":"Flag at top, pointing left","svg":"<svg viewBox='0 0 40 40'><line x1='20' y1='4' x2='20' y2='36' stroke='#000' stroke-width='3'/><polygon points='20,4 8,8 20,12' fill='#000'/></svg>","correct":false}],"explanation":"Rotating 180° moves the flag to the bottom of the pole and flips it to point left. Reflecting that horizontally flips it back to pointing right while it stays at the bottom. Net effect: flag moves to the bottom, still pointing right."},{"id":"mx-002","type":"matrix","difficulty":2,"timeBudgetMs":15000,"prompt":"Which option completes the 2x2 pattern? Top row: filled circle, filled square. Bottom row: empty circle, ?","svg":"<svg viewBox='0 0 100 100'><circle cx='25' cy='25' r='15' fill='#000'/><rect x='60' y='10' width='30' height='30' fill='#000'/><circle cx='25' cy='75' r='15' fill='none' stroke='#000' stroke-width='3'/><text x='75' y='82' font-size='20' text-anchor='middle'>?</text><line x1='50' y1='0' x2='50' y2='100' stroke='#ccc'/><line x1='0' y1='50' x2='100' y2='50' stroke='#ccc'/></svg>","options":[{"text":"Filled square","svg":"<svg viewBox='0 0 40 40'><rect x='5' y='5' width='30' height='30' fill='#000'/></svg>","correct":false},{"text":"Empty square","svg":"<svg viewBox='0 0 40 40'><rect x='5' y='5' width='30' height='30' fill='none' stroke='#000' stroke-width='3'/></svg>","correct":true},{"text":"Empty circle","svg":"<svg viewBox='0 0 40 40'><circle cx='20' cy='20' r='15' fill='none' stroke='#000' stroke-width='3'/></svg>","correct":false},{"text":"Filled circle","svg":"<svg viewBox='0 0 40 40'><circle cx='20' cy='20' r='15' fill='#000'/></svg>","correct":false}],"explanation":"Shape is set by column (circles on the left, squares on the right); fill is set by row (filled on top, empty on the bottom). The bottom-right cell must be an empty square."},{"id":"ns-002","type":"number-series","difficulty":3,"timeBudgetMs":22000,"prompt":"What number comes next: 2, 10, 4, 8, 6, 6, 8, ?","svg":"","options":[{"text":"2","correct":false},{"text":"4","correct":true},{"text":"8","correct":false},{"text":"10","correct":false}],"explanation":"Two series are interleaved: the odd positions increase by 2 (2, 4, 6, 8) and the even positions decrease by 2 (10, 8, 6, 4). The next number continues the decreasing series: 4."},{"id":"lg-002","type":"logic","difficulty":3,"timeBudgetMs":20000,"prompt":"Every test-taker who answers all spatial items correctly receives a \"Visualizer\" tag. Every test-taker with a \"Visualizer\" tag is shown bonus spatial puzzles next time. Noor answered all spatial items correctly. What must be true?","svg":"","options":[{"text":"Noor will be shown bonus spatial puzzles next time.","correct":true},{"text":"Noor received a Visualizer tag but no bonus puzzles.","correct":false},{"text":"Noor was shown bonus puzzles without the tag.","correct":false},{"text":"Everyone shown bonus puzzles answered all spatial items correctly.","correct":false}],"explanation":"Chaining the two rules: answering all spatial items correctly guarantees the tag, and the tag guarantees bonus puzzles next time — so Noor will be shown bonus puzzles."},{"id":"mx-003","type":"matrix","difficulty":3,"timeBudgetMs":22000,"prompt":"Which option completes the 3x3 pattern? Each row is one shape (circles, squares, triangles); each column is one size (small, medium, large).","svg":"<svg viewBox='0 0 150 150'><circle cx='25' cy='25' r='8' fill='#000'/><circle cx='75' cy='25' r='14' fill='#000'/><circle cx='125' cy='25' r='20' fill='#000'/><rect x='17' y='67' width='16' height='16' fill='#000'/><rect x='61' y='61' width='28' height='28' fill='#000'/><rect x='105' y='55' width='40' height='40' fill='#000'/><polygon points='25,117 18,129 32,129' fill='#000'/><polygon points='75,111 63,132 87,132' fill='#000'/><text x='125' y='130' font-size='20' text-anchor='middle'>?</text><line x1='50' y1='0' x2='50' y2='150' stroke='#ccc'/><line x1='100' y1='0' x2='100' y2='150' stroke='#ccc'/><line x1='0' y1='50' x2='150' y2='50' stroke='#ccc'/><line x1='0' y1='100' x2='150' y2='100' stroke='#ccc'/></svg>","options":[{"text":"Medium triangle","svg":"<svg viewBox='0 0 40 40'><polygon points='20,11 8,27 32,27' fill='#000'/></svg>","correct":false},{"text":"Large triangle","svg":"<svg viewBox='0 0 40 40'><polygon points='20,6 3,30 37,30' fill='#000'/></svg>","correct":true},{"text":"Large square","svg":"<svg viewBox='0 0 40 40'><rect x='2' y='2' width='36' height='36' fill='#000'/></svg>","correct":false},{"text":"Small triangle","svg":"<svg viewBox='0 0 40 40'><polygon points='20,16 13,24 27,24' fill='#000'/></svg>","correct":false}],"explanation":"The missing cell is in the triangle row and the large-size column, so it must be a large triangle."},{"id":"sp-002","type":"spatial","difficulty":4,"timeBudgetMs":25000,"prompt":"Which piece exactly fills the dashed gap to complete the square?","svg":"<svg viewBox='0 0 80 80'><polygon points='0,0 80,0 80,80' fill='#999'/><polygon points='0,0 80,80 0,80' fill='none' stroke='#000' stroke-width='2' stroke-dasharray='4,3'/></svg>","options":[{"text":"Piece A","svg":"<svg viewBox='0 0 40 40'><polygon points='0,0 40,40 0,40' fill='#999'/></svg>","correct":true},{"text":"Piece B","svg":"<svg viewBox='0 0 40 40'><polygon points='40,0 0,40 40,40' fill='#999'/></svg>","correct":false},{"text":"Piece C","svg":"<svg viewBox='0 0 40 40'><polygon points='0,0 40,0 0,40' fill='#999'/></svg>","correct":false},{"text":"Piece D","svg":"<svg viewBox='0 0 40 40'><polygon points='0,10 30,40 0,40' fill='#999'/></svg>","correct":false}],"explanation":"The gap is a right triangle with its right angle at the bottom-left corner and legs that run the full length of two sides. Piece A is the only option that matches that exact shape, size, and orientation — the others are a mirror image, have the right angle in the wrong corner, or are too small."},{"id":"ns-003","type":"number-series","difficulty":4,"timeBudgetMs":25000,"prompt":"What number comes next: 2, 3, 6, 18, ?","svg":"","options":[{"text":"24","correct":false},{"text":"36","correct":false},{"text":"54","correct":false},{"text":"108","correct":true}],"explanation":"Each term is the product of the two terms before it: 2×3=6, 3×6=18, 6×18=108."},{"id":"lg-003","type":"logic","difficulty":5,"timeBudgetMs":30000,"prompt":"Every player who completes all three bonus rounds earns a Gold Ribbon. No player with a Gold Ribbon has a final score under 500. Theo's final score was under 500. Which of the following must be true?","svg":"","options":[{"text":"Theo did not complete all three bonus rounds.","correct":true},{"text":"Theo completed all three bonus rounds.","correct":false},{"text":"Theo has a Gold Ribbon.","correct":false},{"text":"Theo's final score was 500 or more.","correct":false}],"explanation":"Since Theo's score was under 500, he cannot have a Gold Ribbon (no ribboned player scores that low). Since only players who complete all three bonus rounds earn the ribbon, Theo must not have completed all three bonus rounds."},{"id":"mx-004","type":"matrix","difficulty":5,"timeBudgetMs":30000,"prompt":"Which option completes the 3x3 pattern? Each row is one shape (circles, squares, triangles). The fill cycles black → outline → gray as the row number plus the column number increases.","svg":"<svg viewBox='0 0 150 150'><circle cx='25' cy='25' r='16' fill='#000'/><circle cx='75' cy='25' r='16' fill='none' stroke='#000' stroke-width='3'/><circle cx='125' cy='25' r='16' fill='#999'/><rect x='9' y='59' width='32' height='32' fill='none' stroke='#000' stroke-width='3'/><rect x='59' y='59' width='32' height='32' fill='#999'/><rect x='109' y='59' width='32' height='32' fill='#000'/><polygon points='25,109 11,133 39,133' fill='#999'/><polygon points='75,109 61,133 89,133' fill='#000'/><text x='125' y='128' font-size='20' text-anchor='middle'>?</text><line x1='50' y1='0' x2='50' y2='150' stroke='#ccc'/><line x1='100' y1='0' x2='100' y2='150' stroke='#ccc'/><line x1='0' y1='50' x2='150' y2='50' stroke='#ccc'/><line x1='0' y1='100' x2='150' y2='100' stroke='#ccc'/></svg>","options":[{"text":"Outline triangle","svg":"<svg viewBox='0 0 40 40'><polygon points='20,6 6,28 34,28' fill='none' stroke='#000' stroke-width='3'/></svg>","correct":true},{"text":"Black triangle","svg":"<svg viewBox='0 0 40 40'><polygon points='20,6 6,28 34,28' fill='#000'/></svg>","correct":false},{"text":"Gray triangle","svg":"<svg viewBox='0 0 40 40'><polygon points='20,6 6,28 34,28' fill='#999'/></svg>","correct":false},{"text":"Outline square","svg":"<svg viewBox='0 0 40 40'><rect x='4' y='4' width='32' height='32' fill='none' stroke='#000' stroke-width='3'/></svg>","correct":false}],"explanation":"Shape depends on the row (circle, square, triangle). Fill depends on both row and column together, cycling black / outline / gray as their sum increases. For the bottom-right cell (row 3, column 3) that sum lands back on outline, and the row gives triangle — so the answer is an outline triangle. You need both coordinates to find the fill, not just one."},{"id":"mx-005","type":"matrix","difficulty":5,"timeBudgetMs":30000,"prompt":"Which option completes the 3x3 pattern? Each column is one shape (circles, squares, triangles). The size cycles small → medium → large as the row number plus the column number increases.","svg":"<svg viewBox='0 0 150 150'><circle cx='25' cy='25' r='8' fill='#000'/><rect x='61' y='11' width='28' height='28' fill='#000'/><polygon points='125,5 108,35 142,35' fill='#000'/><circle cx='25' cy='75' r='14' fill='#000'/><rect x='55' y='55' width='40' height='40' fill='#000'/><polygon points='125,67 118,79 132,79' fill='#000'/><circle cx='25' cy='125' r='20' fill='#000'/><rect x='67' y='117' width='16' height='16' fill='#000'/><text x='125' y='130' font-size='20' text-anchor='middle'>?</text><line x1='50' y1='0' x2='50' y2='150' stroke='#ccc'/><line x1='100' y1='0' x2='100' y2='150' stroke='#ccc'/><line x1='0' y1='50' x2='150' y2='50' stroke='#ccc'/><line x1='0' y1='100' x2='150' y2='100' stroke='#ccc'/></svg>","options":[{"text":"Medium triangle","svg":"<svg viewBox='0 0 40 40'><polygon points='20,11 8,27 32,27' fill='#000'/></svg>","correct":true},{"text":"Large triangle","svg":"<svg viewBox='0 0 40 40'><polygon points='20,6 3,30 37,30' fill='#000'/></svg>","correct":false},{"text":"Small triangle","svg":"<svg viewBox='0 0 40 40'><polygon points='20,16 13,24 27,24' fill='#000'/></svg>","correct":false},{"text":"Medium square","svg":"<svg viewBox='0 0 40 40'><rect x='6' y='6' width='28' height='28' fill='#000'/></svg>","correct":false}],"explanation":"Shape depends on the column (circle, square, triangle), so the bottom-right cell is a triangle. Size cycles small/medium/large as (row + column - 2) mod 3 increases: for row 3, column 3 that's (3+3-2) mod 3 = 1, which is the medium step. You need both coordinates to find the size, and the column to find the shape."},{"id":"ns-004","type":"number-series","difficulty":5,"timeBudgetMs":30000,"prompt":"What number comes next: 2, 4, 8, 15, 32, 64, ?","svg":"","options":[{"text":"30","correct":false},{"text":"96","correct":false},{"text":"120","correct":false},{"text":"128","correct":true}],"explanation":"The underlying rule is doubling (2, 4, 8, 16, 32, 64, 128, ...). The \"15\" is a red herring — it breaks the pattern, but the terms right after it (32, 64) only make sense continuing the doubling from 16, not from 15. So the next term is 64 × 2 = 128."},{"id":"lg-004","type":"logic","difficulty":5,"timeBudgetMs":30000,"prompt":"Every member who completes the advanced workshop receives a Mentor certificate. Every member with a Mentor certificate is invited to lead a study group. Every member who leads a study group gets priority scheduling. Priya completed the advanced workshop. Which of the following must be true?","svg":"","options":[{"text":"Priya will get priority scheduling.","correct":true},{"text":"Priya received a Mentor certificate but not priority scheduling.","correct":false},{"text":"Priya was invited to lead a study group but was never certified.","correct":false},{"text":"Everyone with priority scheduling completed the advanced workshop.","correct":false}],"explanation":"This is a forward chain, not a reverse one: Priya completing the workshop guarantees the certificate (premise 1), the certificate guarantees the study-group invitation (premise 2), and the invitation guarantees priority scheduling (premise 3) — so all three follow for Priya in order, ending in priority scheduling."},{"id":"mx-006","type":"matrix","difficulty":5,"timeBudgetMs":30000,"prompt":"Which option completes the 3x3 pattern? Each cell has one arrow. The direction cycles up → right → down → left as the row number plus the column number increases.","svg":"<svg viewBox='0 0 150 150'><polygon points='25,40 10,10 40,10' fill='#000'/><polygon points='60,25 90,10 90,40' fill='#000'/><polygon points='125,10 110,40 140,40' fill='#000'/><polygon points='10,75 40,60 40,90' fill='#000'/><polygon points='75,60 60,90 90,90' fill='#000'/><polygon points='140,75 110,60 110,90' fill='#000'/><polygon points='25,110 10,140 40,140' fill='#000'/><polygon points='90,125 60,110 60,140' fill='#000'/><text x='125' y='128' font-size='20' text-anchor='middle'>?</text><line x1='50' y1='0' x2='50' y2='150' stroke='#ccc'/><line x1='100' y1='0' x2='100' y2='150' stroke='#ccc'/><line x1='0' y1='50' x2='150' y2='50' stroke='#ccc'/><line x1='0' y1='100' x2='150' y2='100' stroke='#ccc'/></svg>","options":[{"text":"Arrow pointing down","svg":"<svg viewBox='0 0 40 40'><polygon points='20,32 8,8 32,8' fill='#000'/></svg>","correct":true},{"text":"Arrow pointing up","svg":"<svg viewBox='0 0 40 40'><polygon points='20,8 8,32 32,32' fill='#000'/></svg>","correct":false},{"text":"Arrow pointing left","svg":"<svg viewBox='0 0 40 40'><polygon points='8,20 32,8 32,32' fill='#000'/></svg>","correct":false},{"text":"Arrow pointing right","svg":"<svg viewBox='0 0 40 40'><polygon points='32,20 8,8 8,32' fill='#000'/></svg>","correct":false}],"explanation":"The arrow's direction cycles up → right → down → left as (row + column) increases, wrapping every 4 steps. For the bottom-right cell, row + column = 6, and 6 mod 4 = 2, which is the \"down\" step."},{"id":"ns-005","type":"number-series","difficulty":5,"timeBudgetMs":30000,"prompt":"What number comes next: 1, 4, 9, 17, 25, 36, ?","svg":"","options":[{"text":"42","correct":false},{"text":"48","correct":false},{"text":"49","correct":true},{"text":"64","correct":false}],"explanation":"The rule is consecutive squares: 1², 2², 3², 4², 5², 6², 7² = 1, 4, 9, 16, 25, 36, 49. The \"17\" is a red herring — it doesn't fit the squares pattern, but 25 and 36 confirm the sequence is squares continuing normally, so the next term is 7² = 49."},{"id":"lg-005","type":"logic","difficulty":5,"timeBudgetMs":30000,"prompt":"Either Ravi or Sana scored the final round, but not both. Ravi never scores using a 10-point scale. The final round was scored using a 10-point scale. Which of the following must be true?","svg":"","options":[{"text":"Sana scored the final round.","correct":true},{"text":"Ravi scored the final round.","correct":false},{"text":"Both Ravi and Sana scored the final round.","correct":false},{"text":"Sana never uses a 10-point scale.","correct":false}],"explanation":"Ravi never uses a 10-point scale, but the final round was scored on one, so Ravi could not have been the scorer. Since exactly one of the two scored it and it wasn't Ravi, it must have been Sana — elimination between two named options, not a chain of conditionals."},{"id":"mx-007","type":"matrix","difficulty":5,"timeBudgetMs":30000,"prompt":"Which option completes the 3x3 pattern? The number of dots in each cell equals (row number × column number) mod 4, plus 1.","svg":"<svg viewBox='0 0 150 150'><circle cx='15' cy='25' r='6' fill='#000'/><circle cx='35' cy='25' r='6' fill='#000'/><circle cx='75' cy='15' r='6' fill='#000'/><circle cx='65' cy='35' r='6' fill='#000'/><circle cx='85' cy='35' r='6' fill='#000'/><circle cx='115' cy='15' r='6' fill='#000'/><circle cx='135' cy='15' r='6' fill='#000'/><circle cx='115' cy='35' r='6' fill='#000'/><circle cx='135' cy='35' r='6' fill='#000'/><circle cx='25' cy='65' r='6' fill='#000'/><circle cx='15' cy='85' r='6' fill='#000'/><circle cx='35' cy='85' r='6' fill='#000'/><circle cx='75' cy='75' r='6' fill='#000'/><circle cx='125' cy='65' r='6' fill='#000'/><circle cx='115' cy='85' r='6' fill='#000'/><circle cx='135' cy='85' r='6' fill='#000'/><circle cx='15' cy='115' r='6' fill='#000'/><circle cx='35' cy='115' r='6' fill='#000'/><circle cx='15' cy='135' r='6' fill='#000'/><circle cx='35' cy='135' r='6' fill='#000'/><circle cx='75' cy='115' r='6' fill='#000'/><circle cx='65' cy='135' r='6' fill='#000'/><circle cx='85' cy='135' r='6' fill='#000'/><text x='125' y='130' font-size='20' text-anchor='middle'>?</text><line x1='50' y1='0' x2='50' y2='150' stroke='#ccc'/><line x1='100' y1='0' x2='100' y2='150' stroke='#ccc'/><line x1='0' y1='50' x2='150' y2='50' stroke='#ccc'/><line x1='0' y1='100' x2='150' y2='100' stroke='#ccc'/></svg>","options":[{"text":"2 dots","svg":"<svg viewBox='0 0 40 40'><circle cx='12' cy='20' r='4' fill='#000'/><circle cx='28' cy='20' r='4' fill='#000'/></svg>","correct":true},{"text":"1 dot","svg":"<svg viewBox='0 0 40 40'><circle cx='20' cy='20' r='4' fill='#000'/></svg>","correct":false},{"text":"3 dots","svg":"<svg viewBox='0 0 40 40'><circle cx='10' cy='28' r='4' fill='#000'/><circle cx='20' cy='10' r='4' fill='#000'/><circle cx='30' cy='28' r='4' fill='#000'/></svg>","correct":false},{"text":"4 dots","svg":"<svg viewBox='0 0 40 40'><circle cx='10' cy='10' r='4' fill='#000'/><circle cx='30' cy='10' r='4' fill='#000'/><circle cx='10' cy='30' r='4' fill='#000'/><circle cx='30' cy='30' r='4' fill='#000'/></svg>","correct":false}],"explanation":"The dot count is (row × column) mod 4, plus 1. For the bottom-right cell, 3 × 3 = 9, and 9 mod 4 = 1, plus 1 = 2 dots."},{"id":"sp-003","type":"spatial","difficulty":5,"timeBudgetMs":30000,"prompt":"This is the front view of a house, with its door on the left. If you walk around to view it from the back, which option shows what you'd see?","svg":"<svg viewBox='0 0 100 100'><polygon points='0,40 80,40 40,0' fill='#000'/><rect x='0' y='40' width='80' height='60' fill='none' stroke='#000' stroke-width='3'/><rect x='10' y='65' width='15' height='35' fill='#000'/></svg>","options":[{"text":"Door on the right","svg":"<svg viewBox='0 0 40 40'><polygon points='0,16 32,16 16,0' fill='#000'/><rect x='0' y='16' width='32' height='24' fill='none' stroke='#000' stroke-width='2'/><rect x='22' y='27' width='6' height='13' fill='#000'/></svg>","correct":true},{"text":"Door on the left","svg":"<svg viewBox='0 0 40 40'><polygon points='0,16 32,16 16,0' fill='#000'/><rect x='0' y='16' width='32' height='24' fill='none' stroke='#000' stroke-width='2'/><rect x='4' y='27' width='6' height='13' fill='#000'/></svg>","correct":false},{"text":"Door in the center","svg":"<svg viewBox='0 0 40 40'><polygon points='0,16 32,16 16,0' fill='#000'/><rect x='0' y='16' width='32' height='24' fill='none' stroke='#000' stroke-width='2'/><rect x='13' y='27' width='6' height='13' fill='#000'/></svg>","correct":false},{"text":"Flat roof, door on the left","svg":"<svg viewBox='0 0 40 40'><rect x='0' y='10' width='32' height='6' fill='#000'/><rect x='0' y='16' width='32' height='24' fill='none' stroke='#000' stroke-width='2'/><rect x='4' y='27' width='6' height='13' fill='#000'/></svg>","correct":false}],"explanation":"Walking around to the back of the house mirrors your view left-to-right — a door on the left from the front appears on the right from the back. The roof shape doesn't change since it's symmetric from any front-facing angle."}];
+// IQly Funnel v4 engine: single state machine driving landing -> quiz -> gate (with an
+// analyzing overlay) -> results. Reads window.IQLY_CONFIG and window.IQLY_BANK (both
+// inlined by scripts/build.js). Re-implements the "IQly Funnel v4" design handoff
+// (Design system setup needed/design_handoff_iqly_funnel_v4/README.md) in this file's
+// own string-template render*() pattern — not a copy of the prototype's code.
+(function () {
+  'use strict';
+
+  var CONFIG = window.IQLY_CONFIG;
+  var BANK = window.IQLY_BANK || [];
+  var STORAGE_KEY = 'iqly_v1_state';
+
+  var TYPE_LABELS = {
+    'matrix': 'Pattern Recognition',
+    'number-series': 'Numerical Reasoning',
+    'logic': 'Logical Deduction',
+    'spatial': 'Spatial Reasoning',
+  };
+
+  // Deterministic from the user's own answers (accuracy per category) — no invented stats.
+  // Priority order below only breaks exact ties; it never overrides a real higher accuracy.
+  var ARCHETYPES = {
+    'matrix': { name: 'Pattern Hunter', description: 'You spot hidden visual rules faster than most — patterns rarely escape you.' },
+    'number-series': { name: 'Number Navigator', description: 'You see the logic inside a sequence almost instantly.' },
+    'logic': { name: 'Logic Architect', description: 'You build airtight conclusions from just a few clues.' },
+    'spatial': { name: 'Spatial Visionary', description: 'You can rotate, flip, and rebuild shapes entirely in your head.' },
+  };
+  var ARCHETYPE_PRIORITY = ['matrix', 'number-series', 'logic', 'spatial'];
+
+  // Original practice tips (not from the design prototype, which only sketches the
+  // mechanism) — three honest, generic test-taking tips per category, no fake claims.
+  var TIPS = {
+    'matrix': [
+      'Scan each row and column separately before combining the rule — most grids change one attribute at a time.',
+      'If a shape repeats, check its size and fill, not just its outline — more than one attribute can shift together.',
+      'When stuck, test your best guess against every other cell in the grid, not just the one next to the gap.',
+    ],
+    'number-series': [
+      'Check the simplest rule first — constant addition or multiplication — before assuming something complex.',
+      'Write out the differences between consecutive terms; a pattern in the differences often reveals the real rule.',
+      'Watch for a number that breaks the pattern — it may be a one-off red herring, not the whole rule.',
+    ],
+    'logic': [
+      'Write each premise as an if-then statement before looking at the answer options.',
+      'A rule can only prove its own direction — don’t assume the reverse is also true.',
+      'When a premise says "no one with X has Y," use it to rule things out, not to confirm them.',
+    ],
+    'spatial': [
+      'Picture the object rotating one step at a time instead of jumping straight to the final position.',
+      'Check whether a shape has been mirrored, not just rotated — they can look deceptively similar.',
+      'For piece-fitting puzzles, match the exact size and angle of the gap before trusting the overall silhouette.',
+    ],
+  };
+
+  var state = {
+    screen: 'landing',
+    questions: BANK.slice(0, CONFIG.NUM_QUESTIONS),
+    currentIndex: 0,
+    answers: [],
+    questionStartTime: null,
+    score: null,
+    exitSheetOpen: false,
+    shareSheetOpen: false,
+    signupMethod: null,
+  };
+
+  // Per-question countdown interval handle (TIMER_MODE=per_question). Deliberately not
+  // part of `state`/`saveState()` — a setInterval id can't be serialized to localStorage
+  // and has no meaning across a reload; it's cleared and restarted on every renderQuiz().
+  var questionTimerInterval = null;
+
+  // ---- tracking ----
+  function track(event, props) {
+    var payload = Object.assign({ event: event, ts: Date.now() }, props || {});
+    try {
+      window.dataLayer = window.dataLayer || [];
+      window.dataLayer.push(payload);
+    } catch (e) {}
+    try { console.log('[track]', payload); } catch (e) {}
+  }
+
+  // ---- persistence (refresh-safe) ----
+  function saveState() {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify({
+        screen: state.screen,
+        currentIndex: state.currentIndex,
+        answers: state.answers,
+      }));
+    } catch (e) {}
+  }
+
+  function loadState() {
+    try {
+      var raw = localStorage.getItem(STORAGE_KEY);
+      return raw ? JSON.parse(raw) : null;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  function clearState() {
+    try { localStorage.removeItem(STORAGE_KEY); } catch (e) {}
+  }
+
+  // ---- scoring (iq-quiz-builder spec) ----
+  function erf(x) {
+    var sign = x < 0 ? -1 : 1;
+    x = Math.abs(x);
+    var a1 = 0.254829592, a2 = -0.284496736, a3 = 1.421413741, a4 = -1.453152027, a5 = 1.061405429, p = 0.3275911;
+    var t = 1 / (1 + p * x);
+    var y = 1 - (((((a5 * t + a4) * t) + a3) * t + a2) * t + a1) * t * Math.exp(-x * x);
+    return sign * y;
+  }
+
+  function normalCDF(z) { return 0.5 * (1 + erf(z / Math.SQRT2)); }
+
+  function computeArchetype(byType) {
+    var bestKey = null;
+    var bestRatio = -1;
+    ARCHETYPE_PRIORITY.forEach(function (key) {
+      var t = byType[key];
+      if (!t || t.total === 0) return;
+      var ratio = t.correct / t.total;
+      if (ratio > bestRatio) {
+        bestRatio = ratio;
+        bestKey = key;
+      }
+    });
+    if (!bestKey) bestKey = ARCHETYPE_PRIORITY[0];
+    return Object.assign({ key: bestKey }, ARCHETYPES[bestKey]);
+  }
+
+  function computeScore() {
+    var S = CONFIG.SCORING;
+    var rawScore = 0;
+    var maxPossible = 0;
+    var byType = {};
+
+    state.questions.forEach(function (q, i) {
+      var a = state.answers[i];
+      maxPossible += q.difficulty * 1.2;
+      if (!byType[q.type]) byType[q.type] = { correct: 0, total: 0, label: TYPE_LABELS[q.type] || q.type };
+      byType[q.type].total += 1;
+      if (a && a.correct) {
+        byType[q.type].correct += 1;
+        var speedBonus = 0;
+        if (q.timeBudgetMs && a.timeMs < q.timeBudgetMs) {
+          speedBonus = q.difficulty * S.SPEED_BONUS_MAX_PCT * (1 - a.timeMs / q.timeBudgetMs);
+        }
+        rawScore += q.difficulty + speedBonus;
+      }
+    });
+
+    var pctOfMax = maxPossible > 0 ? rawScore / maxPossible : 0;
+    var z = (pctOfMax - S.MU) / S.SD;
+    var iq = Math.max(S.IQ_MIN, Math.min(S.IQ_MAX, Math.round(100 + 15 * z)));
+    var percentile = Math.max(1, Math.min(99, Math.round(normalCDF(z) * 100)));
+    return { iq: iq, percentile: percentile, byType: byType, archetype: computeArchetype(byType) };
+  }
+
+  // IQ band classification shown on results (index drives which of the 5 band-bar
+  // segments is highlighted). Standard psychometric band labels are kept alongside the
+  // "indicative, not a clinical assessment" disclaimer, never in place of it.
+  function iqBand(iq) {
+    if (iq < 90) return { label: 'Below average', index: 0 };
+    if (iq < 110) return { label: 'Average', index: 1 };
+    if (iq < 120) return { label: 'High average', index: 2 };
+    if (iq < 130) return { label: 'Superior', index: 3 };
+    return { label: 'Very superior', index: 4 };
+  }
+
+  // Insight cards are a pure function of state.answers/state.questions — nothing here is
+  // invented or compared to other people; "Your pace" and "hardest items solved" are both
+  // directly measured from this visitor's own recorded timeMs/difficulty.
+  function computeInsights(score) {
+    var byType = score.byType;
+    var strongestKey = null, weakestKey = null;
+    var bestRatio = -1, worstRatio = 2;
+    ARCHETYPE_PRIORITY.forEach(function (key) {
+      var t = byType[key];
+      if (!t || t.total === 0) return;
+      var ratio = t.correct / t.total;
+      if (ratio > bestRatio) { bestRatio = ratio; strongestKey = key; }
+      if (ratio < worstRatio) { worstRatio = ratio; weakestKey = key; }
+    });
+    var totalTimeMs = 0, answeredCount = 0, hardestSolved = 0, hardestTotal = 0;
+    state.questions.forEach(function (q, i) {
+      var a = state.answers[i];
+      if (a) { totalTimeMs += a.timeMs; answeredCount += 1; }
+      if (q.difficulty === 5) {
+        hardestTotal += 1;
+        if (a && a.correct) hardestSolved += 1;
+      }
+    });
+    return {
+      strongestKey: strongestKey,
+      weakestKey: weakestKey,
+      avgSeconds: answeredCount > 0 ? Math.max(1, Math.round(totalTimeMs / answeredCount / 1000)) : 0,
+      hardestSolved: hardestSolved,
+      hardestTotal: hardestTotal,
+    };
+  }
+
+  // Honest "time left" estimate: the sum of the REMAINING items' own timeBudgetMs, not a
+  // flat per-item guess, so the displayed minutes always matches the actual item mix.
+  function minutesLeftFrom(index) {
+    var ms = 0;
+    for (var i = index; i < state.questions.length; i++) {
+      ms += state.questions[i].timeBudgetMs || 20000;
+    }
+    return Math.max(1, Math.round(ms / 60000));
+  }
+
+  var TIMER_RING_CIRCUMFERENCE = 2 * Math.PI * 20; // r=20 in the ring's 48x48 viewBox
+
+  function formatMMSS(ms) {
+    var totalSeconds = Math.max(0, Math.ceil(ms / 1000));
+    var m = Math.floor(totalSeconds / 60);
+    var s = totalSeconds % 60;
+    return m + ':' + (s < 10 ? '0' : '') + s;
+  }
+
+  // ---- shared visuals ----
+  function logoSvg(size) {
+    size = size || 20;
+    return '<svg width="' + size + '" height="' + size + '" viewBox="0 0 48 48" aria-hidden="true">' +
+      '<circle cx="24" cy="24" r="20" fill="none" stroke="#5A3FD8" stroke-width="4"/>' +
+      '<circle cx="24" cy="24" r="11" fill="none" stroke="#5A3FD8" stroke-width="4"/>' +
+      '<circle cx="24" cy="24" r="3" fill="#FFD24A"/>' +
+      '</svg>';
+  }
+
+  function logoChipHtml() {
+    return '<span class="logo-chip">' + logoSvg(20) + '</span>';
+  }
+
+  // IQly has no existing test-taker population yet (BRIEF.md: "no existing audience"),
+  // so the percentile is a modeled estimate off the scoring constants, not measured data.
+  function percentileText(percentile) {
+    return 'You scored higher than an estimated ' + percentile + '% of people.';
+  }
+
+  function bellCurveSvg(percentile) {
+    var x = 20 + (percentile / 100) * 260;
+    return '<svg viewBox="0 0 300 120" class="bell-curve" aria-hidden="true">' +
+      '<path d="M10,100 C60,100 70,10 150,10 C230,10 240,100 290,100" fill="none" stroke="#C9BCFF" stroke-width="3"/>' +
+      '<line x1="' + x + '" y1="15" x2="' + x + '" y2="105" stroke="#FFD24A" stroke-width="3"/>' +
+      '<circle cx="' + x + '" cy="15" r="5" fill="#FFD24A"/>' +
+      '</svg>';
+  }
+
+  var app = document.getElementById('app');
+  function render(html) { app.innerHTML = html; }
+
+  // ================= LANDING =================
+  function renderLanding(isFresh) {
+    state.screen = 'landing';
+    if (isFresh) track('page_view', {});
+
+    var heroQ = state.questions[0];
+    var isHeroQ1 = CONFIG.ENTRY_MODE === 'hero_q1';
+    var hasVisualOptions = heroQ.options.some(function (o) { return !!o.svg; });
+    // Same source of truth as the quiz's "min left" estimate (minutesLeftFrom), so the
+    // landing's time promise can never drift out of sync with what the quiz actually shows.
+    var totalMins = minutesLeftFrom(0);
+
+    var heroOptionsHtml = heroQ.options.map(function (opt, i) {
+      return '<button class="hero-q1-option' + (hasVisualOptions ? ' option-visual' : '') + '"' +
+        (isHeroQ1 ? ' data-qa="answer" data-index="' + i + '"' : '') + '>' +
+        (opt.svg ? '<span class="option-visual">' + opt.svg + '</span> ' : '') +
+        (opt.text || '') +
+        '</button>';
+    }).join('');
+
+    render(
+      '<main class="screen screen-landing"><div class="container">' +
+        '<div class="landing-layout">' +
+          '<div class="landing-left">' +
+            '<div class="header-bar">' +
+              '<span class="brand">' + logoChipHtml() + '<span class="brand-name">IQly</span></span>' +
+              '<span class="pill pill-green">✓ 100% free</span>' +
+            '</div>' +
+            '<span class="eyebrow-pill">Free IQ Test · 12 questions</span>' +
+            '<h1 class="landing-h1">What’s your IQ? Find out free in <span class="highlight">' + totalMins + ' minutes.</span></h1>' +
+            '<p class="landing-sub">12 puzzles across pattern, number, logic and spatial reasoning. See your estimated percentile the moment you finish.</p>' +
+            '<button class="btn btn-cta btn-cta-lg" data-qa="start" id="landing-cta">Start the Free Test →</button>' +
+            '<div class="check-row"><span>No signup to start</span><span>~' + totalMins + ' minutes</span><span>Instant percentile</span></div>' +
+            '<div class="steps-strip">' +
+              '<div class="step-card"><p class="step-num">01</p><p class="step-title">Answer</p><p class="step-desc">12 short puzzles across 4 reasoning types.</p></div>' +
+              '<div class="step-card"><p class="step-num">02</p><p class="step-title">See</p><p class="step-desc">Your estimated percentile, instantly and free.</p></div>' +
+              '<div class="step-card"><p class="step-num">03</p><p class="step-title">Unlock</p><p class="step-desc">Add your email to see your exact score and full report.</p></div>' +
+            '</div>' +
+          '</div>' +
+          '<div class="landing-right">' +
+            '<div class="card-dark">' +
+              '<p class="hero-q1-eyebrow">Question 1 · Can you solve it?</p>' +
+              '<p class="hero-q1-sub">Tap an answer to begin</p>' +
+              '<div class="hero-q1-body">' +
+                '<div class="hero-q1-tile">' + (heroQ.svg || '') + '</div>' +
+                '<p class="hero-q1-prompt">' + heroQ.prompt + '</p>' +
+              '</div>' +
+              '<div class="hero-q1-options">' + heroOptionsHtml + '</div>' +
+            '</div>' +
+          '</div>' +
+        '</div>' +
+      '</div>' +
+      '<div class="sticky-cta"><button class="btn btn-cta" id="sticky-cta">Start the Free Test →</button></div>' +
+      '</main>'
+    );
+
+    function startFresh() {
+      track('quiz_start', {});
+      state.currentIndex = 0;
+      state.answers = [];
+      saveState();
+      renderQuestion();
+    }
+
+    document.getElementById('landing-cta').addEventListener('click', startFresh);
+    document.getElementById('sticky-cta').addEventListener('click', startFresh);
+
+    var answered = false;
+    Array.prototype.slice.call(document.querySelectorAll('.hero-q1-option')).forEach(function (el, i) {
+      el.addEventListener('click', function () {
+        if (answered) return;
+        answered = true;
+        if (isHeroQ1) {
+          track('quiz_start', {});
+          state.currentIndex = 0;
+          state.answers = [];
+          state.questionStartTime = Date.now();
+          handleAnswer(i);
+        } else {
+          startFresh();
+        }
+      });
+    });
+  }
+
+  // ================= QUIZ =================
+  function headsUpBannerHtml(index) {
+    var total = state.questions.length;
+    var banners = {
+      0: { tone: 'green', icon: '✓', title: 'Nice start!', body: 'They begin easy. Go with your first instinct.' },
+      3: { tone: 'green', icon: '⅓', title: 'A third done — great pace.', body: 'Questions get harder now. Accuracy beats speed.' },
+      5: { tone: 'purple', icon: '½', title: 'Halfway there.', body: 'Your score is taking shape. Finish to see your percentile.' },
+      8: { tone: 'yellow', icon: '3', title: 'Only 3 left!', body: 'Your percentile unlocks right after question ' + total + '.' },
+      11: { tone: 'yellow', icon: '★', title: 'Last question!', body: 'One more answer and your results are ready.' },
+    };
+    var b = banners[index];
+    if (!b) return '';
+    return '<div class="headsup-banner tone-' + b.tone + '">' +
+      '<span class="headsup-icon">' + b.icon + '</span>' +
+      '<span><span class="headsup-title">' + b.title + '</span><br/><span class="headsup-body">' + b.body + '</span></span>' +
+      '</div>';
+  }
+
+  function exitSheetHtml() {
+    var total = state.questions.length;
+    var pctDone = Math.round((state.currentIndex / total) * 100);
+    var remaining = total - state.currentIndex;
+    var mins = minutesLeftFrom(state.currentIndex);
+    return '<div class="exit-scrim" id="exit-scrim">' +
+      '<div class="exit-sheet">' +
+        '<span class="pill pill-yellow">You’re ' + pctDone + '% done</span>' +
+        '<h2>Only ' + remaining + ' question' + (remaining === 1 ? '' : 's') + ' until your score.</h2>' +
+        '<p>That’s about ' + mins + ' min. Your answers so far are saved on this device, so nothing is lost if you keep going.</p>' +
+        '<button class="btn btn-cta" id="exit-keep-going">Keep Going</button>' +
+        '<button class="btn-text" id="exit-leave" style="width:100%;text-align:center;">Leave anyway</button>' +
+      '</div>' +
+    '</div>';
+  }
+
+  // TIMER_MODE=per_question only: a visible countdown against the item's own
+  // timeBudgetMs. At zero it does NOT auto-advance or mark the item wrong — scoring
+  // already zeroes the speed bonus once timeMs >= timeBudgetMs, so letting the user
+  // keep answering normally after timeout needs no scoring change, only this UI state.
+  function startQuestionTimer(q) {
+    var totalMs = q.timeBudgetMs || 20000;
+    var startedAt = Date.now();
+    var timedOut = false;
+    var ringEl = document.getElementById('question-timer-ring');
+    var labelEl = document.getElementById('question-timer-label');
+    var bannerEl = document.getElementById('timeout-banner');
+    var pulseEl = document.getElementById('timer-reset-pulse');
+
+    if (ringEl) {
+      ringEl.style.strokeDasharray = String(TIMER_RING_CIRCUMFERENCE);
+      ringEl.style.strokeDashoffset = '0';
+      ringEl.classList.remove('is-warning');
+    }
+
+    // "New question · timer reset" pulse: opacity-only visibility (never `hidden`,
+    // since display:none can't be transitioned) so it actually fades under normal
+    // motion, and simply snaps under prefers-reduced-motion (global motion block).
+    if (pulseEl) {
+      pulseEl.classList.add('is-active');
+      setTimeout(function () {
+        pulseEl.classList.remove('is-active');
+      }, 1200);
+    }
+
+    function tick() {
+      var elapsed = Date.now() - startedAt;
+      var remaining = Math.max(0, totalMs - elapsed);
+      var fraction = totalMs > 0 ? Math.max(0, Math.min(1, remaining / totalMs)) : 0;
+      if (ringEl) {
+        ringEl.style.strokeDashoffset = String(TIMER_RING_CIRCUMFERENCE * (1 - fraction));
+        if (remaining <= 5000) ringEl.classList.add('is-warning');
+      }
+      if (labelEl) labelEl.textContent = '⏱ ' + formatMMSS(remaining) + ' · time for this question';
+      if (remaining <= 0 && !timedOut) {
+        timedOut = true;
+        clearInterval(questionTimerInterval);
+        questionTimerInterval = null;
+        if (bannerEl) bannerEl.hidden = false;
+        track('question_timeout', { questionIndex: state.currentIndex });
+      }
+    }
+    tick();
+    questionTimerInterval = setInterval(tick, 100);
+  }
+
+  function renderQuiz() {
+    var q = state.questions[state.currentIndex];
+    var total = state.questions.length;
+    var hasVisualOptions = q.options.some(function (o) { return !!o.svg; });
+    var letters = ['A', 'B', 'C', 'D', 'E', 'F'];
+
+    var segmentsHtml = state.questions.map(function (_, i) {
+      var cls = i < state.currentIndex ? 'is-done' : (i === state.currentIndex ? 'is-current' : '');
+      return '<span class="segment ' + cls + '"></span>';
+    }).join('');
+
+    var optionsHtml = q.options.map(function (opt, i) {
+      return '<button class="chip-option" data-qa="answer" data-index="' + i + '">' +
+        '<span class="option-letter">' + letters[i] + '</span>' +
+        (opt.svg ? '<span class="option-visual">' + opt.svg + '</span>' : '') +
+        (opt.text ? '<span class="option-text">' + opt.text + '</span>' : '') +
+        '</button>';
+    }).join('');
+
+    var remainingAfter = total - state.currentIndex - 1;
+
+    render(
+      '<main class="screen screen-quiz" data-qa-step="' + state.currentIndex + '">' +
+        '<div class="container" style="max-width:860px">' +
+          '<div class="header-bar">' +
+            '<span class="brand">' + logoChipHtml() + '<span class="brand-name">Question ' + (state.currentIndex + 1) + ' of ' + total + '</span></span>' +
+            (CONFIG.EXIT_SHEET === 'on' ? '<button class="quiz-exit-btn" id="quiz-exit-btn" aria-label="Exit">×</button>' : '') +
+          '</div>' +
+          '<div class="segmented-progress">' + segmentsHtml + '</div>' +
+          '<div class="quiz-meta-row">' +
+            '<span class="quiz-meta-category">' + (TYPE_LABELS[q.type] || q.type) + '</span>' +
+            '<span class="quiz-meta-time">≈ ' + minutesLeftFrom(state.currentIndex) + ' min left</span>' +
+          '</div>' +
+          (CONFIG.TIMER_MODE === 'per_question' ?
+            '<div class="question-timer-row" data-timer-root>' +
+              '<div class="question-timer-ring">' +
+                '<svg viewBox="0 0 48 48" aria-hidden="true">' +
+                  '<circle class="ring-track" cx="24" cy="24" r="20"></circle>' +
+                  '<circle class="ring-progress" id="question-timer-ring" cx="24" cy="24" r="20"></circle>' +
+                '</svg>' +
+                '<span class="question-timer-ring-num">' + (state.currentIndex + 1) + '</span>' +
+              '</div>' +
+              '<span class="question-timer-label" id="question-timer-label">⏱ ' + formatMMSS(q.timeBudgetMs || 20000) + ' · time for this question</span>' +
+              '<span class="question-timer-reset-pulse" id="timer-reset-pulse">New question · timer reset</span>' +
+            '</div>' +
+            '<div class="headsup-banner tone-yellow" id="timeout-banner" data-timeout-banner hidden>' +
+              '<span class="headsup-icon">⏱</span>' +
+              '<span><span class="headsup-title">Time’s up for this question.</span><br/><span class="headsup-body">Take your best guess.</span></span>' +
+            '</div>'
+          : '') +
+          headsUpBannerHtml(state.currentIndex) +
+          '<div class="quiz-body">' +
+            '<div class="quiz-puzzle-col">' +
+              (q.svg ? '<div class="quiz-puzzle-tile">' + q.svg + '</div>' : '') +
+              '<p class="quiz-prompt">' + q.prompt + '</p>' +
+            '</div>' +
+            '<div class="quiz-options-col' + (hasVisualOptions ? '' : '') + '">' + optionsHtml + '</div>' +
+          '</div>' +
+          '<div class="quiz-footer">' +
+            (CONFIG.BACK_BUTTON && state.currentIndex > 0 ? '<button class="quiz-back-link" id="back-btn">← Back</button>' : '<span></span>') +
+            '<span>' + remainingAfter + ' to go · ' + minutesLeftFrom(state.currentIndex) + ' min</span>' +
+          '</div>' +
+        '</div>' +
+      '</main>'
+    );
+
+    state.questionStartTime = Date.now();
+
+    if (questionTimerInterval) { clearInterval(questionTimerInterval); questionTimerInterval = null; }
+    if (CONFIG.TIMER_MODE === 'per_question') startQuestionTimer(q);
+
+    var answered = false;
+    Array.prototype.slice.call(document.querySelectorAll('[data-qa="answer"]')).forEach(function (optEl) {
+      optEl.addEventListener('click', function () {
+        if (answered) return;
+        answered = true;
+        optEl.classList.add('selected');
+        handleAnswer(parseInt(optEl.getAttribute('data-index'), 10));
+      });
+    });
+
+    if (CONFIG.BACK_BUTTON && state.currentIndex > 0) {
+      document.getElementById('back-btn').addEventListener('click', function () {
+        state.answers.splice(state.currentIndex - 1, 1);
+        state.currentIndex -= 1;
+        renderQuiz();
+      });
+    }
+
+    if (CONFIG.EXIT_SHEET === 'on') {
+      document.getElementById('quiz-exit-btn').addEventListener('click', openExitSheet);
+    }
+  }
+
+  function renderQuestion() {
+    state.screen = 'quiz';
+    saveState();
+    renderQuiz();
+  }
+
+  function openExitSheet() {
+    track('exit_sheet_open', {});
+    var wrapper = document.createElement('div');
+    wrapper.innerHTML = exitSheetHtml();
+    document.body.appendChild(wrapper.firstElementChild);
+    document.getElementById('exit-keep-going').addEventListener('click', function () {
+      track('exit_sheet_continue', {});
+      closeExitSheet();
+    });
+    document.getElementById('exit-leave').addEventListener('click', function () {
+      track('exit_sheet_leave', {});
+      closeExitSheet();
+      clearState();
+      state.currentIndex = 0;
+      state.answers = [];
+      renderLanding(true);
+    });
+  }
+
+  function closeExitSheet() {
+    var scrim = document.getElementById('exit-scrim');
+    if (scrim) scrim.remove();
+  }
+
+  function handleAnswer(index) {
+    if (questionTimerInterval) { clearInterval(questionTimerInterval); questionTimerInterval = null; }
+    var q = state.questions[state.currentIndex];
+    var timeMs = Date.now() - (state.questionStartTime || Date.now());
+    var correct = !!(q.options[index] && q.options[index].correct);
+    state.answers[state.currentIndex] = {
+      id: q.id, type: q.type, difficulty: q.difficulty, correct: correct, timeMs: timeMs,
+    };
+    track('question_answered', {
+      id: q.id, type: q.type, difficulty: q.difficulty, correct: correct, timeMs: timeMs, index: state.currentIndex,
+    });
+    saveState();
+
+    if (CONFIG.AUTO_ADVANCE) {
+      // 220ms so the selected state is visible before advancing. Safe against
+      // funnel-qa's generic driver because the script now waits for data-qa-step to
+      // change (polling), rather than re-clicking in a tight loop — see qa.js and
+      // ai-log.md's "Funnel v4" entry for why a timed delay previously had to be removed.
+      setTimeout(advance, 220);
+    } else {
+      var nextBtn = document.querySelector('[data-qa="next"]');
+      if (nextBtn) nextBtn.removeAttribute('disabled');
+    }
+  }
+
+  function advance() {
+    if (state.currentIndex + 1 < state.questions.length) {
+      state.currentIndex += 1;
+      renderQuiz();
+      saveState();
+    } else {
+      track('quiz_complete', {});
+      state.score = computeScore();
+      saveState();
+      renderGate(true);
+    }
+  }
+
+  // ================= GATE (+ analyzing overlay) =================
+  // The gate's free/locked content varies by GATE_MODE; the header, report-includes
+  // list, form and fine print are identical across all 3 modes so the only measurable
+  // difference between control and a variant is this one flag.
+  function gateTeaserHtml(score) {
+    var mode = CONFIG.GATE_MODE;
+    var topPct = 100 - score.percentile;
+
+    if (mode === 'all_locked') {
+      return '<div class="teaser-panel card-dark">' +
+        '<span class="pill pill-green">✓ Your results are ready</span>' +
+        '<div class="iq-chip"><p class="iq-chip-label">Your IQ</p><p class="iq-chip-value">' + score.iq + '</p></div>' +
+        '<p class="teaser-percentile-line">Your percentile and full report are ready to unlock.</p>' +
+      '</div>';
+    }
+
+    if (mode === 'score_free_report_gated') {
+      return '<div class="teaser-panel card-dark">' +
+        '<span class="pill pill-green">✓ Your results are ready</span>' +
+        '<p class="teaser-free-label">Your score · free</p>' +
+        '<div class="iq-chip"><p class="iq-chip-label">Your IQ</p><p class="iq-chip-value" style="filter:none">' + score.iq + '</p></div>' +
+        bellCurveSvg(score.percentile) +
+        '<p class="teaser-percentile-line">' + percentileText(score.percentile) + '</p>' +
+      '</div>';
+    }
+
+    // 'teaser_locked' — control
+    return '<div class="teaser-panel card-dark">' +
+      '<span class="pill pill-green">✓ Your results are ready</span>' +
+      '<p class="teaser-free-label">Free preview · estimate</p>' +
+      '<p class="teaser-top-pct">Top ' + topPct + '%</p>' +
+      '<div class="iq-chip"><p class="iq-chip-label">Your IQ</p><p class="iq-chip-value">' + score.iq + '</p></div>' +
+      bellCurveSvg(score.percentile) +
+      '<p class="teaser-percentile-line">' + percentileText(score.percentile) + '</p>' +
+    '</div>';
+  }
+
+  function reportIncludesHtml() {
+    var items = ['Skill profile across 4 areas', 'Personal insights & tips', 'Shareable result card'];
+    if (CONFIG.GATE_MODE !== 'score_free_report_gated') items.unshift('Your exact IQ score');
+    return '<p class="report-includes-lead">Your free report includes</p>' +
+      '<ul class="report-includes-list">' + items.map(function (i) { return '<li>' + i + '</li>'; }).join('') + '</ul>';
+  }
+
+  // A real, non-invented preview of the gated report: the user's own computed score,
+  // skill accuracy and weakest-category tips, blurred to match whatever is actually
+  // locked for the current GATE_MODE (the exact IQ is already free in
+  // score_free_report_gated, so only that one piece stays unblurred there).
+  function signupPreviewHtml(score) {
+    var insights = computeInsights(score);
+    var band = iqBand(score.iq);
+    var scoreLocked = CONFIG.GATE_MODE !== 'score_free_report_gated';
+    var tips = (TIPS[insights.weakestKey] || []).slice(0, 3);
+    var barsHtml = ARCHETYPE_PRIORITY.map(function (key) {
+      var t = score.byType[key];
+      var pct = t && t.total ? Math.round((t.correct / t.total) * 100) : 0;
+      return '<div class="signup-preview-bar"><div class="signup-preview-bar-fill" style="width:' + pct + '%"></div></div>';
+    }).join('');
+    return '<div class="signup-preview">' +
+      '<p class="signup-preview-lead">What you unlock</p>' +
+      '<div class="signup-preview-card">' +
+        '<div class="signup-preview-top">' +
+          '<span class="signup-preview-iq"' + (scoreLocked ? ' style="filter:blur(5px)"' : '') + '>' + score.iq + '</span>' +
+          '<span class="band-chip">' + band.label + '</span>' +
+        '</div>' +
+        '<div class="signup-preview-bars" style="filter:blur(3px)">' + barsHtml + '</div>' +
+        (tips.length ? '<div class="signup-preview-tips" style="filter:blur(3px)">' +
+          tips.map(function (t) { return '<p>→ ' + t + '</p>'; }).join('') +
+        '</div>' : '') +
+        '<div class="signup-preview-sharecard" style="filter:blur(3px)">' +
+          '<span class="signup-preview-sharecard-iq">' + score.iq + '</span>' +
+          '<span class="signup-preview-sharecard-label">' + score.archetype.name + ' · Shareable result card</span>' +
+        '</div>' +
+      '</div>' +
+    '</div>';
+  }
+
+  function analyzingOverlayHtml() {
+    return '<div class="analyzing-overlay" id="analyzing-overlay">' +
+      '<div class="analyzing-inner">' +
+        '<span class="pill pill-green">✓ ' + state.questions.length + '/' + state.questions.length + ' answered</span>' +
+        '<h2 class="analyzing-title">Calculating your results…</h2>' +
+        '<div class="analyzing-track"><div class="analyzing-fill" id="analyzing-fill" style="width:0%"></div></div>' +
+        '<div class="analyzing-steps" id="analyzing-steps">' +
+          '<div class="analyzing-step" data-step="0"><span class="analyzing-dot">1</span><span>Scoring your ' + state.questions.length + ' answers</span></div>' +
+          '<div class="analyzing-step" data-step="1"><span class="analyzing-dot">2</span><span>Adding your speed bonus</span></div>' +
+          '<div class="analyzing-step" data-step="2"><span class="analyzing-dot">3</span><span>Building your skill profile</span></div>' +
+          '<div class="analyzing-step" data-step="3"><span class="analyzing-dot">4</span><span>Estimating your percentile</span></div>' +
+        '</div>' +
+      '</div>' +
+    '</div>';
+  }
+
+  // The "analyzing" moment is an overlay on top of the already-rendered gate screen (not
+  // a separate timed screen) so data-qa="email"/"submit" exist in the DOM the instant the
+  // quiz completes, even though they're visually covered for ANALYZING_DURATION_MS. A
+  // separate timed screen would leave a window where funnel-qa's one-shot email-visibility
+  // check finds neither an answer nor an email field, stalling it before it ever reaches
+  // signup/result (see ai-log.md, 2026-11-06).
+  function renderGate(showAnalyzing) {
+    state.screen = 'gate';
+    saveState();
+    track('gate_view', {});
+    var score = state.score;
+    var total = state.questions.length;
+    var gateProgressPct = Math.round(((total + 1) / (total + 2)) * 100);
+    var scoreAlreadyFree = CONFIG.GATE_MODE === 'score_free_report_gated';
+    var gateHeading = scoreAlreadyFree ? 'Unlock your full report, free' : 'Unlock your exact IQ score, free';
+    var submitLabel = scoreAlreadyFree ? 'Get Results & Insights →' : 'Show My IQ Score →';
+
+    render(
+      '<main class="screen screen-gate"><div class="container">' +
+        (showAnalyzing ? analyzingOverlayHtml() : '') +
+        '<div class="header-bar">' +
+          '<span class="brand">' + logoChipHtml() + '<span class="brand-name">Last step</span></span>' +
+        '</div>' +
+        '<div class="gate-progress-track"><div class="gate-progress-fill" style="width:' + gateProgressPct + '%"></div></div>' +
+        '<div class="gate-layout">' +
+          gateTeaserHtml(score) +
+          '<div class="form-panel">' +
+            '<h2>' + gateHeading + '</h2>' +
+            '<button type="button" class="btn btn-outline" id="google-signup-btn"' + (showAnalyzing ? ' disabled' : '') + '>' +
+              '<svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true" style="margin-right:8px;vertical-align:-4px;"><circle cx="9" cy="9" r="7.3" fill="none" stroke="currentColor" stroke-width="1.5"/><text x="9" y="12.5" text-anchor="middle" font-size="9" font-weight="800" fill="currentColor">G</text></svg>' +
+              'Continue with Google' +
+            '</button>' +
+            '<p class="google-demo-note">Prototype demo: no data is sent.</p>' +
+            '<div class="auth-divider"><span>or</span></div>' +
+            '<form id="gate-form" novalidate>' +
+              '<label for="email-input" class="field-label">Your email</label>' +
+              '<input id="email-input" type="email" placeholder="you@example.com" data-qa="email" autocomplete="email" required' +
+                (showAnalyzing ? ' disabled' : '') + ' />' +
+              '<p class="field-error" id="email-error" hidden>Please enter a valid email so we can show your score.</p>' +
+              '<button type="submit" class="btn btn-cta" data-qa="submit"' +
+                (showAnalyzing ? ' disabled' : '') + '>' + submitLabel + '</button>' +
+            '</form>' +
+            '<p class="form-cta-note">Free · No credit card · No spam</p>' +
+            signupPreviewHtml(score) +
+            reportIncludesHtml() +
+            '<p class="gate-heads-up">Your answers are only stored on this device. Add your email to keep your results and retake later.</p>' +
+          '</div>' +
+        '</div>' +
+      '</div></main>'
+    );
+
+    if (showAnalyzing) {
+      var stepEls = Array.prototype.slice.call(document.querySelectorAll('.analyzing-step'));
+      var fillEl = document.getElementById('analyzing-fill');
+      var stepMs = Math.max(1, Math.floor(CONFIG.ANALYZING_DURATION_MS / 4));
+      var step = 0;
+      var interval = setInterval(function () {
+        if (stepEls[step]) stepEls[step].classList.add('is-done');
+        step += 1;
+        if (fillEl) fillEl.style.width = Math.min(100, Math.round((step / 4) * 100)) + '%';
+        if (step >= 4) clearInterval(interval);
+      }, stepMs);
+      setTimeout(function () {
+        clearInterval(interval);
+        // Hide immediately, no opacity cross-fade: the overlay and the teaser panel
+        // beneath it share the same --purple-deep background, so fading the overlay's
+        // opacity made its text visibly ghost through the panel's matching-color
+        // background for ~300ms (caught by persona review screenshots) instead of
+        // reading as a clean reveal.
+        var overlay = document.getElementById('analyzing-overlay');
+        if (overlay) overlay.style.display = 'none';
+        // Keep the form inert (including to keyboard/screen-reader focus) until the
+        // overlay is actually gone, not just visually fading.
+        var emailInput = document.getElementById('email-input');
+        var submitBtn = document.querySelector('[data-qa="submit"]');
+        var googleBtn = document.getElementById('google-signup-btn');
+        if (emailInput) emailInput.removeAttribute('disabled');
+        if (submitBtn) submitBtn.removeAttribute('disabled');
+        if (googleBtn) googleBtn.removeAttribute('disabled');
+      }, CONFIG.ANALYZING_DURATION_MS);
+    }
+
+    document.getElementById('gate-form').addEventListener('submit', function (e) {
+      e.preventDefault();
+      var input = document.getElementById('email-input');
+      var errorEl = document.getElementById('email-error');
+      var value = input.value.trim();
+      track('signup_submit', { method: 'email' });
+      var valid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+      if (!valid) {
+        errorEl.hidden = false;
+        input.setAttribute('aria-invalid', 'true');
+        return;
+      }
+      errorEl.hidden = true;
+      state.email = value;
+      state.signupMethod = 'email';
+      track('signup_success', { method: 'email' });
+      renderResults();
+    });
+
+    // Prototype only: no real Google OAuth is possible from a zero-backend, zero-
+    // external-request static file, so this never claims to verify anything — the
+    // results screen explicitly discloses "Prototype demo: no data sent." Deliberately
+    // not data-qa="submit": the email path stays the one funnel-qa drives by default.
+    var googleSignupBtn = document.getElementById('google-signup-btn');
+    if (googleSignupBtn) {
+      googleSignupBtn.addEventListener('click', function () {
+        if (googleSignupBtn.disabled) return;
+        googleSignupBtn.disabled = true;
+        googleSignupBtn.textContent = 'Connecting…';
+        track('signup_submit', { method: 'google' });
+        setTimeout(function () {
+          state.signupMethod = 'google';
+          track('signup_success', { method: 'google' });
+          renderResults();
+        }, 700);
+      });
+    }
+  }
+
+  // ================= RESULTS =================
+  function copyToClipboard(text, onDone) {
+    try {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(function () { onDone(true); }).catch(function () { onDone(execCommandCopy(text)); });
+        return;
+      }
+    } catch (e) {}
+    onDone(execCommandCopy(text));
+  }
+
+  function execCommandCopy(text) {
+    try {
+      var ta = document.createElement('textarea');
+      ta.value = text;
+      ta.style.position = 'fixed';
+      ta.style.opacity = '0';
+      document.body.appendChild(ta);
+      ta.focus();
+      ta.select();
+      var ok = document.execCommand('copy');
+      document.body.removeChild(ta);
+      return ok;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  function shareText(score) {
+    return 'I scored ' + score.iq + ' on the IQly free IQ test. Think you can beat me?';
+  }
+
+  // Draws a simple, honest share card client-side (no backend, no external requests):
+  // brand mark, the user's real score, their derived archetype. Nothing is invented.
+  function generateShareCardDataUrl(score) {
+    var canvas = document.createElement('canvas');
+    canvas.width = 1080;
+    canvas.height = 1080;
+    var ctx = canvas.getContext('2d');
+    ctx.fillStyle = '#FBFAFF';
+    ctx.fillRect(0, 0, 1080, 1080);
+
+    ctx.strokeStyle = '#5A3FD8';
+    ctx.lineWidth = 16;
+    ctx.beginPath(); ctx.arc(540, 220, 90, 0, Math.PI * 2); ctx.stroke();
+    ctx.beginPath(); ctx.arc(540, 220, 50, 0, Math.PI * 2); ctx.stroke();
+    ctx.fillStyle = '#FFD24A';
+    ctx.beginPath(); ctx.arc(540, 220, 14, 0, Math.PI * 2); ctx.fill();
+
+    ctx.textAlign = 'center';
+    ctx.fillStyle = '#5A3FD8';
+    ctx.font = '700 40px -apple-system, Helvetica, Arial, sans-serif';
+    ctx.fillText('IQLY', 540, 360);
+
+    ctx.fillStyle = '#1B1530';
+    ctx.font = '800 220px -apple-system, Helvetica, Arial, sans-serif';
+    ctx.fillText(String(score.iq), 540, 620);
+
+    ctx.fillStyle = '#24154F';
+    ctx.font = '700 48px -apple-system, Helvetica, Arial, sans-serif';
+    ctx.fillText(score.archetype.name, 540, 700);
+
+    ctx.fillStyle = '#5D5775';
+    ctx.font = '400 32px -apple-system, Helvetica, Arial, sans-serif';
+    ctx.fillText('Higher than an estimated ' + score.percentile + '% of people', 540, 760);
+
+    ctx.font = '400 28px -apple-system, Helvetica, Arial, sans-serif';
+    ctx.fillText('Free IQ test at IQly', 540, 980);
+
+    return canvas.toDataURL('image/png');
+  }
+
+  function openShareSheet(score, cta) {
+    var hasNativeShare = typeof navigator.share === 'function';
+    var wrapper = document.createElement('div');
+    wrapper.innerHTML =
+      '<div class="share-scrim" id="share-scrim">' +
+        '<div class="share-sheet">' +
+          '<div class="share-sheet-dark">' +
+            '<p class="iq-label">Your estimated IQ</p>' +
+            '<p style="font-size:40px;font-weight:800;margin:0 0 4px;">' + score.iq + '</p>' +
+            '<p style="color:#C9BCFF;font-size:13px;margin:0;">' + score.archetype.name + ' · higher than an estimated ' + score.percentile + '% of people</p>' +
+          '</div>' +
+          '<div class="share-sheet-grid">' +
+            '<button class="share-channel-btn" id="share-download">Download image</button>' +
+            '<button class="share-channel-btn" id="share-copy">Copy link</button>' +
+            '<button class="share-channel-btn" id="share-whatsapp"' + (hasNativeShare ? '' : ' disabled') + '>WhatsApp</button>' +
+            '<button class="share-channel-btn" id="share-messages"' + (hasNativeShare ? '' : ' disabled') + '>Messages</button>' +
+            '<button class="share-channel-btn" id="share-x"' + (hasNativeShare ? '' : ' disabled') + '>X</button>' +
+            '<button class="share-channel-btn" id="share-email"' + (hasNativeShare ? '' : ' disabled') + '>Email</button>' +
+          '</div>' +
+          '<p class="share-feedback" id="share-sheet-feedback" hidden></p>' +
+          '<button class="share-sheet-close" id="share-sheet-close">Close</button>' +
+        '</div>' +
+      '</div>';
+    document.body.appendChild(wrapper.firstElementChild);
+
+    var feedbackEl = document.getElementById('share-sheet-feedback');
+    function showFeedback(msg) { feedbackEl.textContent = msg; feedbackEl.hidden = false; }
+
+    document.getElementById('share-scrim').addEventListener('click', function (e) {
+      if (e.target.id === 'share-scrim') closeShareSheet();
+    });
+    document.getElementById('share-sheet-close').addEventListener('click', closeShareSheet);
+
+    document.getElementById('share-download').addEventListener('click', function () {
+      track('share_click', { method: 'download', cta: cta });
+      try {
+        var dataUrl = generateShareCardDataUrl(score);
+        var a = document.createElement('a');
+        a.href = dataUrl;
+        a.download = 'iqly-score-card.png';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        showFeedback('Downloaded ✓');
+      } catch (e) {
+        showFeedback('Could not generate the card on this device.');
+      }
+    });
+
+    document.getElementById('share-copy').addEventListener('click', function () {
+      track('share_click', { method: 'copy_link', cta: cta });
+      var text = shareText(score) + (CONFIG.SHARE_URL ? ' ' + CONFIG.SHARE_URL : '');
+      copyToClipboard(text, function (ok) {
+        showFeedback(ok ? 'Copied ✓' : 'Could not copy — please copy manually.');
+      });
+    });
+
+    ['whatsapp', 'messages', 'x', 'email'].forEach(function (channel) {
+      var el = document.getElementById('share-' + channel);
+      if (!el || !hasNativeShare) return;
+      el.addEventListener('click', function () {
+        track('share_click', { method: channel, cta: cta });
+        try {
+          navigator.share({ text: shareText(score) + (CONFIG.SHARE_URL ? ' ' + CONFIG.SHARE_URL : '') });
+        } catch (e) {}
+      });
+    });
+  }
+
+  function closeShareSheet() {
+    var scrim = document.getElementById('share-scrim');
+    if (scrim) scrim.remove();
+  }
+
+  function animateCountUp(el, target) {
+    var prefersReduced = false;
+    try { prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) {}
+    if (prefersReduced) { el.textContent = String(target); return; }
+    var current = Math.max(0, target - 30);
+    el.textContent = String(current);
+    var interval = setInterval(function () {
+      current += 2;
+      if (current >= target) {
+        current = target;
+        clearInterval(interval);
+      }
+      el.textContent = String(current);
+    }, 30);
+  }
+
+  function renderResults() {
+    state.screen = 'results';
+    saveState();
+    track('result_view', {});
+    var score = state.score;
+    var insights = computeInsights(score);
+    var band = iqBand(score.iq);
+    var weakestLabel = insights.weakestKey ? (TYPE_LABELS[insights.weakestKey] || insights.weakestKey) : '';
+    var strongestLabel = insights.strongestKey ? (TYPE_LABELS[insights.strongestKey] || insights.strongestKey) : '';
+    var strongestType = insights.strongestKey ? score.byType[insights.strongestKey] : null;
+    var weakestType = insights.weakestKey ? score.byType[insights.weakestKey] : null;
+
+    var bandSegHtml = [1, 2, 1, 1, 1].map(function (flex, i) {
+      return '<span class="band-seg' + (i === band.index ? ' is-active' : '') + '" style="flex:' + flex + '"></span>';
+    }).join('');
+
+    var skillRowsHtml = Object.keys(score.byType).map(function (key) {
+      var t = score.byType[key];
+      var pct = Math.round((t.correct / t.total) * 100);
+      var tone = key === insights.strongestKey ? 'green' : (key === insights.weakestKey ? 'yellow' : 'purple');
+      return '<div class="skill-row">' +
+        '<div class="skill-row-head"><span>' + t.label + '</span><span>' + t.correct + '/' + t.total + '</span></div>' +
+        '<div class="skill-track"><div class="skill-fill tone-' + tone + '" style="width:' + pct + '%"></div></div>' +
+      '</div>';
+    }).join('');
+
+    var tipsHtml = (TIPS[insights.weakestKey] || []).map(function (tip) { return '<li>' + tip + '</li>'; }).join('');
+
+    render(
+      '<main class="screen screen-results"><div class="container">' +
+        '<div class="header-bar">' +
+          '<span class="brand">' + logoChipHtml() + '<span class="brand-name">IQly</span></span>' +
+          (CONFIG.SHARE_ENABLED ? '<button class="pill pill-purple-tint" id="share-pill" style="border:none;cursor:pointer;">Share my score ↗</button>' : '') +
+        '</div>' +
+        (state.signupMethod === 'google' ?
+          '<div class="account-strip">✓ Signed in with Google (demo). <span class="account-strip-note">Prototype demo: no data sent.</span></div>' :
+          '<div class="account-strip">✓ Account created. Your report is saved to ' + (state.email || 'your email') + '.</div>'
+        ) +
+        '<div class="results-hero">' +
+          '<div class="results-hero-left">' +
+            '<p class="iq-label">Your estimated IQ</p>' +
+            '<p class="iq-countup" id="iq-countup">0</p>' +
+            '<span class="band-chip">' + band.label + '</span>' +
+            '<p class="hero-percentile-line">Higher than an estimated <strong>' + score.percentile + '%</strong> of people</p>' +
+            '<div class="band-bar">' + bandSegHtml + '</div>' +
+            '<p class="band-fact">About two-thirds of estimated scores on this test fall between 85 and 115.</p>' +
+          '</div>' +
+          '<div class="results-hero-right">' +
+            '<div class="score-card">' +
+              logoChipHtml() +
+              '<p class="score-card-label">SCORE CARD</p>' +
+              '<p class="score-card-iq">' + score.iq + '</p>' +
+              '<span class="score-card-archetype">' + score.archetype.name + '</span>' +
+              '<p class="score-card-line">Higher than an est. ' + score.percentile + '% of people · Can you beat it?</p>' +
+              (CONFIG.SHARE_ENABLED ? '<button class="btn btn-cta" id="share-card-btn">Share My Score</button>' : '') +
+            '</div>' +
+          '</div>' +
+        '</div>' +
+        '<p class="scoring-note">This is an indicative score for entertainment purposes, not a clinical assessment. Accuracy matters most; speed counts a little' +
+          (CONFIG.TIMER_MODE === 'per_question' ? ' — each question had its own timer, but it never cut off an answer or marked one wrong, it only tracked pace' : '') +
+          '.</p>' +
+        '<div class="insight-cards">' +
+          '<div class="insight-card tone-green"><p class="insight-title">Your edge</p><p class="insight-body">' + strongestLabel + (strongestType ? ' (' + strongestType.correct + '/' + strongestType.total + ')' : '') + ' — ' + score.archetype.name + '</p></div>' +
+          '<div class="insight-card tone-yellow"><p class="insight-title">Room to grow</p><p class="insight-body">' + weakestLabel + (weakestType ? ': ' + weakestType.correct + '/' + weakestType.total + ' correct' : '') + '</p></div>' +
+          '<div class="insight-card tone-purple"><p class="insight-title">Your pace</p><p class="insight-body">~' + insights.avgSeconds + 's per question · ' + insights.hardestSolved + '/' + insights.hardestTotal + ' hardest items solved</p></div>' +
+        '</div>' +
+        '<div class="skill-section"><h2>Skill profile</h2>' + skillRowsHtml + '</div>' +
+        (weakestLabel ? '<div class="tips-section"><h2>Sharpen your ' + weakestLabel + '</h2><ul class="tips-list">' + tipsHtml + '</ul></div>' : '') +
+        '<div class="challenge-banner">' +
+          '<h2>Think a friend can beat ' + score.iq + '?</h2>' +
+          '<div class="result-actions">' +
+            (CONFIG.SHARE_ENABLED ? '<button class="btn btn-cta-dark" id="challenge-btn">Challenge a Friend →</button>' : '') +
+            '<button class="btn btn-outline" id="retake-btn">Retake the Test</button>' +
+          '</div>' +
+        '</div>' +
+        '<p class="share-feedback" id="share-feedback" hidden></p>' +
+      '</div></main>'
+    );
+
+    animateCountUp(document.getElementById('iq-countup'), score.iq);
+
+    if (CONFIG.SHARE_ENABLED) {
+      var challengeBtn = document.getElementById('challenge-btn');
+      if (challengeBtn) challengeBtn.addEventListener('click', function () { openShareSheet(score, 'challenge'); });
+      ['share-pill', 'share-card-btn'].forEach(function (id) {
+        var el = document.getElementById(id);
+        if (el) el.addEventListener('click', function () { openShareSheet(score, 'share'); });
+      });
+    }
+
+    document.getElementById('retake-btn').addEventListener('click', function () {
+      clearState();
+      state.currentIndex = 0;
+      state.answers = [];
+      state.score = null;
+      renderLanding(true);
+    });
+  }
+
+  // ---- init / resume ----
+  function init() {
+    var saved = loadState();
+    if (saved && saved.screen && saved.screen !== 'landing') {
+      state.currentIndex = saved.currentIndex || 0;
+      state.answers = saved.answers || [];
+      if (saved.screen === 'quiz') {
+        state.screen = 'quiz';
+        renderQuiz();
+      } else if (saved.screen === 'gate') {
+        state.score = computeScore();
+        renderGate(false);
+      } else if (saved.screen === 'results') {
+        state.score = computeScore();
+        renderResults();
+      } else {
+        renderLanding(true);
+      }
+    } else {
+      renderLanding(true);
+    }
+  }
+
+  init();
+})();
+
+</script>
+</body>
+</html>
